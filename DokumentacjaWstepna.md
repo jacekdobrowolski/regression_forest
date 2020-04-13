@@ -42,26 +42,30 @@ Losujemy atrybut według którego podzielimy zbiór. Następnie sortujemy wedłu
 |||
 | 1 | 5.90 | 1.50 | 1.64
 
+podział na >= 6.2 <br>
+zbiór pierwszy [1.5] <br>
+średnia = 1.5 <br>
+zbiór drugi [1.68 2.19 2.18] <br>
+średnia = $\frac{1.68 + 2.19 + 2.18} {3} = 2.02$ <br>
+SSR = $(1.5 - 1.5)^2 + (1.68 - 2.02)^2 + (2.19 - 2.02)^2 + (2.18 - 2.02)^2 = 0.17$ <br>
+ <br>
+podział na >= 6.35 <br>
+zbiór pierwszy [1.5  1.68] <br>
+średnia = 1.59 <br>
+zbiór drugi [2.19 2.18] <br>
+średnia = 2.185 <br>
+SSR = 0.016 <br>
+ <br>
+podział na >= 6.5 <br>
+zbiór pierwszy [1.5  1.68 2.19] <br>
+średnia = 1.79 <br>
+zbiór drugi [2.18] <br>
+średnia = 2.18 <br>
+SSR = 0.26 <br>
 
-Podział na temp 6.20 da średnią *'Ts+1'* pierwszego zbioru:
+Podziału zbioru dokonujemy więc na '*temp*' >= 6.35. Powstałe zbiory nie są większe od założonego rozmiaru liścia więc kończymy budowe drzewa.
 
-$\frac{1.64 + 1.50} { 2 } = 1.57$
-
-średnia drugiego zbioru:
-
-$\frac{1.68 + 2.19} {2} = 1.93$
-
-$SSR = (1.64 - 1.57)^2 + (1.50 - 1.57)^2 = 0.0098$
-
-$SSR = (1.68 - 1.93)^2 + (2.19 - 1.93)^2 = 0.13$
-
-co w sumie daje $SSR = 0.14$
-
-Analogiczną operacje wykonujemy dla kolejnych podziałów.
-
-6.35: $SSR = 0.018$
-warunek podziału brzmi więc $temp >= 6.35$
-przewidziana wartość to 2.19
+'*temp*' z danych testowych 5.9 < 6.35 więc przewidziana wartość to 1.59
 
 ### Tworzenie lasu losowego
 
@@ -72,7 +76,7 @@ Wynik przewidziany przez las jest średnią ze wszystkich drzew.
 <!-- Przedstawić plan eksperymentów. -->
 ### Eksperymenty
 W ramach eksperymentu można porównać działanie lasu losowego z metodą naiwną (wartość z poprzedniego kwantu czasu).
-Można również sprawdzić wpływ parametrów takich jaki ilość drzew, rozmiar liści, na działanie algorytmu.
+Można również sprawdzić wpływ parametrów takich jaki ilość drzew, rozmiar liści, ilość danych trenujących na działanie algorytmu.
 <!-- Należy wybrać i opisać zbiory danych, które będą używane do badań, należy określić jak zostanie wyłoniony i użyty zbiór trenujący. -->
 
 Zbiór trenujący będzie to ostatnie 10% danych które nie będą użyte do tworzenia drzew.
