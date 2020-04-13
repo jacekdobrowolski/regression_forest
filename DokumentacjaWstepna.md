@@ -24,24 +24,24 @@ Losujemy atrybut według którego podzielimy zbiór. Następnie sortujemy wedłu
 
 
 | czas(min)	| alpha |	temp | Ts | Ts+1
-|--|--|--|--|--|
-|	0 | 1 | 6.50 | 2.00 | 2.18
+|------|:-:|:----:|:----:|:----:
+|	 0 | 1 | 6.50 | 2.00 | 2.18
 |	15 | 0 | 6.35 | 2.18 | 2.19
 |	30 | 0 | 6.20 | 2.19 | 1.68
 |	45 | 1 | 6.05 | 1.68 | 1.50
 |	60 | 1 | 5.90 | 1.50 | 1.64
  
- Powiedzmy że będziemy dzielić na podstawie temperatury zewnętrznej *'temp'* sortujemy więc dane. Czas w tym nie będzie potrzebny więc usune go dla przejrzystości.
+ Czas w tym nie będzie potrzebny więc usune go dla przejrzystości. Załóżmy że ostatni wiersz to dane testowe. I rozmiar zbioru niepodlegającego dzieleniu jest równy 2. Powiedzmy że będziemy dzielić na podstawie temperatury zewnętrznej *'temp'* sortujemy więc dane.
 
 | alpha |	temp | Ts | Ts+1
-|--|--|--|--|--|
-| 1 | 5.90 | 1.50 | 1.64
+|:-:|:----:|:----:|:----:
 | 1 | 6.05 | 1.68 | 1.50
 | 0 | 6.20 | 2.19 | 1.68
 | 0 | 6.35 | 2.18 | 2.19
 | 1 | 6.50 | 2.00 | 2.18
+|||
+| 1 | 5.90 | 1.50 | 1.64
 
-Załóżmy że ostatni wiersz to dane testowe. I rozmiar zbioru niepodlegającego dzieleniu jest równy 2.
 
 Podział na temp 6.20 da średnią *'Ts+1'* pierwszego zbioru:
 
