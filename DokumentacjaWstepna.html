@@ -32,7 +32,7 @@ Algorytm maszynowego uczenia się w zastosowaniu do predykcji wartości szeregu 
 <h2 id="tworzenie-drzew-regresyjnych">Tworzenie drzew regresyjnych</h2>
 <p>Drzewo składa się z węzłów i liści oraz korzenia (pierwszego węzła). Każdy węzeł zawiera warunek decydującym czy wybieramy prawą czy lewą gałąź. Gałęzie zakończone są liśćmi, które reprezentują wynik algorytmu.</p>
 <p>Tworzenie drzewa zaczynamy od korzenia. Przebieg tworzenia każdego węzła jest jednakowy. Najpierw sprawdzamy rozmiar zbioru, jeśli jest mniejszy niż dany parametr to węzeł staje się liściem. A jego wartość to średnia wartości szukanej w wybranym zbiorze. Jeśli zbiór jest większy szukamy najlepszego miejsca podziału zbioru.</p>
-<p>Losujemy atrybut według którego podzielimy zbiór. Następnie sortujemy według tego atrybutu. Liczymy średnią temperaturę wewnątrz urządzenia w zbiorze przed podziałem. Od tej średniej odejmujemy wartość w poszczególnych wierszach sumę tych różnic podniesionych do kwadratu nazywamy SSR. Taką samą operacje wykonujemy na drugim zbirze. Warunkiem podziału zostanie wartość w której suma SSR obu zbiorów będzie najmniejsza. W węźle zostaje zapisany warunek podziału. Operacje powtarza się na obu zbiorach uzyskanych takim podziałem.</p>
+<p>Losujemy atrybut według którego podzielimy zbiór. Następnie sortujemy według tego atrybutu. Liczymy średnią temperaturę wewnątrz urządzenia w podzbiorze przed wartością podziału. Od tej średniej odejmujemy wartość w poszczególnych wierszach sumę tych różnic podniesionych do kwadratu nazywamy SSR. Taką samą operacje wykonujemy na podzbiorze po wartości podziału. Warunkiem podziału zostanie wartość w której suma SSR obu zbiorów będzie najmniejsza. W węźle zostaje zapisany warunek podziału. Operacje powtarza się na obu zbiorach uzyskanych takim podziałem.</p>
 <h3 id="przyk%c5%82ad">Przykład</h3>
 <table>
 <thead>
@@ -160,7 +160,8 @@ SSR = 0.26</p>
 <p>W ramach eksperymentu można porównać działanie lasu losowego z metodą naiwną (wartość z poprzedniego kwantu czasu).
 Można również sprawdzić wpływ parametrów takich jaki ilość drzew, rozmiar liści, ilość danych trenujących na działanie algorytmu.</p>
 <!-- Należy wybrać i opisać zbiory danych, które będą używane do badań, należy określić jak zostanie wyłoniony i użyty zbiór trenujący. -->
-<p>Zbiór trenujący będzie to ostatnie 10% danych które nie będą użyte do tworzenia drzew.</p>
+<h2 id="zbiory-danych">Zbiory Danych</h2>
+<p>Zbiór testujących będzie to ostatnie 10% danych które nie będą użyte do tworzenia drzew. Reszta danych to dane trenujące.</p>
 <p align="right"> Jacek Dobrowolski </p>
     </body>
     </html>

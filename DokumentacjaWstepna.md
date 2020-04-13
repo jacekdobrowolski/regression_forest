@@ -18,7 +18,7 @@ Drzewo składa się z węzłów i liści oraz korzenia (pierwszego węzła). Ka�
 
 Tworzenie drzewa zaczynamy od korzenia. Przebieg tworzenia każdego węzła jest jednakowy. Najpierw sprawdzamy rozmiar zbioru, jeśli jest mniejszy niż dany parametr to węzeł staje się liściem. A jego wartość to średnia wartości szukanej w wybranym zbiorze. Jeśli zbiór jest większy szukamy najlepszego miejsca podziału zbioru. 
 
-Losujemy atrybut według którego podzielimy zbiór. Następnie sortujemy według tego atrybutu. Liczymy średnią temperaturę wewnątrz urządzenia w zbiorze przed podziałem. Od tej średniej odejmujemy wartość w poszczególnych wierszach sumę tych różnic podniesionych do kwadratu nazywamy SSR. Taką samą operacje wykonujemy na drugim zbirze. Warunkiem podziału zostanie wartość w której suma SSR obu zbiorów będzie najmniejsza. W węźle zostaje zapisany warunek podziału. Operacje powtarza się na obu zbiorach uzyskanych takim podziałem.
+Losujemy atrybut według którego podzielimy zbiór. Następnie sortujemy według tego atrybutu. Liczymy średnią temperaturę wewnątrz urządzenia w podzbiorze przed wartością podziału. Od tej średniej odejmujemy wartość w poszczególnych wierszach sumę tych różnic podniesionych do kwadratu nazywamy SSR. Taką samą operacje wykonujemy na podzbiorze po wartości podziału. Warunkiem podziału zostanie wartość w której suma SSR obu zbiorów będzie najmniejsza. W węźle zostaje zapisany warunek podziału. Operacje powtarza się na obu zbiorach uzyskanych takim podziałem.
 
 ### Przykład
 
@@ -79,8 +79,10 @@ Wynik przewidziany przez las jest średnią wyników ze wszystkich drzew.
 ## Eksperymenty
 W ramach eksperymentu można porównać działanie lasu losowego z metodą naiwną (wartość z poprzedniego kwantu czasu).
 Można również sprawdzić wpływ parametrów takich jaki ilość drzew, rozmiar liści, ilość danych trenujących na działanie algorytmu.
-<!-- Należy wybrać i opisać zbiory danych, które będą używane do badań, należy określić jak zostanie wyłoniony i użyty zbiór trenujący. -->
 
-Zbiór trenujący będzie to ostatnie 10% danych które nie będą użyte do tworzenia drzew.
+<!-- Należy wybrać i opisać zbiory danych, które będą używane do badań, należy określić jak zostanie wyłoniony i użyty zbiór trenujący. -->
+## Zbiory Danych
+
+Zbiór testujących będzie to ostatnie 10% danych które nie będą użyte do tworzenia drzew. Reszta danych to dane trenujące.
 
 <p align="right"> Jacek Dobrowolski </p>
