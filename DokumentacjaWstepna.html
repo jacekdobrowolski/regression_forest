@@ -27,123 +27,138 @@ Algorytm maszynowego uczenia się w zastosowaniu do predykcji wartości szeregu 
 <!-- Zawrzeć precyzyjny opis algorytmów, które będą wykorzystane, wraz z przykładowymi obliczeniami. Na podstawie tego opisu nie znający tematyki przedmiotu programista powinien być w stanie wykonać poprawną implementację. -->
 <h2 id="opis-algorytmu">Opis Algorytmu</h2>
 <p>W projekcie planuje wykorzystać algorytm lasu losowego drzew regresyjnych.</p>
-<h3 id="dane">Dane</h3>
-<p>Najpierw należy rozdzielić dane na dane trenujące i dane testowe. Ostatnie 10% danych przeznaczę na testy. Reszta danych będzie podzielona na mniejsze fragmenty na podstawie których będą tworzone poszczególne drzewa regresyjne. Dane zawierają temperaturę wewnątrz chłodziarki, temperaturę zewnętrzną i stan pracy agregatu z poprzedniego kwantu czasu, oraz temperature wewnętrzną chłodziarki z bierzącego.</p>
-<h3 id="tworzenie-drzew-regresyjnych">Tworzenie drzew regresyjnych</h3>
-<p>Drzewo składa się z węzłów i liści oraz korzenia, pierwszego węzła. Każdy węzeł jest warunkiem decydującym czy wybieramy prawą czy lewą gałąź. Gałęzie zakończone są liśćmi, które reprezentują wynik algorytmu.</p>
+<h2 id="dane">Dane</h2>
+<p>Najpierw należy rozdzielić dane na dane trenujące i dane testowe. Ostatnie 10% danych przeznaczę na testy. Reszta danych będzie podzielona na mniejsze fragmenty na podstawie których będą tworzone poszczególne drzewa regresyjne. Dane zawierają temperaturę wewnątrz chłodziarki, temperaturę zewnętrzną i stan pracy agregatu z poprzedniego kwantu czasu, oraz temperaturę wewnętrzną chłodziarki z bieżącego czasu.</p>
+<h2 id="tworzenie-drzew-regresyjnych">Tworzenie drzew regresyjnych</h2>
+<p>Drzewo składa się z węzłów i liści oraz korzenia (pierwszego węzła). Każdy węzeł zawiera warunek decydującym czy wybieramy prawą czy lewą gałąź. Gałęzie zakończone są liśćmi, które reprezentują wynik algorytmu.</p>
 <p>Tworzenie drzewa zaczynamy od korzenia. Przebieg tworzenia każdego węzła jest jednakowy. Najpierw sprawdzamy rozmiar zbioru, jeśli jest mniejszy niż dany parametr to węzeł staje się liściem. A jego wartość to średnia wartości szukanej w wybranym zbiorze. Jeśli zbiór jest większy szukamy najlepszego miejsca podziału zbioru.</p>
-<p>Losujemy atrybut według którego podzielimy zbiór. Następnie sortujemy według tego atrubutu. Liczymy średnią temperaturę wewnątrz urządzenia w zbiorze przed podziałem. Od tej średniej odejmujemy wartość w poszczególnych wierszach sumę tych różnic podniesionych do kwadratu nazywamy SSR. Taką samą operacje wykonujemy na drugim zbirze. Warunkiem podziału zostanie wartośc w której suma SSR obu zbiorów będzie najmniejsza. W węźle zostaje zapisany warunek podziału. Operacje powtarza się na obu zbiorach uzyskanych takim podziałem.</p>
-<h4 id="przyk%c5%82ad">Przykład</h4>
+<p>Losujemy atrybut według którego podzielimy zbiór. Następnie sortujemy według tego atrybutu. Liczymy średnią temperaturę wewnątrz urządzenia w zbiorze przed podziałem. Od tej średniej odejmujemy wartość w poszczególnych wierszach sumę tych różnic podniesionych do kwadratu nazywamy SSR. Taką samą operacje wykonujemy na drugim zbirze. Warunkiem podziału zostanie wartość w której suma SSR obu zbiorów będzie najmniejsza. W węźle zostaje zapisany warunek podziału. Operacje powtarza się na obu zbiorach uzyskanych takim podziałem.</p>
+<h3 id="przyk%c5%82ad">Przykład</h3>
 <table>
 <thead>
 <tr>
 <th>czas(min)</th>
-<th>alpha</th>
-<th>temp</th>
-<th>Ts</th>
-<th>Ts+1</th>
+<th style="text-align:center">alpha</th>
+<th style="text-align:center">temp</th>
+<th style="text-align:center">Ts</th>
+<th style="text-align:center">Ts+1</th>
 </tr>
 </thead>
 <tbody>
 <tr>
 <td>0</td>
-<td>1</td>
-<td>6.50</td>
-<td>2.00</td>
-<td>2.18</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">6.50</td>
+<td style="text-align:center">2.00</td>
+<td style="text-align:center">2.18</td>
 </tr>
 <tr>
 <td>15</td>
-<td>0</td>
-<td>6.35</td>
-<td>2.18</td>
-<td>2.19</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">6.35</td>
+<td style="text-align:center">2.18</td>
+<td style="text-align:center">2.19</td>
 </tr>
 <tr>
 <td>30</td>
-<td>0</td>
-<td>6.20</td>
-<td>2.19</td>
-<td>1.68</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">6.20</td>
+<td style="text-align:center">2.19</td>
+<td style="text-align:center">1.68</td>
 </tr>
 <tr>
 <td>45</td>
-<td>1</td>
-<td>6.05</td>
-<td>1.68</td>
-<td>1.50</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">6.05</td>
+<td style="text-align:center">1.68</td>
+<td style="text-align:center">1.50</td>
 </tr>
 <tr>
 <td>60</td>
-<td>1</td>
-<td>5.90</td>
-<td>1.50</td>
-<td>1.64</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">5.90</td>
+<td style="text-align:center">1.50</td>
+<td style="text-align:center">1.64</td>
 </tr>
 </tbody>
 </table>
-<p>Powiedzmy że będziemy dzielić na podstawie temperatury zewnętrznej <em>'temp'</em> sortujemy więc dane. Czas w tym nie będzie potrzebny więc usune go dla przejrzystości.</p>
+<p>Czas w tym nie będzie potrzebny więc usunę go dla przejrzystości. Załóżmy że ostatni wiersz to dane testowe. I rozmiar zbioru niepodlegającego dzieleniu jest równy 2. Powiedzmy że będziemy dzielić na podstawie temperatury zewnętrznej <em>'temp'</em> sortujemy więc dane.</p>
 <table>
 <thead>
 <tr>
-<th>alpha</th>
-<th>temp</th>
-<th>Ts</th>
-<th>Ts+1</th>
+<th style="text-align:center">alpha</th>
+<th style="text-align:center">temp</th>
+<th style="text-align:center">Ts</th>
+<th style="text-align:center">Ts+1</th>
 </tr>
 </thead>
 <tbody>
 <tr>
-<td>1</td>
-<td>5.90</td>
-<td>1.50</td>
-<td>1.64</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">6.05</td>
+<td style="text-align:center">1.68</td>
+<td style="text-align:center">1.50</td>
 </tr>
 <tr>
-<td>1</td>
-<td>6.05</td>
-<td>1.68</td>
-<td>1.50</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">6.20</td>
+<td style="text-align:center">2.19</td>
+<td style="text-align:center">1.68</td>
 </tr>
 <tr>
-<td>0</td>
-<td>6.20</td>
-<td>2.19</td>
-<td>1.68</td>
+<td style="text-align:center">0</td>
+<td style="text-align:center">6.35</td>
+<td style="text-align:center">2.18</td>
+<td style="text-align:center">2.19</td>
 </tr>
 <tr>
-<td>0</td>
-<td>6.35</td>
-<td>2.18</td>
-<td>2.19</td>
+<td style="text-align:center">1</td>
+<td style="text-align:center">6.50</td>
+<td style="text-align:center">2.00</td>
+<td style="text-align:center">2.18</td>
 </tr>
 <tr>
-<td>1</td>
-<td>6.50</td>
-<td>2.00</td>
-<td>2.18</td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+<td style="text-align:center"></td>
+</tr>
+<tr>
+<td style="text-align:center">1</td>
+<td style="text-align:center">5.90</td>
+<td style="text-align:center">1.50</td>
+<td style="text-align:center">1.64</td>
 </tr>
 </tbody>
 </table>
-<p>Załóżmy że ostatni wiersz to dane testowe. I rozmiar zbioru niepodlegającego dzieleniu jest równy 2.</p>
-<p>Podział na temp 6.20 da średnią <em>'Ts+1'</em> pierwszego zbioru:</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>1.64</mn><mo>+</mo><mn>1.50</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>1.57</mn></mrow><annotation encoding="application/x-tex">\frac{1.64 + 1.50} { 2 } = 1.57</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">.</span><span class="mord mtight">6</span><span class="mord mtight">4</span><span class="mbin mtight">+</span><span class="mord mtight">1</span><span class="mord mtight">.</span><span class="mord mtight">5</span><span class="mord mtight">0</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">5</span><span class="mord">7</span></span></span></span></p>
-<p>średnia drugiego zbioru:</p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>1.68</mn><mo>+</mo><mn>2.19</mn></mrow><mn>2</mn></mfrac><mo>=</mo><mn>1.93</mn></mrow><annotation encoding="application/x-tex">\frac{1.68 + 2.19} {2} = 1.93</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">2</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">.</span><span class="mord mtight">6</span><span class="mord mtight">8</span><span class="mbin mtight">+</span><span class="mord mtight">2</span><span class="mord mtight">.</span><span class="mord mtight">1</span><span class="mord mtight">9</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">9</span><span class="mord">3</span></span></span></span></p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>S</mi><mi>R</mi><mo>=</mo><mo stretchy="false">(</mo><mn>1.64</mn><mo>−</mo><mn>1.57</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false">(</mo><mn>1.50</mn><mo>−</mo><mn>1.57</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>=</mo><mn>0.0098</mn></mrow><annotation encoding="application/x-tex">SSR = (1.64 - 1.57)^2 + (1.50 - 1.57)^2 = 0.0098</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord">.</span><span class="mord">6</span><span class="mord">4</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">5</span><span class="mord">7</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord">.</span><span class="mord">5</span><span class="mord">0</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">5</span><span class="mord">7</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">0</span><span class="mord">0</span><span class="mord">9</span><span class="mord">8</span></span></span></span></p>
-<p><span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>S</mi><mi>R</mi><mo>=</mo><mo stretchy="false">(</mo><mn>1.68</mn><mo>−</mo><mn>1.93</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false">(</mo><mn>2.19</mn><mo>−</mo><mn>1.93</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>=</mo><mn>0.13</mn></mrow><annotation encoding="application/x-tex">SSR = (1.68 - 1.93)^2 + (2.19 - 1.93)^2 = 0.13</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord">.</span><span class="mord">6</span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">9</span><span class="mord">3</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mord">.</span><span class="mord">1</span><span class="mord">9</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">9</span><span class="mord">3</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">1</span><span class="mord">3</span></span></span></span></p>
-<p>co w sumie daje <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>S</mi><mi>R</mi><mo>=</mo><mn>0.14</mn></mrow><annotation encoding="application/x-tex">SSR = 0.14</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">1</span><span class="mord">4</span></span></span></span></p>
-<p>Analogiczną operacje wykonujemy dla kolejnych podziałów.</p>
-<p>6.35: <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>S</mi><mi>S</mi><mi>R</mi><mo>=</mo><mn>0.018</mn></mrow><annotation encoding="application/x-tex">SSR = 0.018</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.68333em;vertical-align:0em;"></span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.05764em;">S</span><span class="mord mathdefault" style="margin-right:0.00773em;">R</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">0</span><span class="mord">1</span><span class="mord">8</span></span></span></span>
-warunek podziału brzmi więc <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>e</mi><mi>m</mi><mi>p</mi><mo>&gt;</mo><mo>=</mo><mn>6.35</mn></mrow><annotation encoding="application/x-tex">temp &gt;= 6.35</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.80952em;vertical-align:-0.19444em;"></span><span class="mord mathdefault">t</span><span class="mord mathdefault">e</span><span class="mord mathdefault">m</span><span class="mord mathdefault">p</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">&gt;</span></span><span class="base"><span class="strut" style="height:0.36687em;vertical-align:0em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">6</span><span class="mord">.</span><span class="mord">3</span><span class="mord">5</span></span></span></span>
-przewidziana wartość to 2.19</p>
-<h3 id="tworzenie-lasu-losowego">Tworzenie lasu losowego</h3>
+<p>podział na &gt;= 6.2 <br>
+zbiór pierwszy [1.5] <br>
+średnia = 1.5 <br>
+zbiór drugi [1.68 2.19 2.18] <br>
+średnia = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mrow><mn>1.68</mn><mo>+</mo><mn>2.19</mn><mo>+</mo><mn>2.18</mn></mrow><mn>3</mn></mfrac><mo>=</mo><mn>2.02</mn></mrow><annotation encoding="application/x-tex">\frac{1.68 + 2.19 + 2.18} {3} = 2.02</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1.190108em;vertical-align:-0.345em;"></span><span class="mord"><span class="mopen nulldelimiter"></span><span class="mfrac"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.845108em;"><span style="top:-2.6550000000000002em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">3</span></span></span></span><span style="top:-3.23em;"><span class="pstrut" style="height:3em;"></span><span class="frac-line" style="border-bottom-width:0.04em;"></span></span><span style="top:-3.394em;"><span class="pstrut" style="height:3em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mtight">1</span><span class="mord mtight">.</span><span class="mord mtight">6</span><span class="mord mtight">8</span><span class="mbin mtight">+</span><span class="mord mtight">2</span><span class="mord mtight">.</span><span class="mord mtight">1</span><span class="mord mtight">9</span><span class="mbin mtight">+</span><span class="mord mtight">2</span><span class="mord mtight">.</span><span class="mord mtight">1</span><span class="mord mtight">8</span></span></span></span></span><span class="vlist-s">​</span></span><span class="vlist-r"><span class="vlist" style="height:0.345em;"><span></span></span></span></span></span><span class="mclose nulldelimiter"></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">2</span><span class="mord">.</span><span class="mord">0</span><span class="mord">2</span></span></span></span> <br>
+SSR = <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>1.5</mn><mo>−</mo><mn>1.5</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false">(</mo><mn>1.68</mn><mo>−</mo><mn>2.02</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false">(</mo><mn>2.19</mn><mo>−</mo><mn>2.02</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>+</mo><mo stretchy="false">(</mo><mn>2.18</mn><mo>−</mo><mn>2.02</mn><msup><mo stretchy="false">)</mo><mn>2</mn></msup><mo>=</mo><mn>0.17</mn></mrow><annotation encoding="application/x-tex">(1.5 - 1.5)^2 + (1.68 - 2.02)^2 + (2.19 - 2.02)^2 + (2.18 - 2.02)^2 = 0.17</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord">.</span><span class="mord">5</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">1</span><span class="mord">.</span><span class="mord">5</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">1</span><span class="mord">.</span><span class="mord">6</span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord">.</span><span class="mord">0</span><span class="mord">2</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mord">.</span><span class="mord">1</span><span class="mord">9</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord">.</span><span class="mord">0</span><span class="mord">2</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">+</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord">2</span><span class="mord">.</span><span class="mord">1</span><span class="mord">8</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span><span class="mbin">−</span><span class="mspace" style="margin-right:0.2222222222222222em;"></span></span><span class="base"><span class="strut" style="height:1.064108em;vertical-align:-0.25em;"></span><span class="mord">2</span><span class="mord">.</span><span class="mord">0</span><span class="mord">2</span><span class="mclose"><span class="mclose">)</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141079999999999em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">2</span></span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2777777777777778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2777777777777778em;"></span></span><span class="base"><span class="strut" style="height:0.64444em;vertical-align:0em;"></span><span class="mord">0</span><span class="mord">.</span><span class="mord">1</span><span class="mord">7</span></span></span></span></p>
+<p>analogicznie postępujemy dla kolejnych</p>
+<p>podział na &gt;= 6.35 <br>
+zbiór pierwszy [1.5  1.68] <br>
+średnia = 1.59 <br>
+zbiór drugi [2.19 2.18] <br>
+średnia = 2.185 <br>
+SSR = 0.016</p>
+<p>podział na &gt;= 6.5 <br>
+zbiór pierwszy [1.5  1.68 2.19] <br>
+średnia = 1.79 <br>
+zbiór drugi [2.18] <br>
+średnia = 2.18 <br>
+SSR = 0.26</p>
+<p>Podziału zbioru dokonujemy na '<em>temp</em>' &gt;= 6.35 ponieważ SSR jest wtedy najmniejsze. Powstałe zbiory nie są większe od założonego rozmiaru liścia więc kończymy budowę drzewa.</p>
+<p>'<em>temp</em>' z danych testowych 5.9 &lt; 6.35 więc przewidziana wartość to 1.59</p>
+<h2 id="tworzenie-lasu-losowego">Tworzenie lasu losowego</h2>
 <p>Las losowy to zbiór drzew regresyjnych utworzonych na podstawie różnych  danych. Dane dla każdego drzewa są losowane z powtórzeniami.</p>
-<p>Wynik przewidziany przez las jest średnią ze wszystkich drzew.</p>
+<p>Wynik przewidziany przez las jest średnią wyników ze wszystkich drzew.</p>
 <!-- Przedstawić plan eksperymentów. -->
-<h3 id="eksperymenty">Eksperymenty</h3>
+<h2 id="eksperymenty">Eksperymenty</h2>
 <p>W ramach eksperymentu można porównać działanie lasu losowego z metodą naiwną (wartość z poprzedniego kwantu czasu).
-Można również sprawdzić wpływ parametrów takich jaki ilość drzew, rozmiar liści, na działanie algorytmu.</p>
+Można również sprawdzić wpływ parametrów takich jaki ilość drzew, rozmiar liści, ilość danych trenujących na działanie algorytmu.</p>
 <!-- Należy wybrać i opisać zbiory danych, które będą używane do badań, należy określić jak zostanie wyłoniony i użyty zbiór trenujący. -->
 <p>Zbiór trenujący będzie to ostatnie 10% danych które nie będą użyte do tworzenia drzew.</p>
 <p align="right"> Jacek Dobrowolski </p>
