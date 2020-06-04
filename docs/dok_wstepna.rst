@@ -71,15 +71,26 @@ alpha temp Ts   Ts+1
 1     5.90 1.50 1.64
 ===== ==== ==== ====
 
-podział na >= 6.2 zbiór pierwszy [1.5] średnia = 1.5 zbiór drugi [1.68
-2.19 2.18] średnia = :math:`\frac{1.68 + 2.19 + 2.18} {3} = 2.02` SSR =
-:math:`(1.5 - 1.5)^2 + (1.68 - 2.02)^2 + (2.19 - 2.02)^2 + (2.18 - 2.02)^2 = 0.17`
-analogicznie postępujemy dla kolejnych
-podział na >= 6.35 zbiór pierwszy [1.5 1.68] średnia = 1.59 zbiór drugi
-[2.19 2.18] średnia = 2.185 SSR = 0.016
+podział na >= 6.2
+   zbiór pierwszy [1.5] średnia = 1.5
 
-podział na >= 6.5 zbiór pierwszy [1.5 1.68 2.19] średnia = 1.79 zbiór
-drugi [2.18] średnia = 2.18 SSR = 0.26
+   zbiór drugi [1.68 2.19 2.18] średnia = :math:`\frac{1.68 + 2.19 + 2.18} {3} = 2.02`
+
+   SSR = :math:`(1.5 - 1.5)^2 + (1.68 - 2.02)^2 + (2.19 - 2.02)^2 + (2.18 - 2.02)^2 = 0.17`
+
+podział na >= 6.35
+   zbiór pierwszy [1.5 1.68] średnia = 1.59
+
+   zbiór drugi [2.19 2.18] średnia = 2.185
+
+   SSR = 0.016
+
+podział na >= 6.5
+   zbiór pierwszy [1.5 1.68 2.19] średnia = 1.79
+
+   zbiór drugi [2.18] średnia = 2.18
+
+   SSR = 0.26
 
 Podziału zbioru dokonujemy na ‘*temp*’ >= 6.35 ponieważ SSR jest wtedy
 najmniejsze. Powstałe zbiory nie są większe od założonego rozmiaru

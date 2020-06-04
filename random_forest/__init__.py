@@ -1,3 +1,1 @@
-LEAF_SIZE = 3
-
-from .tree import Tree
+from random_forest.tree import Tree
