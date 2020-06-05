@@ -9,19 +9,19 @@ import numpy as np
 from collections import namedtuple
 
 OUTPUT_INDEX = -1
-""" Index of a feature that will be predicted """
+# Index of a feature that will be predicted
 
 Condition = namedtuple("Condition", "index value")
 """ Contains information about predictor index and treshold. Needed for branching """
 
 class Tree(object):
-    """Object representing regression tree"""
+    """Object representing regression tree
+
+    Args:
+        training_data (np.ndarray): Data from which Tree will be created
+        min_size (int): Minimum size required for set of date to br further branched
+    """
     def __init__(self, training_data, min_size):
-        """ 
-        Args:
-            training_data (np.ndarray): Data from which Tree will be created
-            min_size (int): Minimum size required for set of date to br further branched
-        """
         self.root = create_node(training_data, min_size)
 
     def predict(self, data) -> float:
@@ -34,7 +34,7 @@ class Tree(object):
         Returns:
             float: Prediction
         """
-        return self.root.predict(data)
+        return self.root._predict(data)
 
 
 def create_node(training_data, min_size):
@@ -45,7 +45,8 @@ def create_node(training_data, min_size):
         min_size (int): Minimum size required for set of date to br further branched
 
     Returns:
-        Node: Branch or Leaf
+        :class:`Branch`, :class:`Leaf`: Node
+        
     """
     if (training_data.shape[0]) < min_size:
         return Leaf(training_data, min_size)
@@ -58,7 +59,7 @@ class Leaf(object):
     def __init__(self, training_data, min_size):
         self.value = training_data[:,OUTPUT_INDEX].mean()
 
-    def predict(self, data) -> float:
+    def _predict(self, data) -> float:
         return self.value
 
     def __repr__(self):
@@ -66,7 +67,7 @@ class Leaf(object):
 
 
 class Branch(object):
-    """ Represents Branch of the Tree. Contains condition to select appropriate subnode """
+    """ Represents Branch of the Tree. Contains :class:`Condition` to select appropriate subnode (:class:`Branch` or :class:`Leaf`) """
     def __init__(self, training_data, min_size):
         self.best_split = None
         self.find_best_split(training_data)
@@ -74,11 +75,11 @@ class Branch(object):
         self.left_node = create_node(left_data, min_size)
         self.right_node = create_node(right_data, min_size)
         
-    def predict(self, data) -> float:
+    def _predict(self, data) -> float:
         if data[self.best_split.index] <= self.best_split.value:
-            return self.left_node.predict(data)
+            return self.left_node._predict(data)
         else:
-            return self.right_node.predict(data)
+            return self.right_node._predict(data)
 
     def split_data_on_value(self, data, condition: Condition):
         """Splits np.ndarray using condition

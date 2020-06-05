@@ -32,6 +32,7 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
+    'sphinx.ext.intersphinx'
     #'sphinx_markdown_tables',
     #'recommonmark'
 ]
