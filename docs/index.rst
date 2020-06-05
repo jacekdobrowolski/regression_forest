@@ -5,10 +5,8 @@ Welcome to Refrigerator temperature prediction's documentation!
     :maxdepth: 2
 
     dok_wstepna
+    tree
  
-.. automodule:: random_forest.tree
-    :members:
-
 Indices and tables
 ==================
 
