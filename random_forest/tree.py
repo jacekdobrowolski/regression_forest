@@ -6,7 +6,9 @@ Module implementing regression tree
 """
 
 import numpy as np
+import random
 from collections import namedtuple
+
 
 OUTPUT_INDEX = -1
 # Index of a feature that will be predicted
@@ -14,15 +16,31 @@ OUTPUT_INDEX = -1
 Condition = namedtuple("Condition", "index value")
 """ Contains information about predictor index and treshold. Needed for branching """
 
+class Config(object):
+    """Configuration for using tree module.
+    Overwrite them after importing module to configure tree building variables.
+
+    Attributes:
+        min_split_size (int): Minimum size required for set of date to br further branched
+        number_of_predicotrs_to_draw (int): Number of predictors which will be randomly drawn, \\
+                                                from which the best split condition will be selected.
+    """
+    def __init__(self):
+        self.min_split_size = 1
+        self.number_of_predictors_to_draw = 1
+
+# creates default config to be overwritten by calling script
+config = Config()
+
 class Tree(object):
     """Object representing regression tree
 
     Args:
         training_data (np.ndarray): Data from which Tree will be created
-        min_size (int): Minimum size required for set of date to br further branched
     """
-    def __init__(self, training_data, min_size):
-        self.root = create_node(training_data, min_size)
+    def __init__(self, training_data):
+        self.training_data = training_data
+        self.root = create_node(training_data)
 
     def predict(self, data) -> float:
         """Calculates regression tree prediction
@@ -36,27 +54,33 @@ class Tree(object):
         """
         return self.root._predict(data)
 
+    def __repr__(self):
+        return f"""
+        min_split_size: {config.min_split_size}
+        number_of_predictors_to_draw: {config.number_of_predictors_to_draw}
+        {self.root}
+        """
 
-def create_node(training_data, min_size):
+
+def create_node(training_data):
     """Calls appropriate constructor dependant on training_data size.
 
     Args:
         training_data (np.ndarray): Data from which node will be created
-        min_size (int): Minimum size required for set of date to br further branched
 
     Returns:
         :class:`Branch`, :class:`Leaf`: Node
         
     """
-    if (training_data.shape[0]) < min_size:
-        return Leaf(training_data, min_size)
+    if (training_data.shape[0]) < config.min_split_size:
+        return Leaf(training_data)
     else:
-        return Branch(training_data, min_size)
+        return Branch(training_data)
 
 
 class Leaf(object):
     """ Represent Leaf of the Tree. Contains possible values for prediction """
-    def __init__(self, training_data, min_size):
+    def __init__(self, training_data):
         self.value = training_data[:,OUTPUT_INDEX].mean()
 
     def _predict(self, data) -> float:
@@ -68,12 +92,12 @@ class Leaf(object):
 
 class Branch(object):
     """ Represents Branch of the Tree. Contains :class:`Condition` to select appropriate subnode (:class:`Branch` or :class:`Leaf`) """
-    def __init__(self, training_data, min_size):
+    def __init__(self, training_data):
         self.best_split = None
         self.find_best_split(training_data)
         left_data, right_data = self.split_data_on_value(training_data, self.best_split)
-        self.left_node = create_node(left_data, min_size)
-        self.right_node = create_node(right_data, min_size)
+        self.left_node = create_node(left_data)
+        self.right_node = create_node(right_data)
         
     def _predict(self, data) -> float:
         if data[self.best_split.index] <= self.best_split.value:
@@ -102,7 +126,8 @@ class Branch(object):
             training_data (np.ndarray): input data
         """
         min_rss = self.rss(training_data)
-        for predictor in range(training_data.shape[1] - 1):
+        
+        for predictor in self.draw_predictors(training_data):
             # sort by given predictor
             sorted_training_data = training_data[training_data[:, predictor].argsort()]
             # iterate over unique value entry's
@@ -114,6 +139,10 @@ class Branch(object):
                     min_rss = current_rss
                     self.best_split = split
         assert self.best_split is not None
+
+    def draw_predictors(self, training_data):
+        predictors = [i for i in range(training_data.shape[1] - 1)]
+        return random.sample(predictors, config.number_of_predictors_to_draw)
 
     def rss(self, array) -> float:
         """Residual Sum of Squares
