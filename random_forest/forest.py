@@ -2,7 +2,7 @@ from random_forest.tree import Tree
 import numpy as np
 
 class Forest(object):
-    def __init__(self, training_data, min_size):
+    def __init__(self, training_data):
         self.trees = []
         self.trees.append(Tree(training_data))
 
