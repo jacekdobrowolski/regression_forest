@@ -7,6 +7,7 @@ Module implementing regression tree
 
 import numpy as np
 import random
+import json
 from collections import namedtuple
 
 
@@ -22,15 +23,30 @@ class Config(object):
 
     Attributes:
         min_split_size (int): Minimum size required for set of date to br further branched
-        number_of_predicotrs_to_draw (int): Number of predictors which will be randomly drawn, \\
+        number_of_predictors_to_draw (int): Number of predictors which will be randomly drawn, \\
                                                 from which the best split condition will be selected.
     """
     def __init__(self):
-        self.min_split_size = 1
-        self.number_of_predictors_to_draw = 1
+        try: 
+            file = open("tree_config.json", "r")
+            loaded_data = json.load(file)
+            self.min_split_size = loaded_data["min_split_size"]
+            self.number_of_predictors_to_draw = loaded_data["number_of_predictors_to_draw"]
+            file.close()
+        except FileNotFoundError:
+            self.create_config(min_split_size=1, number_of_predictors_to_draw=1)
+            self.min_split_size = 1
+            self.number_of_predictors_to_draw = 1
+    
 
-# creates default config to be overwritten by calling script
+    def create_config(self, min_split_size, number_of_predictors_to_draw):
+        to_write = {"min_split_size": min_split_size, "number_of_predictors_to_draw": number_of_predictors_to_draw}
+        with open("tree_config.json", "w") as file:
+            file.write(json.dumps(to_write))
+
 config = Config()
+# random_forest.tree.config.min_split_size = 15
+# random_forest.tree.config.number_of_predictors_to_draw = 5
 
 class Tree(object):
     """Object representing regression tree
