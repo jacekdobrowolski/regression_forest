@@ -88,13 +88,13 @@ def create_node(training_data):
         training_data (np.ndarray): Data from which node will be created
 
     Returns:
-        :class:`Branch`, :class:`Leaf`: Node
+        :class:`Node`, :class:`Leaf`: Node
         
     """
     if (training_data.shape[0]) < config.min_split_size:
         return Leaf(training_data)
     else:
-        return Branch(training_data)
+        return Node(training_data)
 
 
 class Leaf(object):
@@ -109,8 +109,8 @@ class Leaf(object):
         return f"Leaf: {self.value}"
 
 
-class Branch(object):
-    """ Represents Branch of the Tree. Contains :class:`Condition` to select appropriate subnode (:class:`Branch` or :class:`Leaf`) """
+class Node(object):
+    """ Represents Node of the Tree. Contains :class:`Condition` to select appropriate subnode (:class:`Node` or :class:`Leaf`) """
     def __init__(self, training_data):
         self.best_split = None
         self.find_best_split(training_data)
@@ -178,7 +178,7 @@ class Branch(object):
 
     def __repr__(self):
         return f"""
-        Branch:
+        Node:
             if <= {self.best_split.index}_{self.best_split.value}:
                 {self.left_node}
             else:
