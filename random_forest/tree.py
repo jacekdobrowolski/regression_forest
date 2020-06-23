@@ -30,8 +30,10 @@ class Config(object):
         try: 
             file = open("tree_config.json", "r")
             loaded_data = json.load(file)
+            # print("Loading Data")
             self.min_split_size = loaded_data["min_split_size"]
             self.number_of_predictors_to_draw = loaded_data["number_of_predictors_to_draw"]
+            # print("Loaded number of predictors {}".format(self.number_of_predictors_to_draw))
             file.close()
         except FileNotFoundError:
             self.create_config(min_split_size=1, number_of_predictors_to_draw=1)
@@ -41,12 +43,13 @@ class Config(object):
 
     def create_config(self, min_split_size, number_of_predictors_to_draw):
         to_write = {"min_split_size": min_split_size, "number_of_predictors_to_draw": number_of_predictors_to_draw}
+        self.min_split_size = min_split_size
+        self.number_of_predictors_to_draw = number_of_predictors_to_draw
         with open("tree_config.json", "w") as file:
             file.write(json.dumps(to_write))
+        
 
 config = Config()
-# random_forest.tree.config.min_split_size = 15
-# random_forest.tree.config.number_of_predictors_to_draw = 5
 
 class Tree(object):
     """Object representing regression tree

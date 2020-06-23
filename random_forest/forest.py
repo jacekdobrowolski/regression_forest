@@ -16,20 +16,20 @@ class Config(object):
 
 config = Config()
 
-
 class Forest(object):
     def __init__(self, data):
         self.out_of_bag = data
-        self.trees = []
-        bootstraped_data = []
+                
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            self.trees = list(executor.map(Tree, self.bootstrap(data)))
 
+    def bootstrap(self, data):
+        bootstraped_data = []
         for _ in range(config.number_of_trees):
             training_data = data.sample(config.data_size_for_tree, replace=True)
             self.out_of_bag = self.out_of_bag[~self.out_of_bag.index.isin(training_data.index)]
             bootstraped_data.append(training_data.values)
-
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            self.trees = list(executor.map(Tree, bootstraped_data))
+        return bootstraped_data
 
     def predict(self, data):
         prediction = 0
