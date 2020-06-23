@@ -7,6 +7,8 @@ Welcome to Refrigerator temperature prediction's documentation!
     dok_wstepna
     tree
     forest
+    main
+
  
 Indices and tables
 ==================

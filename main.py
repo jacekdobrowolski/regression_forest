@@ -5,7 +5,7 @@ if __name__ == '__main__':
     import time
     import matplotlib. pyplot as plt
 
-    df = pd.read_csv('alpha24_step15Stud.csv')
+    df = pd.read_csv('refrigerator_temp_time_series.csv')
 
     df['temp'] = df['temp'].apply(lambda x: x.replace(',','.')).astype('float64')
     df['Ts'] = df['Ts'].apply(lambda x: x.replace(',','.')).astype('float64')
