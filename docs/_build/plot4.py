@@ -8,7 +8,7 @@ if __name__ == '__main__':
     forest_result = list()
     naive_result = list()
 
-    iterations = 1
+    iterations = 10
     x_axis = range(10, 500, 50)
     for x in x_axis:
         random_forest.tree.config.create_config(min_split_size=30, number_of_predictors_to_draw=5)
@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     plt.plot(x_axis, forest_result, label="forest")
     plt.plot(x_axis, naive_result, label="naive")
-    plt.xlabel('ilość danych do budowy drzew')
+    plt.xlabel('Ilość danych do budowy drzew')
     plt.ylabel('Średni błąd względny')
     plt.title('Wpływ ilości danych w drzewe')
     plt.legend()

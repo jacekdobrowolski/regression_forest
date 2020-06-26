@@ -23,7 +23,7 @@ if __name__ == '__main__':
 
     plt.plot(x_axis, forest_result, label="forest")
     plt.plot(x_axis, naive_result, label="naive")
-    plt.xlabel('ilość losowanych atrybutów')
+    plt.xlabel('Ilość losowanych atrybutów')
     plt.ylabel('Średni błąd względny')
     plt.title('Wpływ ilości losowanych atrybutów')
     plt.legend()

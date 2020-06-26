@@ -88,6 +88,7 @@
 <li class="toctree-l2"><a class="reference internal" href="#przygotowanie-danych">Przygotowanie danych</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#implementacja">Implementacja</a></li>
 <li class="toctree-l2"><a class="reference internal" href="#eksperymenty">Eksperymenty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#wnioski">Wnioski</a></li>
 </ul>
 </li>
 </ul>
@@ -231,6 +232,7 @@ Różnice temperatury mają znacznie mniejszy zakres wahań niż temperatury co 
 </tr>
 </tbody>
 </table>
+<p>Dane testowe to 10% danych losowo wybranych z całego zbioru.</p>
 </div>
 <div class="section" id="implementacja">
 <h2>Implementacja<a class="headerlink" href="#implementacja" title="Permalink to this headline">¶</a></h2>
@@ -238,27 +240,67 @@ Różnice temperatury mają znacznie mniejszy zakres wahań niż temperatury co 
 Cały algorytm znajduje się w module <code class="xref py py-mod docutils literal notranslate"><span class="pre">random_forest</span></code>.
 Dzieli się on na dwa pliki jeden implementuje drzewa <a class="reference internal" href="tree.html#module-random_forest.tree" title="random_forest.tree"><code class="xref py py-mod docutils literal notranslate"><span class="pre">random_forest.tree</span></code></a>,
 drugi natomiast las losowy <a class="reference internal" href="forest.html#module-random_forest.forest" title="random_forest.forest"><code class="xref py py-mod docutils literal notranslate"><span class="pre">random_forest.forest</span></code></a>.</p>
+<p>Tworzenie lasu zaczyna się od losowania z powtórzeniami danych do budowy poszczególnych drzew.
+Następnie budowane są drzewa na podstawie podanych danych i konfiguracji.
+Budowa drzewa jest zaimplementowania rekurencyjnie. Tworzone są węzły i liście zależnie od rozmiaru zbioru danych.
+Tworzenie liścia polega na wyliczeniu średniej wartości zmiennej do przewidywania.
+tworzenie węzła polega na znalezieniu miejsca podziału które zminimalizuje funkcje kosztu.
+W tym przypadku jest to suma kwadratów różnic. Kiedy zostanie wyznaczony najlepszy podział danego zbioru.
+Tworzone są liście na podzbiorach.</p>
 <p>Implementacja ma pewne ograniczenia. Zmienna dla której uczy się las musi być w ostatniej kolumnie.
 Oraz minimalna ilość atrybutów losowanych do tworzenia węzłów musi być większa niż ilość atrybutów
 gdzie mogą wystąpić takie same wartości (np. zmienna boolean) ponieważ może to spowodować że najlepszy
-podział dla danego podzbioru nie istnieje.</p>
+podział dla danego podzbioru nie istnieje. Innym problemem jest powolność częściowo spowodowana złożonością algorytmu,
+aby zminimalizować ten problem drzewa budowane są w oddzielnych procesach co pozwala wykorzystać cały procesor.</p>
 </div>
 <div class="section" id="eksperymenty">
 <h2>Eksperymenty<a class="headerlink" href="#eksperymenty" title="Permalink to this headline">¶</a></h2>
-<p>Aby zmiejszyć wpływ losowości danych i budowy lasu każdy eksperyment będzie powtórzony 10 razy i wynik uśredniony.
+<p>Aby zmniejszyć wpływ losowości danych i budowy lasu każdy eksperyment będzie powtórzony 10 razy i wynik uśredniony.
 Jako błąd użyty został średni błąd względny z wszystkich iteracji.
-Metoda naiwna przewiduje temperaturę z poprzedniej chwili.</p>
-<p>Najpierw zbadam wpływ rozmiaru liścia na błąd.</p>
-<p>..plot:: ../plot1.py</p>
-<p>Następnie wpływ ilości losowanych atrybutów</p>
-<p>..plot:: ../plot2.py</p>
+Metoda naiwna przewiduje temperaturę z poprzedniej chwili.
+Las przewiduje zmianę temperatury następnie zostaje on zsumowana z obecną temperaturą.</p>
+<p>Najpierw zbadam wpływ rozmiaru liścia na błąd na zbiorze testowym.</p>
+<p>(<a class="reference external" href="./../plot1.py">Source code</a>, <a class="reference external" href="./../plot1.png">png</a>, <a class="reference external" href="./../plot1.hires.png">hires.png</a>, <a class="reference external" href="./../plot1.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/plot1.png" src="_images/plot1.png" />
+</div>
+<p>oraz na zbiorze trenującym.
+Im mniejszy liść (więcej liści) tym mniejszy błąd.</p>
+<p>(<a class="reference external" href="./../plot6.py">Source code</a>, <a class="reference external" href="./../plot6.png">png</a>, <a class="reference external" href="./../plot6.hires.png">hires.png</a>, <a class="reference external" href="./../plot6.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/plot6.png" src="_images/plot6.png" />
+</div>
+<p>Jak widać małe rozmiary liścia prowadzą do przetrenowania modelu (błąd na zbiorze trenującym jest mniejszy niż na testowym).</p>
+<p>Wpływ ilości losowanych atrybutów</p>
+<p>(<a class="reference external" href="./../plot2.py">Source code</a>, <a class="reference external" href="./../plot2.png">png</a>, <a class="reference external" href="./../plot2.hires.png">hires.png</a>, <a class="reference external" href="./../plot2.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/plot2.png" src="_images/plot2.png" />
+</div>
+<p>Zbyt mała ilość atrybutów prowadzi do słabych podziałów w drzewach co prowadzi do większego błędu.
+Natomiast z byt duża ilość prowadzi to do przetrenowania.</p>
 <p>Ilość drzew</p>
-<p>..plot:: ../plot3.py</p>
+<p>(<a class="reference external" href="./../plot3.py">Source code</a>, <a class="reference external" href="./../plot3.png">png</a>, <a class="reference external" href="./../plot3.hires.png">hires.png</a>, <a class="reference external" href="./../plot3.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/plot3.png" src="_images/plot3.png" />
+</div>
+<p>Ilości drzew powyżej 50 nie poprawiają działania algorytmu natomiast znacznie zwalniają jego działanie</p>
 <p>Ilość danych w drzewie</p>
-<p>..plot:: ../plot4.py</p>
-<p>Koniec
-.. .. raw:: html
-..    :file: main.html</p>
+<p>(<a class="reference external" href="./../plot4.py">Source code</a>, <a class="reference external" href="./../plot4.png">png</a>, <a class="reference external" href="./../plot4.hires.png">hires.png</a>, <a class="reference external" href="./../plot4.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/plot4.png" src="_images/plot4.png" />
+</div>
+<p>Większa ilość danych użytych do budowy drzew poprawia wynik.</p>
+<p>Wpływ ilości próbek z poprzednich chwili czasu.</p>
+<p>(<a class="reference external" href="./../plot5.py">Source code</a>, <a class="reference external" href="./../plot5.png">png</a>, <a class="reference external" href="./../plot5.hires.png">hires.png</a>, <a class="reference external" href="./../plot5.pdf">pdf</a>)</p>
+<div class="figure align-default">
+<img alt="_images/plot5.png" src="_images/plot5.png" />
+</div>
+<p>Użycie większej ilości próbek z poprzednich chwil czasu nie wiele pomaga modelowi.
+Może być to spowodowane mniejszą korelacją dalej odległych próbek.</p>
+</div>
+<div class="section" id="wnioski">
+<h2>Wnioski<a class="headerlink" href="#wnioski" title="Permalink to this headline">¶</a></h2>
+<p>Las losowy nie sprawdza się najlepiej w tym zastosowaniu ze względu na obecność dość dobrej metody naiwnej.</p>
 </div>
 </div>
 

@@ -4,15 +4,15 @@ from preparedata import *
 
 if __name__ == '__main__':
     df = load()
-    delayed_df = delay(df, 2)
     forest_result = list()
     naive_result = list()
 
     iterations = 10
-    x_axis = range(10, 100, 10)
+    x_axis = range(1,4)
     for x in x_axis:
-        random_forest.tree.config.create_config(min_split_size=10, number_of_predictors_to_draw=5)
-        random_forest.forest.config.create_config(data_size_for_tree=140, number_of_trees=x)
+        delayed_df = delay(df, x)
+        random_forest.tree.config.create_config(min_split_size=30, number_of_predictors_to_draw=(x*2))
+        random_forest.forest.config.create_config(data_size_for_tree=150, number_of_trees=50)
 
         naive_err_sum, forest_err_sum, test_data_count = test(delayed_df, iterations)
 
@@ -23,8 +23,8 @@ if __name__ == '__main__':
 
     plt.plot(x_axis, forest_result, label="forest")
     plt.plot(x_axis, naive_result, label="naive")
-    plt.xlabel('Ilość drzew')
+    plt.xlabel('Ilość danych do budowy drzew')
     plt.ylabel('Średni błąd względny')
-    plt.title('Wpływ ilości drzew')
+    plt.title('Wpływ ilości danych w drzewe')
     plt.legend()
     plt.show()
