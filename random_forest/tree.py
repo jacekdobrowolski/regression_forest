@@ -24,7 +24,10 @@ class Config(object):
     Attributes:
         min_split_size (int): Minimum size required for set of date to br further branched
         number_of_predictors_to_draw (int): Number of predictors which will be randomly drawn, \\
-                                                from which the best split condition will be selected.
+                                                from which the best split condition will be selected. \\
+                                                It is recommended to use number higher than number of \\
+                                                columns containing uniform data,
+                                                other wise best split may not be found.
     """
     def __init__(self):
         try: 
@@ -161,6 +164,7 @@ class Node(object):
 
     def draw_predictors(self, training_data):
         predictors = [i for i in range(training_data.shape[1] - 1)]
+        assert len(predictors) > config.number_of_predictors_to_draw
         return random.sample(predictors, config.number_of_predictors_to_draw)
 
     def rss(self, array) -> float:

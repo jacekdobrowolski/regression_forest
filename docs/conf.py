@@ -32,7 +32,8 @@ extensions = [
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
-    'sphinx.ext.intersphinx'
+    'sphinx.ext.intersphinx',
+    'matplotlib.sphinxext.plot_directive'
     #'sphinx_markdown_tables',
     #'recommonmark'
 ]

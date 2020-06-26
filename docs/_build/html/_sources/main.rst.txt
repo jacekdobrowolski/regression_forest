@@ -1,0 +1,66 @@
+Dokumentacja Końcowa
+===============================================================
+
+Projekt wykorzystuje algorytm lasu losowego drzew regresyjnych do predykcji szeregu czasowego.
+Projekt ma na celu zapoznanie się z działaniem tego modelu i jego specyfiką.
+
+Przygotowanie danych
+--------------------------------------------------------------
+
+Aby drzewa miały większą ilość atrybutów do szeregu został dodany drugi szereg przesunięty o jeden kwant czasu.
+Jako wartość do przewidzenia na koniec danych została dodana różnica temperatury z obecnej i przyszłej chwili.
+Różnice temperatury mają znacznie mniejszy zakres wahań niż temperatury co umożliwia uzyskanie mniejszego błędu drzewom z mniejszą ilością liści.
+
++------+------------+--------------+-------------------+------------+--------------+-------------------+-------------------+
+| time | compressor | ambient_temp | refrigerator_temp | compressor | ambient_temp | refrigerator_temp | refrigerator_temp |
++------+------------+--------------+-------------------+------------+--------------+-------------------+-------------------+
+|    0 |          1 |         6.50 |              2.00 |        0.0 |         6.35 |              2.18 |              0.01 |
++------+------------+--------------+-------------------+------------+--------------+-------------------+-------------------+
+|   15 |          0 |         6.35 |              2.18 |        0.0 |         6.20 |              2.19 |             -0.51 |
++------+------------+--------------+-------------------+------------+--------------+-------------------+-------------------+
+|   30 |          0 |         6.20 |              2.19 |        1.0 |         6.05 |              1.68 |             -0.18 |
++------+------------+--------------+-------------------+------------+--------------+-------------------+-------------------+
+|   45 |          1 |         6.05 |              1.68 |        1.0 |         5.90 |              1.50 |              0.14 |
++------+------------+--------------+-------------------+------------+--------------+-------------------+-------------------+
+|   60 |          1 |         5.90 |              1.50 |        0.0 |         5.74 |              1.64 |             -0.02 |
++------+------------+--------------+-------------------+------------+--------------+-------------------+-------------------+
+
+Implementacja
+----------------------------------------------------------------
+
+Do implementacji użyłem języka python i bibliotek pandas i numpy.
+Cały algorytm znajduje się w module :mod:`random_forest`.
+Dzieli się on na dwa pliki jeden implementuje drzewa :mod:`random_forest.tree`,
+drugi natomiast las losowy :mod:`random_forest.forest`.
+
+Implementacja ma pewne ograniczenia. Zmienna dla której uczy się las musi być w ostatniej kolumnie.
+Oraz minimalna ilość atrybutów losowanych do tworzenia węzłów musi być większa niż ilość atrybutów 
+gdzie mogą wystąpić takie same wartości (np. zmienna boolean) ponieważ może to spowodować że najlepszy
+podział dla danego podzbioru nie istnieje.
+
+Eksperymenty
+----------------------------------------------------------------
+
+Aby zmiejszyć wpływ losowości danych i budowy lasu każdy eksperyment będzie powtórzony 10 razy i wynik uśredniony.
+Jako błąd użyty został średni błąd względny z wszystkich iteracji.
+Metoda naiwna przewiduje temperaturę z poprzedniej chwili.
+
+Najpierw zbadam wpływ rozmiaru liścia na błąd.
+
+..plot:: ../plot1.py
+
+Następnie wpływ ilości losowanych atrybutów
+
+..plot:: ../plot2.py
+
+Ilość drzew
+
+..plot:: ../plot3.py
+
+Ilość danych w drzewie
+
+..plot:: ../plot4.py
+
+Koniec
+.. .. raw:: html
+..    :file: main.html

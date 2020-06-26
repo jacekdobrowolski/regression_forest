@@ -25,8 +25,6 @@ if errorlevel 9009 (
 	exit /b 1
 )
 
-python -m jupyter nbconvert --to html ../main.ipynb
-move ..\main.html .\main.html
 %SPHINXBUILD% -M %1 %SOURCEDIR% %BUILDDIR% %SPHINXOPTS% %O%
 goto end
 

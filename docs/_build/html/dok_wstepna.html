@@ -1,0 +1,388 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Dokumentacja wstępna UM &mdash; Refrigerator temperature prediction  documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+  <script type="text/javascript" src="_static/js/modernizr.min.js"></script>
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Tree module" href="tree.html" />
+    <link rel="prev" title="Welcome to Refrigerator temperature prediction’s documentation!" href="index.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Refrigerator temperature prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Dokumentacja wstępna UM</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#opis-algorytmu">Opis Algorytmu</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#dane">Dane</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tworzenie-drzew-regresyjnych">Tworzenie drzew regresyjnych</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#przyklad">Przykład</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#tworzenie-lasu-losowego">Tworzenie lasu losowego</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#eksperymenty">Eksperymenty</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#zbiory-danych">Zbiory Danych</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="tree.html">Tree module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="forest.html">Forest module</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">Eksperymenty</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Refrigerator temperature prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html">Docs</a> &raquo;</li>
+        
+      <li>Dokumentacja wstępna UM</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+            <a href="_sources/dok_wstepna.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="dokumentacja-wstepna-um">
+<h1>Dokumentacja wstępna UM<a class="headerlink" href="#dokumentacja-wstepna-um" title="Permalink to this headline">¶</a></h1>
+<blockquote>
+<div><p><strong>Temat:</strong> Algorytm maszynowego uczenia się w zastosowaniu do predykcji
+wartości szeregu czasowego. Zadanie polega na przewidywaniu temperatury
+w chłodziarce w zależności od temperatury zewnętrznej i stanu agregatu.</p>
+</div></blockquote>
+<div class="section" id="opis-algorytmu">
+<h2>Opis Algorytmu<a class="headerlink" href="#opis-algorytmu" title="Permalink to this headline">¶</a></h2>
+<p>W projekcie planuje wykorzystać algorytm lasu losowego drzew
+regresyjnych.</p>
+</div>
+<div class="section" id="dane">
+<h2>Dane<a class="headerlink" href="#dane" title="Permalink to this headline">¶</a></h2>
+<p>Najpierw należy rozdzielić dane na dane trenujące i dane testowe.
+Ostatnie 10% danych przeznaczę na testy. Reszta danych będzie podzielona
+na mniejsze fragmenty na podstawie których będą tworzone poszczególne
+drzewa regresyjne. Dane zawierają temperaturę wewnątrz chłodziarki,
+temperaturę zewnętrzną i stan pracy agregatu z poprzedniego kwantu
+czasu, oraz temperaturę wewnętrzną chłodziarki z bieżącego czasu.</p>
+</div>
+<div class="section" id="tworzenie-drzew-regresyjnych">
+<h2>Tworzenie drzew regresyjnych<a class="headerlink" href="#tworzenie-drzew-regresyjnych" title="Permalink to this headline">¶</a></h2>
+<p>Drzewo składa się z węzłów i liści oraz korzenia (pierwszego węzła).
+Każdy węzeł zawiera warunek decydującym czy wybieramy prawą czy lewą
+gałąź. Gałęzie zakończone są liśćmi, które reprezentują wynik algorytmu.</p>
+<p>Tworzenie drzewa zaczynamy od korzenia. Przebieg tworzenia każdego węzła
+jest jednakowy. Najpierw sprawdzamy rozmiar zbioru, jeśli jest mniejszy
+niż dany parametr to węzeł staje się liściem. A jego wartość to średnia
+wartości szukanej w wybranym zbiorze. Jeśli zbiór jest większy szukamy
+najlepszego miejsca podziału zbioru.</p>
+<p>Losujemy atrybut według którego podzielimy zbiór. Następnie sortujemy
+według tego atrybutu. Liczymy średnią temperaturę wewnątrz urządzenia w
+podzbiorze przed wartością podziału. Od tej średniej odejmujemy wartość
+w poszczególnych wierszach sumę tych różnic podniesionych do kwadratu
+nazywamy SSR. Taką samą operacje wykonujemy na podzbiorze po wartości
+podziału. Warunkiem podziału zostanie wartość w której suma SSR obu
+zbiorów będzie najmniejsza. W węźle zostaje zapisany warunek podziału.
+Operacje powtarza się na obu zbiorach uzyskanych takim podziałem.</p>
+</div>
+<div class="section" id="przyklad">
+<h2>Przykład<a class="headerlink" href="#przyklad" title="Permalink to this headline">¶</a></h2>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 35%" />
+<col style="width: 19%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+<col style="width: 15%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>czas(min)</p></th>
+<th class="head"><p>alpha</p></th>
+<th class="head"><p>temp</p></th>
+<th class="head"><p>Ts</p></th>
+<th class="head"><p>Ts+1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>1</p></td>
+<td><p>6.50</p></td>
+<td><p>2.00</p></td>
+<td><p>2.18</p></td>
+</tr>
+<tr class="row-odd"><td><p>15</p></td>
+<td><p>0</p></td>
+<td><p>6.35</p></td>
+<td><p>2.18</p></td>
+<td><p>2.19</p></td>
+</tr>
+<tr class="row-even"><td><p>30</p></td>
+<td><p>0</p></td>
+<td><p>6.20</p></td>
+<td><p>2.19</p></td>
+<td><p>1.68</p></td>
+</tr>
+<tr class="row-odd"><td><p>45</p></td>
+<td><p>1</p></td>
+<td><p>6.05</p></td>
+<td><p>1.68</p></td>
+<td><p>1.50</p></td>
+</tr>
+<tr class="row-even"><td><p>60</p></td>
+<td><p>1</p></td>
+<td><p>5.90</p></td>
+<td><p>1.50</p></td>
+<td><p>1.64</p></td>
+</tr>
+</tbody>
+</table>
+<p>Czas w tym nie będzie potrzebny więc usunę go dla przejrzystości.
+Załóżmy że ostatni wiersz to dane testowe. I rozmiar zbioru
+niepodlegającego dzieleniu jest równy 2. Powiedzmy że będziemy dzielić
+na podstawie temperatury zewnętrznej <em>‘temp’</em> sortujemy więc dane.</p>
+<table class="docutils align-default">
+<colgroup>
+<col style="width: 29%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+<col style="width: 24%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>alpha</p></th>
+<th class="head"><p>temp</p></th>
+<th class="head"><p>Ts</p></th>
+<th class="head"><p>Ts+1</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>6.05</p></td>
+<td><p>1.68</p></td>
+<td><p>1.50</p></td>
+</tr>
+<tr class="row-odd"><td><p>0</p></td>
+<td><p>6.20</p></td>
+<td><p>2.19</p></td>
+<td><p>1.68</p></td>
+</tr>
+<tr class="row-even"><td><p>0</p></td>
+<td><p>6.35</p></td>
+<td><p>2.18</p></td>
+<td><p>2.19</p></td>
+</tr>
+<tr class="row-odd"><td><p>1</p></td>
+<td><p>6.50</p></td>
+<td><p>2.00</p></td>
+<td><p>2.18</p></td>
+</tr>
+<tr class="row-even"><td><p>1</p></td>
+<td><p>5.90</p></td>
+<td><p>1.50</p></td>
+<td><p>1.64</p></td>
+</tr>
+</tbody>
+</table>
+<dl>
+<dt>podział na &gt;= 6.2</dt><dd><p>zbiór pierwszy [1.5] średnia = 1.5</p>
+<p>zbiór drugi [1.68 2.19 2.18] średnia = <span class="math notranslate nohighlight">\(\frac{1.68 + 2.19 + 2.18} {3} = 2.02\)</span></p>
+<p>SSR = <span class="math notranslate nohighlight">\((1.5 - 1.5)^2 + (1.68 - 2.02)^2 + (2.19 - 2.02)^2 + (2.18 - 2.02)^2 = 0.17\)</span></p>
+</dd>
+<dt>podział na &gt;= 6.35</dt><dd><p>zbiór pierwszy [1.5 1.68] średnia = 1.59</p>
+<p>zbiór drugi [2.19 2.18] średnia = 2.185</p>
+<p>SSR = 0.016</p>
+</dd>
+<dt>podział na &gt;= 6.5</dt><dd><p>zbiór pierwszy [1.5 1.68 2.19] średnia = 1.79</p>
+<p>zbiór drugi [2.18] średnia = 2.18</p>
+<p>SSR = 0.26</p>
+</dd>
+</dl>
+<p>Podziału zbioru dokonujemy na ‘<em>temp</em>’ &gt;= 6.35 ponieważ SSR jest wtedy
+najmniejsze. Powstałe zbiory nie są większe od założonego rozmiaru
+liścia więc kończymy budowę drzewa.</p>
+<p>‘<em>temp</em>’ z danych testowych 5.9 &lt; 6.35 więc przewidziana wartość to 1.59</p>
+</div>
+<div class="section" id="tworzenie-lasu-losowego">
+<h2>Tworzenie lasu losowego<a class="headerlink" href="#tworzenie-lasu-losowego" title="Permalink to this headline">¶</a></h2>
+<p>Las losowy to zbiór drzew regresyjnych utworzonych na podstawie różnych
+danych. Dane dla każdego drzewa są losowane z powtórzeniami.</p>
+<p>Wynik przewidziany przez las jest średnią wyników ze wszystkich drzew.</p>
+</div>
+<div class="section" id="eksperymenty">
+<h2>Eksperymenty<a class="headerlink" href="#eksperymenty" title="Permalink to this headline">¶</a></h2>
+<p>W ramach eksperymentu można porównać działanie lasu losowego z metodą
+naiwną (wartość z poprzedniego kwantu czasu). Można również sprawdzić
+wpływ parametrów takich jaki ilość drzew, rozmiar liści, ilość danych
+trenujących na działanie algorytmu.</p>
+</div>
+<div class="section" id="zbiory-danych">
+<h2>Zbiory Danych<a class="headerlink" href="#zbiory-danych" title="Permalink to this headline">¶</a></h2>
+<p>Zbiór testujących będzie to ostatnie 10% danych które nie będą użyte do
+tworzenia drzew. Reszta danych to dane trenujące.</p>
+<p>Jacek Dobrowolski</p>
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+  
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+      
+        <a href="tree.html" class="btn btn-neutral float-right" title="Tree module" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
+      
+      
+        <a href="index.html" class="btn btn-neutral float-left" title="Welcome to Refrigerator temperature prediction’s documentation!" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
+      
+    </div>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2020, Jacek Dobrowolski
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/rtfd/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>

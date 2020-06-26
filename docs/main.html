@@ -13090,8 +13090,6 @@ div#notebook {
 <div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
 <span class="kn">import</span> <span class="nn">matplotlib.pyplot</span> <span class="k">as</span> <span class="nn">plt</span>
-<span class="kn">import</span> <span class="nn">statsmodels.api</span> <span class="k">as</span> <span class="nn">sm</span>
-<span class="kn">from</span> <span class="nn">scipy.stats</span> <span class="kn">import</span> <span class="n">pearsonr</span><span class="p">,</span> <span class="n">spearmanr</span>
 <span class="o">%</span><span class="k">matplotlib</span> inline
 </pre></div>
 
@@ -13105,7 +13103,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[2]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;alpha24_step15Stud.csv&#39;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">read_csv</span><span class="p">(</span><span class="s1">&#39;refrigerator_temp_time_series.csv&#39;</span><span class="p">)</span>
 <span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
@@ -13214,7 +13212,9 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[4]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;czas(min)&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="s2">&quot;compressor&quot;</span><span class="p">,</span> <span class="s2">&quot;temp&quot;</span><span class="p">:</span> <span class="s1">&#39;ambient_temp&#39;</span><span class="p">,</span> <span class="s2">&quot;Ts&quot;</span><span class="p">:</span> <span class="s1">&#39;refrigerator_temp&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13250,44 +13250,44 @@ div#notebook {
   <thead>
     <tr style="text-align: right;">
       <th></th>
-      <th>czas(min)</th>
-      <th>alpha</th>
-      <th>temp</th>
-      <th>Ts</th>
+      <th>compressor</th>
+      <th>ambient_temp</th>
+      <th>refrigerator_temp</th>
+    </tr>
+    <tr>
+      <th>time</th>
+      <th></th>
+      <th></th>
+      <th></th>
     </tr>
   </thead>
   <tbody>
     <tr>
       <th>0</th>
-      <td>0</td>
       <td>1</td>
       <td>6.50</td>
       <td>2.00</td>
     </tr>
     <tr>
-      <th>1</th>
-      <td>15</td>
+      <th>15</th>
       <td>0</td>
       <td>6.35</td>
       <td>2.18</td>
     </tr>
     <tr>
-      <th>2</th>
-      <td>30</td>
+      <th>30</th>
       <td>0</td>
       <td>6.20</td>
       <td>2.19</td>
     </tr>
     <tr>
-      <th>3</th>
-      <td>45</td>
+      <th>45</th>
       <td>1</td>
       <td>6.05</td>
       <td>1.68</td>
     </tr>
     <tr>
-      <th>4</th>
-      <td>60</td>
+      <th>60</th>
       <td>1</td>
       <td>5.90</td>
       <td>1.50</td>
@@ -13308,9 +13308,11 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[5]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;czas(min)&quot;</span><span class="p">:</span> <span class="s2">&quot;time&quot;</span><span class="p">,</span> <span class="s2">&quot;alpha&quot;</span><span class="p">:</span> <span class="s2">&quot;compressor&quot;</span><span class="p">,</span> <span class="s2">&quot;temp&quot;</span><span class="p">:</span> <span class="s1">&#39;ambient_temp&#39;</span><span class="p">,</span> <span class="s2">&quot;Ts&quot;</span><span class="p">:</span> <span class="s1">&#39;refrigerator_temp&#39;</span><span class="p">},</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">set_index</span><span class="p">(</span><span class="s1">&#39;time&#39;</span><span class="p">,</span> <span class="n">inplace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-<span class="n">df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delay</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">delay</span><span class="p">)]</span>
+<span class="n">frames</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="n">delay</span><span class="p">))</span>
+<span class="n">delayed_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
+<span class="n">delayed_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -13349,9 +13351,17 @@ div#notebook {
       <th>compressor</th>
       <th>ambient_temp</th>
       <th>refrigerator_temp</th>
+      <th>compressor</th>
+      <th>ambient_temp</th>
+      <th>refrigerator_temp</th>
+      <th>refrigerator_temp</th>
     </tr>
     <tr>
       <th>time</th>
+      <th></th>
+      <th></th>
+      <th></th>
+      <th></th>
       <th></th>
       <th></th>
       <th></th>
@@ -13363,30 +13373,50 @@ div#notebook {
       <td>1</td>
       <td>6.50</td>
       <td>2.00</td>
+      <td>0.0</td>
+      <td>6.35</td>
+      <td>2.18</td>
+      <td>0.01</td>
     </tr>
     <tr>
       <th>15</th>
       <td>0</td>
       <td>6.35</td>
       <td>2.18</td>
+      <td>0.0</td>
+      <td>6.20</td>
+      <td>2.19</td>
+      <td>-0.51</td>
     </tr>
     <tr>
       <th>30</th>
       <td>0</td>
       <td>6.20</td>
       <td>2.19</td>
+      <td>1.0</td>
+      <td>6.05</td>
+      <td>1.68</td>
+      <td>-0.18</td>
     </tr>
     <tr>
       <th>45</th>
       <td>1</td>
       <td>6.05</td>
       <td>1.68</td>
+      <td>1.0</td>
+      <td>5.90</td>
+      <td>1.50</td>
+      <td>0.14</td>
     </tr>
     <tr>
       <th>60</th>
       <td>1</td>
       <td>5.90</td>
       <td>1.50</td>
+      <td>0.0</td>
+      <td>5.74</td>
+      <td>1.64</td>
+      <td>-0.02</td>
     </tr>
   </tbody>
 </table>
@@ -13401,56 +13431,16 @@ div#notebook {
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
 <div class="prompt input_prompt">In&nbsp;[6]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">size</span> <span class="o">=</span> <span class="mi">1000</span>
-<span class="n">delay</span> <span class="o">=</span> <span class="mi">100</span>
-
-<span class="n">a</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">:</span><span class="n">size</span><span class="p">,:]</span><span class="o">.</span><span class="n">to_numpy</span><span class="p">()</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">delay</span><span class="p">,</span><span class="n">size</span><span class="o">*</span><span class="mi">3</span><span class="o">//</span><span class="n">delay</span><span class="p">)</span>
-<span class="n">a</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random_forest.tree</span>
+<span class="kn">import</span> <span class="nn">random_forest.forest</span>
+<span class="kn">from</span> <span class="nn">random_forest.tree</span> <span class="kn">import</span> <span class="n">Tree</span>
+<span class="kn">from</span> <span class="nn">random_forest.forest</span> <span class="kn">import</span> <span class="n">Forest</span>
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[6]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>array([[ 1.  ,  6.5 ,  2.  , ...,  0.  ,  5.26,  1.82],
-       [ 0.  ,  5.23,  1.86, ...,  0.  ,  5.39,  1.48],
-       [ 0.  ,  5.3 ,  1.53, ...,  1.  ,  5.99,  0.9 ],
-       ...,
-       [ 0.  ,  1.97, -1.98, ...,  0.  ,  1.23, -1.93],
-       [ 0.  ,  1.2 , -1.92, ...,  0.  ,  2.01, -2.07],
-       [ 1.  ,  2.13, -2.17, ...,  1.  ,  4.01, -2.48]])</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -13460,94 +13450,12 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[7]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delay</span> <span class="o">=</span> <span class="mi">4</span>
-<span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">delay</span><span class="p">)]</span>
-<span class="c1"># small_df = df.iloc[:40]</span>
-<span class="n">delayed_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-
-<span class="n">small_df</span> <span class="o">=</span> <span class="n">delayed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="mi">50</span><span class="p">]</span>
-<span class="n">small_df</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[7]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(50, 12)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[8]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">forest</span> <span class="o">=</span> <span class="n">Forest</span><span class="p">(</span><span class="n">delayed_df</span><span class="p">)</span>
- 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-8-3b558d2e0135&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>forest <span class="ansi-yellow-intense-fg ansi-bold">=</span> Forest<span class="ansi-yellow-intense-fg ansi-bold">(</span>delayed_df<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">      2</span> 
-
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;Forest&#39; is not defined</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[9]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_of_bag</span>  <span class="o">=</span> <span class="n">small_df</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">out_of_bag</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">data_size_for_tree</span> <span class="o">=</span> <span class="mi">5</span>
-<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">10</span><span class="p">):</span>
-    <span class="n">training_data</span> <span class="o">=</span> <span class="n">small_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">data_size_for_tree</span><span class="p">,</span> <span class="n">replace</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-    <span class="n">out_of_bag</span> <span class="o">=</span> <span class="n">out_of_bag</span><span class="p">[</span><span class="o">~</span><span class="n">out_of_bag</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">training_data</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
-<span class="c1"># out_of_bag[~out_of_bag.isin(training_data)].dropna()</span>
-<span class="c1"># out_of_bag.isin(training_data.merge(training_data))</span>
-<span class="c1"># print(out_of_bag.size)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">out_of_bag</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">training_data</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span> <span class="o">=</span> <span class="n">delayed_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">10</span><span class="p">)</span>
+<span class="n">training_data</span> <span class="o">=</span> <span class="n">delayed_df</span><span class="p">[</span><span class="o">~</span><span class="n">delayed_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">test_data</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
+<span class="n">random_forest</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">create_config</span><span class="p">(</span><span class="n">min_split_size</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="n">number_of_predictors_to_draw</span><span class="o">=</span><span class="mi">6</span><span class="p">)</span>
+<span class="n">random_forest</span><span class="o">.</span><span class="n">forest</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">create_config</span><span class="p">(</span><span class="n">data_size_for_tree</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="n">number_of_trees</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;test data: &quot;</span><span class="p">,</span> <span class="n">test_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;training data: &quot;</span><span class="p">,</span> <span class="n">training_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">1</span><span class="p">:]</span><span class="o">.</span><span class="n">describe</span><span class="p">())</span>
 </pre></div>
 
     </div>
@@ -13564,149 +13472,60 @@ div#notebook {
 
 
 <div class="output_subarea output_stream output_stdout output_text">
-<pre>(50, 12)
-(19, 12)
+<pre>test data:         refrigerator_temp
+count         297.000000
+mean           -0.002997
+std             0.126689
+min            -0.510000
+25%            -0.050000
+50%             0.000000
+75%             0.050000
+max             0.280000
+training data:         refrigerator_temp
+count        2677.000000
+mean            0.000474
+std             0.128406
+min            -0.690000
+25%            -0.050000
+50%             0.000000
+75%             0.050000
+max             0.520000
 </pre>
 </div>
 </div>
 
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[9]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-    </tr>
-    <tr>
-      <th>time</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>45</th>
-      <td>1</td>
-      <td>6.05</td>
-      <td>1.68</td>
-      <td>1.0</td>
-      <td>5.90</td>
-      <td>1.50</td>
-      <td>0.0</td>
-      <td>5.74</td>
-      <td>1.64</td>
-      <td>0.0</td>
-      <td>5.59</td>
-      <td>1.62</td>
-    </tr>
-    <tr>
-      <th>510</th>
-      <td>1</td>
-      <td>6.81</td>
-      <td>0.64</td>
-      <td>1.0</td>
-      <td>7.06</td>
-      <td>0.60</td>
-      <td>0.0</td>
-      <td>7.30</td>
-      <td>0.79</td>
-      <td>0.0</td>
-      <td>7.29</td>
-      <td>0.81</td>
-    </tr>
-    <tr>
-      <th>255</th>
-      <td>0</td>
-      <td>5.60</td>
-      <td>1.22</td>
-      <td>0.0</td>
-      <td>5.49</td>
-      <td>1.22</td>
-      <td>0.0</td>
-      <td>5.39</td>
-      <td>1.48</td>
-      <td>0.0</td>
-      <td>5.30</td>
-      <td>1.53</td>
-    </tr>
-    <tr>
-      <th>90</th>
-      <td>0</td>
-      <td>5.59</td>
-      <td>1.62</td>
-      <td>0.0</td>
-      <td>5.44</td>
-      <td>1.56</td>
-      <td>0.0</td>
-      <td>5.30</td>
-      <td>1.54</td>
-      <td>0.0</td>
-      <td>5.26</td>
-      <td>1.82</td>
-    </tr>
-    <tr>
-      <th>735</th>
-      <td>0</td>
-      <td>7.99</td>
-      <td>0.59</td>
-      <td>0.0</td>
-      <td>7.97</td>
-      <td>0.84</td>
-      <td>0.0</td>
-      <td>7.94</td>
-      <td>0.93</td>
-      <td>0.0</td>
-      <td>7.90</td>
-      <td>0.98</td>
-    </tr>
-  </tbody>
-</table>
 </div>
 </div>
 
 </div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[8]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">forest</span> <span class="o">=</span> <span class="n">Forest</span><span class="p">(</span><span class="n">training_data</span><span class="p">)</span>
+</pre></div>
 
+    </div>
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[9]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prediction_err_sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">naive_err_sum</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">test_data</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+        <span class="n">previous_temp</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+        <span class="n">actual_value</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+        <span class="n">prediction_err_sum</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">forest</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">-</span> <span class="n">actual_value</span><span class="p">)</span>
+        <span class="n">naive_err_sum</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(</span><span class="n">previous_temp</span> <span class="o">-</span> <span class="n">actual_value</span><span class="p">)</span>
+</pre></div>
+
+    </div>
 </div>
 </div>
 
@@ -13716,7 +13535,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[10]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">out_of_bag</span><span class="o">.</span><span class="n">values</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prediction_err_sum</span>
 </pre></div>
 
     </div>
@@ -13735,44 +13554,7 @@ div#notebook {
 
 
 <div class="output_text output_subarea output_execute_result">
-<pre>array([[1.  , 5.9 , 1.5 , 0.  , 5.74, 1.64, 0.  , 5.59, 1.62, 0.  , 5.44,
-        1.56],
-       [0.  , 5.26, 1.82, 0.  , 5.23, 1.86, 0.  , 5.21, 1.89, 1.  , 5.2 ,
-        1.2 ],
-       [0.  , 5.23, 1.86, 0.  , 5.21, 1.89, 1.  , 5.2 , 1.2 , 1.  , 5.32,
-        1.2 ],
-       [0.  , 5.21, 1.89, 1.  , 5.2 , 1.2 , 1.  , 5.32, 1.2 , 0.  , 5.44,
-        1.36],
-       [1.  , 5.32, 1.2 , 0.  , 5.44, 1.36, 1.  , 5.57, 1.24, 1.  , 5.7 ,
-        1.07],
-       [0.  , 5.3 , 1.53, 1.  , 5.39, 1.12, 0.  , 5.49, 1.26, 0.  , 5.59,
-        1.47],
-       [0.  , 5.74, 1.54, 0.  , 5.79, 1.57, 1.  , 5.84, 1.15, 1.  , 5.9 ,
-        1.  ],
-       [0.  , 5.79, 1.57, 1.  , 5.84, 1.15, 1.  , 5.9 , 1.  , 1.  , 5.99,
-        0.9 ],
-       [1.  , 5.84, 1.15, 1.  , 5.9 , 1.  , 1.  , 5.99, 0.9 , 1.  , 6.09,
-        0.84],
-       [1.  , 5.9 , 1.  , 1.  , 5.99, 0.9 , 1.  , 6.09, 0.84, 1.  , 6.19,
-        0.79],
-       [1.  , 6.09, 0.84, 1.  , 6.19, 0.79, 1.  , 6.3 , 0.73, 1.  , 6.55,
-        0.69],
-       [1.  , 6.19, 0.79, 1.  , 6.3 , 0.73, 1.  , 6.55, 0.69, 1.  , 6.81,
-        0.64],
-       [1.  , 7.06, 0.6 , 0.  , 7.3 , 0.79, 0.  , 7.29, 0.81, 0.  , 7.26,
-        0.8 ],
-       [0.  , 7.29, 0.81, 0.  , 7.26, 0.8 , 0.  , 7.23, 0.76, 0.  , 7.2 ,
-        0.77],
-       [0.  , 7.23, 0.76, 0.  , 7.2 , 0.77, 1.  , 7.3 , 0.67, 1.  , 7.41,
-        0.52],
-       [0.  , 7.2 , 0.77, 1.  , 7.3 , 0.67, 1.  , 7.41, 0.52, 0.  , 7.51,
-        0.69],
-       [1.  , 7.3 , 0.67, 1.  , 7.41, 0.52, 0.  , 7.51, 0.69, 1.  , 7.6 ,
-        0.6 ],
-       [1.  , 7.71, 0.45, 1.  , 7.82, 0.41, 1.  , 7.91, 0.37, 0.  , 8.  ,
-        0.57],
-       [0.  , 8.  , 0.57, 0.  , 7.99, 0.59, 0.  , 7.97, 0.84, 0.  , 7.94,
-        0.93]])</pre>
+<pre>24.581761587301596</pre>
 </div>
 
 </div>
@@ -13786,11 +13568,7 @@ div#notebook {
 <div class="prompt input_prompt">In&nbsp;[11]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">forest</span><span class="o">.</span><span class="n">out_of_bag</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
-<span class="n">test</span> <span class="o">=</span> <span class="n">forest</span><span class="o">.</span><span class="n">out_of_bag</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">values</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="n">forest</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]))</span>
-<span class="c1"># df.shape</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">naive_err_sum</span>
 </pre></div>
 
     </div>
@@ -13803,830 +13581,52 @@ div#notebook {
 
 <div class="output_area">
 
-    <div class="prompt"></div>
+    <div class="prompt output_prompt">Out[11]:</div>
 
 
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>                                 Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-11-6bbf99e7a05c&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>print<span class="ansi-yellow-intense-fg ansi-bold">(</span>forest<span class="ansi-yellow-intense-fg ansi-bold">.</span>out_of_bag<span class="ansi-yellow-intense-fg ansi-bold">.</span>shape<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">      2</span> test <span class="ansi-yellow-intense-fg ansi-bold">=</span> forest<span class="ansi-yellow-intense-fg ansi-bold">.</span>out_of_bag<span class="ansi-yellow-intense-fg ansi-bold">.</span>iloc<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">0</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">.</span>values
-<span class="ansi-green-fg">      3</span> print<span class="ansi-yellow-intense-fg ansi-bold">(</span>test<span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">      4</span> print<span class="ansi-yellow-intense-fg ansi-bold">(</span>forest<span class="ansi-yellow-intense-fg ansi-bold">.</span>predict<span class="ansi-yellow-intense-fg ansi-bold">(</span>test<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-yellow-intense-fg ansi-bold">:</span><span class="ansi-yellow-intense-fg ansi-bold">-</span><span class="ansi-cyan-intense-fg ansi-bold">1</span><span class="ansi-yellow-intense-fg ansi-bold">]</span><span class="ansi-yellow-intense-fg ansi-bold">)</span><span class="ansi-yellow-intense-fg ansi-bold">)</span>
-<span class="ansi-green-fg">      5</span> <span class="ansi-red-intense-fg ansi-bold"># df.shape</span>
 
-<span class="ansi-red-intense-fg ansi-bold">NameError</span>: name &#39;forest&#39; is not defined</pre>
+
+<div class="output_text output_subarea output_execute_result">
+<pre>403.84</pre>
 </div>
+
 </div>
 
 </div>
 </div>
 
-</div>
-<div class="cell border-box-sizing text_cell rendered"><div class="prompt input_prompt">
-</div><div class="inner_cell">
-<div class="text_cell_render border-box-sizing rendered_html">
-<p>forest.trees[0]</p>
-
-</div>
-</div>
 </div>
 <div class="cell border-box-sizing code_cell rendered">
 <div class="input">
 <div class="prompt input_prompt">In&nbsp;[12]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">df</span><span class="p">[</span><span class="s2">&quot;ambient_refrigerator_diff&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;ambient_temp&quot;</span><span class="p">]</span> <span class="o">-</span> <span class="n">df</span><span class="p">[</span><span class="s2">&quot;refrigerator_temp&quot;</span><span class="p">]</span>
-<span class="n">df_diff</span> <span class="o">=</span> <span class="n">df</span><span class="o">.</span><span class="n">diff</span><span class="p">()</span><span class="o">.</span><span class="n">rename</span><span class="p">(</span><span class="n">columns</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;refrigerator_temp&quot;</span><span class="p">:</span> <span class="s2">&quot;refrigerator_temp_diff&quot;</span><span class="p">,</span> <span class="s2">&quot;ambient_temp&quot;</span><span class="p">:</span> <span class="s2">&quot;ambient_temp_diff&quot;</span><span class="p">})</span><span class="o">.</span><span class="n">loc</span><span class="p">[:,</span> <span class="p">[</span><span class="s2">&quot;refrigerator_temp_diff&quot;</span><span class="p">,</span><span class="s2">&quot;ambient_temp_diff&quot;</span><span class="p">]]</span>
-<span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="p">,</span> <span class="n">df_diff</span><span class="p">]</span>
-<span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-<span class="n">df</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">forest_result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">naive_result</span> <span class="o">=</span> <span class="nb">list</span><span class="p">()</span>
+<span class="n">iterations</span> <span class="o">=</span> <span class="mi">5</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">):</span>
+    <span class="n">random_forest</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">create_config</span><span class="p">(</span><span class="n">min_split_size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span><span class="n">number_of_predictors_to_draw</span><span class="o">=</span><span class="mi">4</span><span class="p">)</span>
+    <span class="n">random_forest</span><span class="o">.</span><span class="n">forest</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">create_config</span><span class="p">(</span><span class="n">data_size_for_tree</span><span class="o">=</span><span class="mi">140</span><span class="p">,</span> <span class="n">number_of_trees</span><span class="o">=</span><span class="mi">50</span><span class="p">)</span>
+    <span class="n">prediction_err_sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">naive_err_sum</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">iterations</span><span class="p">):</span>
+        <span class="n">test_data</span> <span class="o">=</span> <span class="n">delayed_df</span><span class="o">.</span><span class="n">sample</span><span class="p">(</span><span class="n">df</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">//</span><span class="mi">8</span><span class="p">)</span>
+        <span class="n">training_data</span> <span class="o">=</span> <span class="n">delayed_df</span><span class="p">[</span><span class="o">~</span><span class="n">delayed_df</span><span class="o">.</span><span class="n">index</span><span class="o">.</span><span class="n">isin</span><span class="p">(</span><span class="n">test_data</span><span class="o">.</span><span class="n">index</span><span class="p">)]</span>
+
+
+        <span class="n">forest</span> <span class="o">=</span> <span class="n">Forest</span><span class="p">(</span><span class="n">training_data</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">test_data</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
+                <span class="n">previous_temp</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+                <span class="n">actual_value</span> <span class="o">=</span> <span class="n">previous_temp</span> <span class="o">+</span> <span class="n">test</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="n">prediction_err_sum</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">((</span><span class="n">forest</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span> <span class="o">+</span> <span class="n">previous_temp</span> <span class="o">-</span> <span class="n">actual_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">actual_value</span> <span class="k">if</span> <span class="n">actual_value</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+                <span class="n">naive_err_sum</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">((</span><span class="n">previous_temp</span> <span class="o">-</span> <span class="n">actual_value</span><span class="p">)</span> <span class="o">/</span> <span class="n">actual_value</span> <span class="k">if</span> <span class="n">actual_value</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+    <span class="n">naive_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">naive_err_sum</span><span class="o">/</span><span class="p">(</span><span class="n">iterations</span><span class="o">*</span><span class="n">test_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+    <span class="n">forest_result</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">prediction_err_sum</span><span class="o">/</span><span class="p">(</span><span class="n">iterations</span><span class="o">*</span><span class="n">test_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="o">*</span><span class="mi">100</span><span class="p">)</span>
+            
 </pre></div>
 
     </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[12]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>ambient_refrigerator_diff</th>
-      <th>refrigerator_temp_diff</th>
-      <th>ambient_temp_diff</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>count</th>
-      <td>2975.000000</td>
-      <td>2975.000000</td>
-      <td>2975.000000</td>
-      <td>2975.000000</td>
-      <td>2975.000000</td>
-      <td>2975.000000</td>
-    </tr>
-    <tr>
-      <th>mean</th>
-      <td>0.522017</td>
-      <td>6.155815</td>
-      <td>-0.841603</td>
-      <td>6.997418</td>
-      <td>0.000188</td>
-      <td>0.001449</td>
-    </tr>
-    <tr>
-      <th>std</th>
-      <td>0.499599</td>
-      <td>3.734449</td>
-      <td>1.336080</td>
-      <td>2.983292</td>
-      <td>0.128239</td>
-      <td>0.232284</td>
-    </tr>
-    <tr>
-      <th>min</th>
-      <td>0.000000</td>
-      <td>-2.000000</td>
-      <td>-3.150000</td>
-      <td>-0.210000</td>
-      <td>-0.690000</td>
-      <td>-1.440000</td>
-    </tr>
-    <tr>
-      <th>25%</th>
-      <td>0.000000</td>
-      <td>3.600000</td>
-      <td>-1.940000</td>
-      <td>5.080000</td>
-      <td>-0.050000</td>
-      <td>-0.110000</td>
-    </tr>
-    <tr>
-      <th>50%</th>
-      <td>1.000000</td>
-      <td>5.430000</td>
-      <td>-1.060000</td>
-      <td>6.500000</td>
-      <td>0.000000</td>
-      <td>-0.010000</td>
-    </tr>
-    <tr>
-      <th>75%</th>
-      <td>1.000000</td>
-      <td>8.270000</td>
-      <td>0.155000</td>
-      <td>8.650000</td>
-      <td>0.050000</td>
-      <td>0.120000</td>
-    </tr>
-    <tr>
-      <th>max</th>
-      <td>1.000000</td>
-      <td>20.300000</td>
-      <td>3.910000</td>
-      <td>17.710000</td>
-      <td>0.520000</td>
-      <td>1.570000</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[13]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">delay</span> <span class="o">=</span> <span class="mi">3</span>
-<span class="n">frames</span> <span class="o">=</span> <span class="p">[</span><span class="n">df</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="n">t</span><span class="p">)</span> <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">delay</span><span class="p">)]</span>
-<span class="c1"># small_df = df.iloc[:40]</span>
-<span class="n">delayed_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">(</span><span class="n">frames</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-<span class="n">delayed_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[13]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>ambient_refrigerator_diff</th>
-      <th>refrigerator_temp_diff</th>
-      <th>ambient_temp_diff</th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>ambient_refrigerator_diff</th>
-      <th>refrigerator_temp_diff</th>
-      <th>ambient_temp_diff</th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>ambient_refrigerator_diff</th>
-      <th>refrigerator_temp_diff</th>
-      <th>ambient_temp_diff</th>
-    </tr>
-    <tr>
-      <th>time</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>15</th>
-      <td>0</td>
-      <td>6.35</td>
-      <td>2.18</td>
-      <td>4.17</td>
-      <td>0.18</td>
-      <td>-0.15</td>
-      <td>0.0</td>
-      <td>6.20</td>
-      <td>2.19</td>
-      <td>4.01</td>
-      <td>0.01</td>
-      <td>-0.15</td>
-      <td>1.0</td>
-      <td>6.05</td>
-      <td>1.68</td>
-      <td>4.37</td>
-      <td>-0.51</td>
-      <td>-0.15</td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>0</td>
-      <td>6.20</td>
-      <td>2.19</td>
-      <td>4.01</td>
-      <td>0.01</td>
-      <td>-0.15</td>
-      <td>1.0</td>
-      <td>6.05</td>
-      <td>1.68</td>
-      <td>4.37</td>
-      <td>-0.51</td>
-      <td>-0.15</td>
-      <td>1.0</td>
-      <td>5.90</td>
-      <td>1.50</td>
-      <td>4.40</td>
-      <td>-0.18</td>
-      <td>-0.15</td>
-    </tr>
-    <tr>
-      <th>45</th>
-      <td>1</td>
-      <td>6.05</td>
-      <td>1.68</td>
-      <td>4.37</td>
-      <td>-0.51</td>
-      <td>-0.15</td>
-      <td>1.0</td>
-      <td>5.90</td>
-      <td>1.50</td>
-      <td>4.40</td>
-      <td>-0.18</td>
-      <td>-0.15</td>
-      <td>0.0</td>
-      <td>5.74</td>
-      <td>1.64</td>
-      <td>4.10</td>
-      <td>0.14</td>
-      <td>-0.16</td>
-    </tr>
-    <tr>
-      <th>60</th>
-      <td>1</td>
-      <td>5.90</td>
-      <td>1.50</td>
-      <td>4.40</td>
-      <td>-0.18</td>
-      <td>-0.15</td>
-      <td>0.0</td>
-      <td>5.74</td>
-      <td>1.64</td>
-      <td>4.10</td>
-      <td>0.14</td>
-      <td>-0.16</td>
-      <td>0.0</td>
-      <td>5.59</td>
-      <td>1.62</td>
-      <td>3.97</td>
-      <td>-0.02</td>
-      <td>-0.15</td>
-    </tr>
-    <tr>
-      <th>75</th>
-      <td>0</td>
-      <td>5.74</td>
-      <td>1.64</td>
-      <td>4.10</td>
-      <td>0.14</td>
-      <td>-0.16</td>
-      <td>0.0</td>
-      <td>5.59</td>
-      <td>1.62</td>
-      <td>3.97</td>
-      <td>-0.02</td>
-      <td>-0.15</td>
-      <td>0.0</td>
-      <td>5.44</td>
-      <td>1.56</td>
-      <td>3.88</td>
-      <td>-0.06</td>
-      <td>-0.15</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[14]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">to_be_predicted</span> <span class="o">=</span> <span class="n">delayed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">to_be_predicted</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[14]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>time
-15   -0.18
-30    0.14
-45   -0.02
-60   -0.06
-75   -0.02
-Name: refrigerator_temp_diff, dtype: float64</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[15]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">actual_refrigerator_temp</span> <span class="o">=</span> <span class="n">delayed_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="mi">4</span><span class="p">]</span><span class="o">.</span><span class="n">shift</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span>
-<span class="n">actual_refrigerator_temp</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[15]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>time
-15    1.50
-30    1.64
-45    1.62
-60    1.56
-75    1.54
-Name: refrigerator_temp, dtype: float64</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[16]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">final_df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">concat</span><span class="p">([</span><span class="n">delayed_df</span><span class="p">,</span> <span class="n">to_be_predicted</span><span class="p">,</span> <span class="n">actual_refrigerator_temp</span><span class="p">],</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">dropna</span><span class="p">()</span>
-<span class="n">final_df</span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[16]:</div>
-
-
-
-<div class="output_html rendered_html output_subarea output_execute_result">
-<div>
-<style scoped>
-    .dataframe tbody tr th:only-of-type {
-        vertical-align: middle;
-    }
-
-    .dataframe tbody tr th {
-        vertical-align: top;
-    }
-
-    .dataframe thead th {
-        text-align: right;
-    }
-</style>
-<table border="1" class="dataframe">
-  <thead>
-    <tr style="text-align: right;">
-      <th></th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>ambient_refrigerator_diff</th>
-      <th>refrigerator_temp_diff</th>
-      <th>ambient_temp_diff</th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>ambient_refrigerator_diff</th>
-      <th>refrigerator_temp_diff</th>
-      <th>ambient_temp_diff</th>
-      <th>compressor</th>
-      <th>ambient_temp</th>
-      <th>refrigerator_temp</th>
-      <th>ambient_refrigerator_diff</th>
-      <th>refrigerator_temp_diff</th>
-      <th>ambient_temp_diff</th>
-      <th>refrigerator_temp_diff</th>
-      <th>refrigerator_temp</th>
-    </tr>
-    <tr>
-      <th>time</th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-      <th></th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <th>15</th>
-      <td>0</td>
-      <td>6.35</td>
-      <td>2.18</td>
-      <td>4.17</td>
-      <td>0.18</td>
-      <td>-0.15</td>
-      <td>0.0</td>
-      <td>6.20</td>
-      <td>2.19</td>
-      <td>4.01</td>
-      <td>0.01</td>
-      <td>-0.15</td>
-      <td>1.0</td>
-      <td>6.05</td>
-      <td>1.68</td>
-      <td>4.37</td>
-      <td>-0.51</td>
-      <td>-0.15</td>
-      <td>-0.18</td>
-      <td>1.50</td>
-    </tr>
-    <tr>
-      <th>30</th>
-      <td>0</td>
-      <td>6.20</td>
-      <td>2.19</td>
-      <td>4.01</td>
-      <td>0.01</td>
-      <td>-0.15</td>
-      <td>1.0</td>
-      <td>6.05</td>
-      <td>1.68</td>
-      <td>4.37</td>
-      <td>-0.51</td>
-      <td>-0.15</td>
-      <td>1.0</td>
-      <td>5.90</td>
-      <td>1.50</td>
-      <td>4.40</td>
-      <td>-0.18</td>
-      <td>-0.15</td>
-      <td>0.14</td>
-      <td>1.64</td>
-    </tr>
-    <tr>
-      <th>45</th>
-      <td>1</td>
-      <td>6.05</td>
-      <td>1.68</td>
-      <td>4.37</td>
-      <td>-0.51</td>
-      <td>-0.15</td>
-      <td>1.0</td>
-      <td>5.90</td>
-      <td>1.50</td>
-      <td>4.40</td>
-      <td>-0.18</td>
-      <td>-0.15</td>
-      <td>0.0</td>
-      <td>5.74</td>
-      <td>1.64</td>
-      <td>4.10</td>
-      <td>0.14</td>
-      <td>-0.16</td>
-      <td>-0.02</td>
-      <td>1.62</td>
-    </tr>
-    <tr>
-      <th>60</th>
-      <td>1</td>
-      <td>5.90</td>
-      <td>1.50</td>
-      <td>4.40</td>
-      <td>-0.18</td>
-      <td>-0.15</td>
-      <td>0.0</td>
-      <td>5.74</td>
-      <td>1.64</td>
-      <td>4.10</td>
-      <td>0.14</td>
-      <td>-0.16</td>
-      <td>0.0</td>
-      <td>5.59</td>
-      <td>1.62</td>
-      <td>3.97</td>
-      <td>-0.02</td>
-      <td>-0.15</td>
-      <td>-0.06</td>
-      <td>1.56</td>
-    </tr>
-    <tr>
-      <th>75</th>
-      <td>0</td>
-      <td>5.74</td>
-      <td>1.64</td>
-      <td>4.10</td>
-      <td>0.14</td>
-      <td>-0.16</td>
-      <td>0.0</td>
-      <td>5.59</td>
-      <td>1.62</td>
-      <td>3.97</td>
-      <td>-0.02</td>
-      <td>-0.15</td>
-      <td>0.0</td>
-      <td>5.44</td>
-      <td>1.56</td>
-      <td>3.88</td>
-      <td>-0.06</td>
-      <td>-0.15</td>
-      <td>-0.02</td>
-      <td>1.54</td>
-    </tr>
-  </tbody>
-</table>
-</div>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[17]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">training_data</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:</span><span class="o">-</span><span class="mi">100</span><span class="p">,</span> <span class="p">:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-<span class="n">test_data</span> <span class="o">=</span> <span class="n">final_df</span><span class="o">.</span><span class="n">iloc</span><span class="p">[</span><span class="o">-</span><span class="mi">100</span><span class="p">:,</span> <span class="p">:]</span>
-<span class="n">training_data</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[17]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(2872, 19)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[18]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">random_forest</span>
-<span class="kn">from</span> <span class="nn">random_forest.forest</span> <span class="kn">import</span> <span class="n">Forest</span>
-
-<span class="n">random_forest</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">create_config</span><span class="p">(</span><span class="n">min_split_size</span><span class="o">=</span><span class="mi">30</span><span class="p">,</span> <span class="n">number_of_predictors_to_draw</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
-<span class="n">random_forest</span><span class="o">.</span><span class="n">forest</span><span class="o">.</span><span class="n">config</span><span class="o">.</span><span class="n">create_config</span><span class="p">(</span><span class="n">data_size_for_tree</span><span class="o">=</span><span class="mi">200</span><span class="p">,</span> <span class="n">number_of_trees</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
-
-<span class="n">forest</span> <span class="o">=</span> <span class="n">Forest</span><span class="p">(</span><span class="n">training_data</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[19]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span> <span class="o">-</span><span class="mi">6</span><span class="p">]</span>
-<span class="n">forest</span><span class="o">.</span><span class="n">out_of_bag</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[19]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(1, 19)</pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[20]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">prediction_err_sum</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">actual_value</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="n">naive_err_sum</span> <span class="o">=</span> <span class="mi">0</span>
-<span class="k">for</span> <span class="n">test</span> <span class="ow">in</span> <span class="n">test_data</span><span class="o">.</span><span class="n">values</span><span class="p">:</span>
-    <span class="n">previous_temp</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span>
-    <span class="n">actual_value</span> <span class="o">=</span> <span class="n">test</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-    <span class="n">prediction_err_sum</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">(((</span><span class="n">forest</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span> <span class="o">+</span> <span class="n">previous_temp</span><span class="p">)</span> <span class="o">-</span> <span class="n">actual_value</span><span class="p">))</span>
-    <span class="n">naive_err_sum</span> <span class="o">+=</span> <span class="nb">abs</span><span class="p">((</span><span class="n">previous_temp</span> <span class="o">-</span> <span class="n">actual_value</span><span class="p">))</span>
-
-<span class="c1"># out_of_bag_size = forest.out_of_bag.shape[0]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;test mean error </span><span class="si">{</span><span class="p">(</span><span class="n">prediction_err_sum</span><span class="o">/</span><span class="n">test_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Naive mean error </span><span class="si">{</span><span class="p">(</span><span class="n">naive_err_sum</span><span class="o">/</span><span class="n">test_data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span><span class="si">}</span><span class="s2">%&quot;</span><span class="p">)</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>test mean error 0.12449812426648155%
-Naive mean error 0.11790000000000006%
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[21]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test_data</span><span class="o">.</span><span class="n">shape</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[21]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>(100, 20)</pre>
-</div>
-
-</div>
-
 </div>
 </div>
 
@@ -14636,7 +13636,14 @@ Naive mean error 0.11790000000000006%
 <div class="prompt input_prompt">In&nbsp;[22]:</div>
 <div class="inner_cell">
     <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;previous = </span><span class="si">{</span><span class="n">test</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s2"> forest prediction = </span><span class="si">{</span><span class="n">forest</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">])</span><span class="o">+</span><span class="n">test</span><span class="p">[</span><span class="o">-</span><span class="mi">6</span><span class="p">]</span><span class="si">}</span><span class="s2"> current = </span><span class="si">{</span><span class="n">test</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">x_axis</span> <span class="o">=</span> <span class="nb">range</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">forest_result</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;forest&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x_axis</span><span class="p">,</span> <span class="n">naive_result</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="s2">&quot;naive&quot;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xlabel</span><span class="p">(</span><span class="s1">&#39;Rozmiar liścia&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">ylabel</span><span class="p">(</span><span class="s1">&#39;Średni błąd względny&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">title</span><span class="p">(</span><span class="s1">&#39;Wpływ rozmiaru liścia&#39;</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">legend</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
 </pre></div>
 
     </div>
@@ -14646,227 +13653,6 @@ Naive mean error 0.11790000000000006%
 <div class="output_wrapper">
 <div class="output">
 
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_stream output_stdout output_text">
-<pre>previous = 2.72 forest prediction = 2.6119051894151397 current = 2.56
-</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[23]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">forest</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[23]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>
-        min_split_size: 30
-        number_of_predictors_to_draw: 15
-        
-        Node:
-            if &lt;= 17_-1.4400000000000004:
-                Leaf: -0.55
-            else:
-                
-        Node:
-            if &lt;= 13_15.03:
-                
-        Node:
-            if &lt;= 5_-0.3800000000000008:
-                Leaf: 0.1425
-            else:
-                
-        Node:
-            if &lt;= 16_0.31000000000000005:
-                
-        Node:
-            if &lt;= 4_0.19999999999999973:
-                
-        Node:
-            if &lt;= 10_0.040000000000000036:
-                
-        Node:
-            if &lt;= 7_4.98:
-                
-        Node:
-            if &lt;= 11_0.08000000000000007:
-                
-        Node:
-            if &lt;= 14_-0.48:
-                
-        Node:
-            if &lt;= 7_3.55:
-                Leaf: -0.04461538461538454
-            else:
-                Leaf: -0.08583333333333336  
-        
-            else:
-                Leaf: 0.01833333333333334  
-        
-            else:
-                Leaf: 0.025294117647058807  
-        
-            else:
-                
-        Node:
-            if &lt;= 17_-0.11000000000000032:
-                Leaf: -0.005384615384615392
-            else:
-                
-        Node:
-            if &lt;= 11_-0.02999999999999936:
-                Leaf: 0.11249999999999999
-            else:
-                
-        Node:
-            if &lt;= 5_0.16000000000000014:
-                Leaf: -0.009047619047619056
-            else:
-                Leaf: 0.060000000000000005  
-          
-          
-          
-        
-            else:
-                
-        Node:
-            if &lt;= 4_0.05999999999999994:
-                
-        Node:
-            if &lt;= 17_-0.05000000000000071:
-                Leaf: 0.022307692307692324
-            else:
-                Leaf: -0.05199999999999999  
-        
-            else:
-                Leaf: -0.165  
-          
-        
-            else:
-                Leaf: 0.09666666666666664  
-        
-            else:
-                Leaf: -0.37  
-          
-        
-            else:
-                Leaf: 0.3599999999999999  
-          
-        
-        </pre>
-</div>
-
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[24]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span><span class="p">[</span><span class="mi">21</span><span class="p">]</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt"></div>
-
-
-<div class="output_subarea output_text output_error">
-<pre>
-<span class="ansi-red-intense-fg ansi-bold">---------------------------------------------------------------------------</span>
-<span class="ansi-red-intense-fg ansi-bold">IndexError</span>                                Traceback (most recent call last)
-<span class="ansi-green-intense-fg ansi-bold">&lt;ipython-input-24-d58008487e13&gt;</span> in <span class="ansi-cyan-fg">&lt;module&gt;</span>
-<span class="ansi-green-intense-fg ansi-bold">----&gt; 1</span><span class="ansi-yellow-intense-fg ansi-bold"> </span>test<span class="ansi-yellow-intense-fg ansi-bold">[</span><span class="ansi-cyan-intense-fg ansi-bold">21</span><span class="ansi-yellow-intense-fg ansi-bold">]</span>
-
-<span class="ansi-red-intense-fg ansi-bold">IndexError</span>: index 21 is out of bounds for axis 0 with size 20</pre>
-</div>
-</div>
-
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span> 
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-</div>
-<div class="cell border-box-sizing code_cell rendered">
-<div class="input">
-<div class="prompt input_prompt">In&nbsp;[25]:</div>
-<div class="inner_cell">
-    <div class="input_area">
-<div class=" highlight hl-ipython3"><pre><span></span><span class="kn">import</span> <span class="nn">matplotlib.</span> <span class="n">pyplot</span> <span class="k">as</span> <span class="n">plt</span>
-<span class="n">plt</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">test_data</span><span class="o">.</span><span class="n">iloc</span><span class="p">[:,</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
-</pre></div>
-
-    </div>
-</div>
-</div>
-
-<div class="output_wrapper">
-<div class="output">
-
-
-<div class="output_area">
-
-    <div class="prompt output_prompt">Out[25]:</div>
-
-
-
-
-<div class="output_text output_subarea output_execute_result">
-<pre>[&lt;matplotlib.lines.Line2D at 0x18628dd96d0&gt;]</pre>
-</div>
-
-</div>
 
 <div class="output_area">
 
@@ -14879,7 +13665,7 @@ Naive mean error 0.11790000000000006%
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 1.1//EN"
   "http://www.w3.org/Graphics/SVG/1.1/DTD/svg11.dtd">
 <!-- Created with matplotlib (https://matplotlib.org/) -->
-<svg height="248.518125pt" version="1.1" viewBox="0 0 376.890367 248.518125" width="376.890367pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+<svg height="277.835625pt" version="1.1" viewBox="0 0 393.823438 277.835625" width="393.823438pt" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
  <defs>
   <style type="text/css">
 *{stroke-linecap:butt;stroke-linejoin:round;}
@@ -14887,19 +13673,19 @@ Naive mean error 0.11790000000000006%
  </defs>
  <g id="figure_1">
   <g id="patch_1">
-   <path d="M 0 248.518125 
-L 376.890367 248.518125 
-L 376.890367 0 
+   <path d="M 0 277.835625 
+L 393.823438 277.835625 
+L 393.823438 0 
 L 0 0 
 z
 " style="fill:none;"/>
   </g>
   <g id="axes_1">
    <g id="patch_2">
-    <path d="M 30.103125 224.64 
-L 364.903125 224.64 
-L 364.903125 7.2 
-L 30.103125 7.2 
+    <path d="M 51.823438 240.279375 
+L 386.623438 240.279375 
+L 386.623438 22.839375 
+L 51.823438 22.839375 
 z
 " style="fill:#ffffff;"/>
    </g>
@@ -14909,32 +13695,201 @@ z
       <defs>
        <path d="M 0 0 
 L 0 3.5 
-" id="m3ad9aa6693" style="stroke:#000000;stroke-width:0.8;"/>
+" id="mc7f7cb4cf6" style="stroke:#000000;stroke-width:0.8;"/>
       </defs>
       <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="66.841968" xlink:href="#m3ad9aa6693" y="224.64"/>
+       <use style="stroke:#000000;stroke-width:0.8;" x="67.041619" xlink:href="#mc7f7cb4cf6" y="240.279375"/>
       </g>
      </g>
      <g id="text_1">
-      <!-- 43200 -->
+      <!-- 0.0 -->
       <defs>
-       <path d="M 37.796875 64.3125 
-L 12.890625 25.390625 
-L 37.796875 25.390625 
+       <path d="M 31.78125 66.40625 
+Q 24.171875 66.40625 20.328125 58.90625 
+Q 16.5 51.421875 16.5 36.375 
+Q 16.5 21.390625 20.328125 13.890625 
+Q 24.171875 6.390625 31.78125 6.390625 
+Q 39.453125 6.390625 43.28125 13.890625 
+Q 47.125 21.390625 47.125 36.375 
+Q 47.125 51.421875 43.28125 58.90625 
+Q 39.453125 66.40625 31.78125 66.40625 
 z
-M 35.203125 72.90625 
-L 47.609375 72.90625 
-L 47.609375 25.390625 
-L 58.015625 25.390625 
-L 58.015625 17.1875 
-L 47.609375 17.1875 
-L 47.609375 0 
-L 37.796875 0 
-L 37.796875 17.1875 
-L 4.890625 17.1875 
-L 4.890625 26.703125 
+M 31.78125 74.21875 
+Q 44.046875 74.21875 50.515625 64.515625 
+Q 56.984375 54.828125 56.984375 36.375 
+Q 56.984375 17.96875 50.515625 8.265625 
+Q 44.046875 -1.421875 31.78125 -1.421875 
+Q 19.53125 -1.421875 13.0625 8.265625 
+Q 6.59375 17.96875 6.59375 36.375 
+Q 6.59375 54.828125 13.0625 64.515625 
+Q 19.53125 74.21875 31.78125 74.21875 
 z
-" id="DejaVuSans-52"/>
+" id="DejaVuSans-48"/>
+       <path d="M 10.6875 12.40625 
+L 21 12.40625 
+L 21 0 
+L 10.6875 0 
+z
+" id="DejaVuSans-46"/>
+      </defs>
+      <g transform="translate(59.090057 254.877812)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-48"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
+       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_2">
+     <g id="line2d_2">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="105.087074" xlink:href="#mc7f7cb4cf6" y="240.279375"/>
+      </g>
+     </g>
+     <g id="text_2">
+      <!-- 0.5 -->
+      <defs>
+       <path d="M 10.796875 72.90625 
+L 49.515625 72.90625 
+L 49.515625 64.59375 
+L 19.828125 64.59375 
+L 19.828125 46.734375 
+Q 21.96875 47.46875 24.109375 47.828125 
+Q 26.265625 48.1875 28.421875 48.1875 
+Q 40.625 48.1875 47.75 41.5 
+Q 54.890625 34.8125 54.890625 23.390625 
+Q 54.890625 11.625 47.5625 5.09375 
+Q 40.234375 -1.421875 26.90625 -1.421875 
+Q 22.3125 -1.421875 17.546875 -0.640625 
+Q 12.796875 0.140625 7.71875 1.703125 
+L 7.71875 11.625 
+Q 12.109375 9.234375 16.796875 8.0625 
+Q 21.484375 6.890625 26.703125 6.890625 
+Q 35.15625 6.890625 40.078125 11.328125 
+Q 45.015625 15.765625 45.015625 23.390625 
+Q 45.015625 31 40.078125 35.4375 
+Q 35.15625 39.890625 26.703125 39.890625 
+Q 22.75 39.890625 18.8125 39.015625 
+Q 14.890625 38.140625 10.796875 36.28125 
+z
+" id="DejaVuSans-53"/>
+      </defs>
+      <g transform="translate(97.135511 254.877812)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-48"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
+       <use x="95.410156" xlink:href="#DejaVuSans-53"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_3">
+     <g id="line2d_3">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="143.132528" xlink:href="#mc7f7cb4cf6" y="240.279375"/>
+      </g>
+     </g>
+     <g id="text_3">
+      <!-- 1.0 -->
+      <defs>
+       <path d="M 12.40625 8.296875 
+L 28.515625 8.296875 
+L 28.515625 63.921875 
+L 10.984375 60.40625 
+L 10.984375 69.390625 
+L 28.421875 72.90625 
+L 38.28125 72.90625 
+L 38.28125 8.296875 
+L 54.390625 8.296875 
+L 54.390625 0 
+L 12.40625 0 
+z
+" id="DejaVuSans-49"/>
+      </defs>
+      <g transform="translate(135.180966 254.877812)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-49"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
+       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_4">
+     <g id="line2d_4">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="181.177983" xlink:href="#mc7f7cb4cf6" y="240.279375"/>
+      </g>
+     </g>
+     <g id="text_4">
+      <!-- 1.5 -->
+      <g transform="translate(173.22642 254.877812)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-49"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
+       <use x="95.410156" xlink:href="#DejaVuSans-53"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_5">
+     <g id="line2d_5">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="219.223438" xlink:href="#mc7f7cb4cf6" y="240.279375"/>
+      </g>
+     </g>
+     <g id="text_5">
+      <!-- 2.0 -->
+      <defs>
+       <path d="M 19.1875 8.296875 
+L 53.609375 8.296875 
+L 53.609375 0 
+L 7.328125 0 
+L 7.328125 8.296875 
+Q 12.9375 14.109375 22.625 23.890625 
+Q 32.328125 33.6875 34.8125 36.53125 
+Q 39.546875 41.84375 41.421875 45.53125 
+Q 43.3125 49.21875 43.3125 52.78125 
+Q 43.3125 58.59375 39.234375 62.25 
+Q 35.15625 65.921875 28.609375 65.921875 
+Q 23.96875 65.921875 18.8125 64.3125 
+Q 13.671875 62.703125 7.8125 59.421875 
+L 7.8125 69.390625 
+Q 13.765625 71.78125 18.9375 73 
+Q 24.125 74.21875 28.421875 74.21875 
+Q 39.75 74.21875 46.484375 68.546875 
+Q 53.21875 62.890625 53.21875 53.421875 
+Q 53.21875 48.921875 51.53125 44.890625 
+Q 49.859375 40.875 45.40625 35.40625 
+Q 44.1875 33.984375 37.640625 27.21875 
+Q 31.109375 20.453125 19.1875 8.296875 
+z
+" id="DejaVuSans-50"/>
+      </defs>
+      <g transform="translate(211.271875 254.877812)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-50"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
+       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_6">
+     <g id="line2d_6">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="257.268892" xlink:href="#mc7f7cb4cf6" y="240.279375"/>
+      </g>
+     </g>
+     <g id="text_6">
+      <!-- 2.5 -->
+      <g transform="translate(249.31733 254.877812)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-50"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
+       <use x="95.410156" xlink:href="#DejaVuSans-53"/>
+      </g>
+     </g>
+    </g>
+    <g id="xtick_7">
+     <g id="line2d_7">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="295.314347" xlink:href="#mc7f7cb4cf6" y="240.279375"/>
+      </g>
+     </g>
+     <g id="text_7">
+      <!-- 3.0 -->
+      <defs>
        <path d="M 40.578125 39.3125 
 Q 47.65625 37.796875 51.625 33 
 Q 55.609375 28.21875 55.609375 21.1875 
@@ -14967,86 +13922,312 @@ Q 53.90625 49.265625 50.4375 45.09375
 Q 46.96875 40.921875 40.578125 39.3125 
 z
 " id="DejaVuSans-51"/>
-       <path d="M 19.1875 8.296875 
-L 53.609375 8.296875 
-L 53.609375 0 
-L 7.328125 0 
-L 7.328125 8.296875 
-Q 12.9375 14.109375 22.625 23.890625 
-Q 32.328125 33.6875 34.8125 36.53125 
-Q 39.546875 41.84375 41.421875 45.53125 
-Q 43.3125 49.21875 43.3125 52.78125 
-Q 43.3125 58.59375 39.234375 62.25 
-Q 35.15625 65.921875 28.609375 65.921875 
-Q 23.96875 65.921875 18.8125 64.3125 
-Q 13.671875 62.703125 7.8125 59.421875 
-L 7.8125 69.390625 
-Q 13.765625 71.78125 18.9375 73 
-Q 24.125 74.21875 28.421875 74.21875 
-Q 39.75 74.21875 46.484375 68.546875 
-Q 53.21875 62.890625 53.21875 53.421875 
-Q 53.21875 48.921875 51.53125 44.890625 
-Q 49.859375 40.875 45.40625 35.40625 
-Q 44.1875 33.984375 37.640625 27.21875 
-Q 31.109375 20.453125 19.1875 8.296875 
-z
-" id="DejaVuSans-50"/>
-       <path d="M 31.78125 66.40625 
-Q 24.171875 66.40625 20.328125 58.90625 
-Q 16.5 51.421875 16.5 36.375 
-Q 16.5 21.390625 20.328125 13.890625 
-Q 24.171875 6.390625 31.78125 6.390625 
-Q 39.453125 6.390625 43.28125 13.890625 
-Q 47.125 21.390625 47.125 36.375 
-Q 47.125 51.421875 43.28125 58.90625 
-Q 39.453125 66.40625 31.78125 66.40625 
-z
-M 31.78125 74.21875 
-Q 44.046875 74.21875 50.515625 64.515625 
-Q 56.984375 54.828125 56.984375 36.375 
-Q 56.984375 17.96875 50.515625 8.265625 
-Q 44.046875 -1.421875 31.78125 -1.421875 
-Q 19.53125 -1.421875 13.0625 8.265625 
-Q 6.59375 17.96875 6.59375 36.375 
-Q 6.59375 54.828125 13.0625 64.515625 
-Q 19.53125 74.21875 31.78125 74.21875 
-z
-" id="DejaVuSans-48"/>
       </defs>
-      <g transform="translate(50.935718 239.238437)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-52"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-51"/>
-       <use x="127.246094" xlink:href="#DejaVuSans-50"/>
-       <use x="190.869141" xlink:href="#DejaVuSans-48"/>
-       <use x="254.492188" xlink:href="#DejaVuSans-48"/>
+      <g transform="translate(287.362784 254.877812)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-51"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
+       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
       </g>
      </g>
     </g>
-    <g id="xtick_2">
-     <g id="line2d_2">
+    <g id="xtick_8">
+     <g id="line2d_8">
       <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="107.833704" xlink:href="#m3ad9aa6693" y="224.64"/>
+       <use style="stroke:#000000;stroke-width:0.8;" x="333.359801" xlink:href="#mc7f7cb4cf6" y="240.279375"/>
       </g>
      </g>
-     <g id="text_2">
-      <!-- 43400 -->
-      <g transform="translate(91.927454 239.238437)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-52"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-51"/>
-       <use x="127.246094" xlink:href="#DejaVuSans-52"/>
-       <use x="190.869141" xlink:href="#DejaVuSans-48"/>
-       <use x="254.492188" xlink:href="#DejaVuSans-48"/>
+     <g id="text_8">
+      <!-- 3.5 -->
+      <g transform="translate(325.408239 254.877812)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-51"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
+       <use x="95.410156" xlink:href="#DejaVuSans-53"/>
       </g>
      </g>
     </g>
-    <g id="xtick_3">
-     <g id="line2d_3">
+    <g id="xtick_9">
+     <g id="line2d_9">
       <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="148.825439" xlink:href="#m3ad9aa6693" y="224.64"/>
+       <use style="stroke:#000000;stroke-width:0.8;" x="371.405256" xlink:href="#mc7f7cb4cf6" y="240.279375"/>
       </g>
      </g>
-     <g id="text_3">
-      <!-- 43600 -->
+     <g id="text_9">
+      <!-- 4.0 -->
+      <defs>
+       <path d="M 37.796875 64.3125 
+L 12.890625 25.390625 
+L 37.796875 25.390625 
+z
+M 35.203125 72.90625 
+L 47.609375 72.90625 
+L 47.609375 25.390625 
+L 58.015625 25.390625 
+L 58.015625 17.1875 
+L 47.609375 17.1875 
+L 47.609375 0 
+L 37.796875 0 
+L 37.796875 17.1875 
+L 4.890625 17.1875 
+L 4.890625 26.703125 
+z
+" id="DejaVuSans-52"/>
+      </defs>
+      <g transform="translate(363.453693 254.877812)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-52"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
+       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="text_10">
+     <!-- Rozmiar liścia -->
+     <defs>
+      <path d="M 44.390625 34.1875 
+Q 47.5625 33.109375 50.5625 29.59375 
+Q 53.5625 26.078125 56.59375 19.921875 
+L 66.609375 0 
+L 56 0 
+L 46.6875 18.703125 
+Q 43.0625 26.03125 39.671875 28.421875 
+Q 36.28125 30.8125 30.421875 30.8125 
+L 19.671875 30.8125 
+L 19.671875 0 
+L 9.8125 0 
+L 9.8125 72.90625 
+L 32.078125 72.90625 
+Q 44.578125 72.90625 50.734375 67.671875 
+Q 56.890625 62.453125 56.890625 51.90625 
+Q 56.890625 45.015625 53.6875 40.46875 
+Q 50.484375 35.9375 44.390625 34.1875 
+z
+M 19.671875 64.796875 
+L 19.671875 38.921875 
+L 32.078125 38.921875 
+Q 39.203125 38.921875 42.84375 42.21875 
+Q 46.484375 45.515625 46.484375 51.90625 
+Q 46.484375 58.296875 42.84375 61.546875 
+Q 39.203125 64.796875 32.078125 64.796875 
+z
+" id="DejaVuSans-82"/>
+      <path d="M 30.609375 48.390625 
+Q 23.390625 48.390625 19.1875 42.75 
+Q 14.984375 37.109375 14.984375 27.296875 
+Q 14.984375 17.484375 19.15625 11.84375 
+Q 23.34375 6.203125 30.609375 6.203125 
+Q 37.796875 6.203125 41.984375 11.859375 
+Q 46.1875 17.53125 46.1875 27.296875 
+Q 46.1875 37.015625 41.984375 42.703125 
+Q 37.796875 48.390625 30.609375 48.390625 
+z
+M 30.609375 56 
+Q 42.328125 56 49.015625 48.375 
+Q 55.71875 40.765625 55.71875 27.296875 
+Q 55.71875 13.875 49.015625 6.21875 
+Q 42.328125 -1.421875 30.609375 -1.421875 
+Q 18.84375 -1.421875 12.171875 6.21875 
+Q 5.515625 13.875 5.515625 27.296875 
+Q 5.515625 40.765625 12.171875 48.375 
+Q 18.84375 56 30.609375 56 
+z
+" id="DejaVuSans-111"/>
+      <path d="M 5.515625 54.6875 
+L 48.1875 54.6875 
+L 48.1875 46.484375 
+L 14.40625 7.171875 
+L 48.1875 7.171875 
+L 48.1875 0 
+L 4.296875 0 
+L 4.296875 8.203125 
+L 38.09375 47.515625 
+L 5.515625 47.515625 
+z
+" id="DejaVuSans-122"/>
+      <path d="M 52 44.1875 
+Q 55.375 50.25 60.0625 53.125 
+Q 64.75 56 71.09375 56 
+Q 79.640625 56 84.28125 50.015625 
+Q 88.921875 44.046875 88.921875 33.015625 
+L 88.921875 0 
+L 79.890625 0 
+L 79.890625 32.71875 
+Q 79.890625 40.578125 77.09375 44.375 
+Q 74.3125 48.1875 68.609375 48.1875 
+Q 61.625 48.1875 57.5625 43.546875 
+Q 53.515625 38.921875 53.515625 30.90625 
+L 53.515625 0 
+L 44.484375 0 
+L 44.484375 32.71875 
+Q 44.484375 40.625 41.703125 44.40625 
+Q 38.921875 48.1875 33.109375 48.1875 
+Q 26.21875 48.1875 22.15625 43.53125 
+Q 18.109375 38.875 18.109375 30.90625 
+L 18.109375 0 
+L 9.078125 0 
+L 9.078125 54.6875 
+L 18.109375 54.6875 
+L 18.109375 46.1875 
+Q 21.1875 51.21875 25.484375 53.609375 
+Q 29.78125 56 35.6875 56 
+Q 41.65625 56 45.828125 52.96875 
+Q 50 49.953125 52 44.1875 
+z
+" id="DejaVuSans-109"/>
+      <path d="M 9.421875 54.6875 
+L 18.40625 54.6875 
+L 18.40625 0 
+L 9.421875 0 
+z
+M 9.421875 75.984375 
+L 18.40625 75.984375 
+L 18.40625 64.59375 
+L 9.421875 64.59375 
+z
+" id="DejaVuSans-105"/>
+      <path d="M 34.28125 27.484375 
+Q 23.390625 27.484375 19.1875 25 
+Q 14.984375 22.515625 14.984375 16.5 
+Q 14.984375 11.71875 18.140625 8.90625 
+Q 21.296875 6.109375 26.703125 6.109375 
+Q 34.1875 6.109375 38.703125 11.40625 
+Q 43.21875 16.703125 43.21875 25.484375 
+L 43.21875 27.484375 
+z
+M 52.203125 31.203125 
+L 52.203125 0 
+L 43.21875 0 
+L 43.21875 8.296875 
+Q 40.140625 3.328125 35.546875 0.953125 
+Q 30.953125 -1.421875 24.3125 -1.421875 
+Q 15.921875 -1.421875 10.953125 3.296875 
+Q 6 8.015625 6 15.921875 
+Q 6 25.140625 12.171875 29.828125 
+Q 18.359375 34.515625 30.609375 34.515625 
+L 43.21875 34.515625 
+L 43.21875 35.40625 
+Q 43.21875 41.609375 39.140625 45 
+Q 35.0625 48.390625 27.6875 48.390625 
+Q 23 48.390625 18.546875 47.265625 
+Q 14.109375 46.140625 10.015625 43.890625 
+L 10.015625 52.203125 
+Q 14.9375 54.109375 19.578125 55.046875 
+Q 24.21875 56 28.609375 56 
+Q 40.484375 56 46.34375 49.84375 
+Q 52.203125 43.703125 52.203125 31.203125 
+z
+" id="DejaVuSans-97"/>
+      <path d="M 41.109375 46.296875 
+Q 39.59375 47.171875 37.8125 47.578125 
+Q 36.03125 48 33.890625 48 
+Q 26.265625 48 22.1875 43.046875 
+Q 18.109375 38.09375 18.109375 28.8125 
+L 18.109375 0 
+L 9.078125 0 
+L 9.078125 54.6875 
+L 18.109375 54.6875 
+L 18.109375 46.1875 
+Q 20.953125 51.171875 25.484375 53.578125 
+Q 30.03125 56 36.53125 56 
+Q 37.453125 56 38.578125 55.875 
+Q 39.703125 55.765625 41.0625 55.515625 
+z
+" id="DejaVuSans-114"/>
+      <path id="DejaVuSans-32"/>
+      <path d="M 9.421875 75.984375 
+L 18.40625 75.984375 
+L 18.40625 0 
+L 9.421875 0 
+z
+" id="DejaVuSans-108"/>
+      <path d="M 35.015625 80.328125 
+L 44.734375 80.328125 
+L 28.8125 61.96875 
+L 21.34375 61.96875 
+z
+M 44.28125 53.078125 
+L 44.28125 44.578125 
+Q 40.484375 46.53125 36.375 47.5 
+Q 32.28125 48.484375 27.875 48.484375 
+Q 21.1875 48.484375 17.84375 46.4375 
+Q 14.5 44.390625 14.5 40.28125 
+Q 14.5 37.15625 16.890625 35.375 
+Q 19.28125 33.59375 26.515625 31.984375 
+L 29.59375 31.296875 
+Q 39.15625 29.25 43.1875 25.515625 
+Q 47.21875 21.78125 47.21875 15.09375 
+Q 47.21875 7.46875 41.1875 3.015625 
+Q 35.15625 -1.421875 24.609375 -1.421875 
+Q 20.21875 -1.421875 15.453125 -0.5625 
+Q 10.6875 0.296875 5.421875 2 
+L 5.421875 11.28125 
+Q 10.40625 8.6875 15.234375 7.390625 
+Q 20.0625 6.109375 24.8125 6.109375 
+Q 31.15625 6.109375 34.5625 8.28125 
+Q 37.984375 10.453125 37.984375 14.40625 
+Q 37.984375 18.0625 35.515625 20.015625 
+Q 33.0625 21.96875 24.703125 23.78125 
+L 21.578125 24.515625 
+Q 13.234375 26.265625 9.515625 29.90625 
+Q 5.8125 33.546875 5.8125 39.890625 
+Q 5.8125 47.609375 11.28125 51.796875 
+Q 16.75 56 26.8125 56 
+Q 31.78125 56 36.171875 55.265625 
+Q 40.578125 54.546875 44.28125 53.078125 
+z
+" id="DejaVuSans-347"/>
+      <path d="M 48.78125 52.59375 
+L 48.78125 44.1875 
+Q 44.96875 46.296875 41.140625 47.34375 
+Q 37.3125 48.390625 33.40625 48.390625 
+Q 24.65625 48.390625 19.8125 42.84375 
+Q 14.984375 37.3125 14.984375 27.296875 
+Q 14.984375 17.28125 19.8125 11.734375 
+Q 24.65625 6.203125 33.40625 6.203125 
+Q 37.3125 6.203125 41.140625 7.25 
+Q 44.96875 8.296875 48.78125 10.40625 
+L 48.78125 2.09375 
+Q 45.015625 0.34375 40.984375 -0.53125 
+Q 36.96875 -1.421875 32.421875 -1.421875 
+Q 20.0625 -1.421875 12.78125 6.34375 
+Q 5.515625 14.109375 5.515625 27.296875 
+Q 5.515625 40.671875 12.859375 48.328125 
+Q 20.21875 56 33.015625 56 
+Q 37.15625 56 41.109375 55.140625 
+Q 45.0625 54.296875 48.78125 52.59375 
+z
+" id="DejaVuSans-99"/>
+     </defs>
+     <g transform="translate(184.7375 268.555937)scale(0.1 -0.1)">
+      <use xlink:href="#DejaVuSans-82"/>
+      <use x="64.982422" xlink:href="#DejaVuSans-111"/>
+      <use x="126.164062" xlink:href="#DejaVuSans-122"/>
+      <use x="178.654297" xlink:href="#DejaVuSans-109"/>
+      <use x="276.066406" xlink:href="#DejaVuSans-105"/>
+      <use x="303.849609" xlink:href="#DejaVuSans-97"/>
+      <use x="365.128906" xlink:href="#DejaVuSans-114"/>
+      <use x="406.242188" xlink:href="#DejaVuSans-32"/>
+      <use x="438.029297" xlink:href="#DejaVuSans-108"/>
+      <use x="465.8125" xlink:href="#DejaVuSans-105"/>
+      <use x="493.595703" xlink:href="#DejaVuSans-347"/>
+      <use x="545.695312" xlink:href="#DejaVuSans-99"/>
+      <use x="600.675781" xlink:href="#DejaVuSans-105"/>
+      <use x="628.458984" xlink:href="#DejaVuSans-97"/>
+     </g>
+    </g>
+   </g>
+   <g id="matplotlib.axis_2">
+    <g id="ytick_1">
+     <g id="line2d_10">
+      <defs>
+       <path d="M 0 0 
+L -3.5 0 
+" id="m3d6e4c5740" style="stroke:#000000;stroke-width:0.8;"/>
+      </defs>
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="51.823438" xlink:href="#m3d6e4c5740" y="213.773244"/>
+      </g>
+     </g>
+     <g id="text_11">
+      <!-- 16.5 -->
       <defs>
        <path d="M 33.015625 40.375 
 Q 26.375 40.375 22.484375 35.828125 
@@ -15079,23 +14260,65 @@ Q 48.484375 72.75 52.59375 71.296875
 z
 " id="DejaVuSans-54"/>
       </defs>
-      <g transform="translate(132.919189 239.238437)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-52"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-51"/>
-       <use x="127.246094" xlink:href="#DejaVuSans-54"/>
-       <use x="190.869141" xlink:href="#DejaVuSans-48"/>
-       <use x="254.492188" xlink:href="#DejaVuSans-48"/>
+      <g transform="translate(22.557813 217.572463)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-49"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-54"/>
+       <use x="127.246094" xlink:href="#DejaVuSans-46"/>
+       <use x="159.033203" xlink:href="#DejaVuSans-53"/>
       </g>
      </g>
     </g>
-    <g id="xtick_4">
-     <g id="line2d_4">
+    <g id="ytick_2">
+     <g id="line2d_11">
       <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="189.817175" xlink:href="#m3ad9aa6693" y="224.64"/>
+       <use style="stroke:#000000;stroke-width:0.8;" x="51.823438" xlink:href="#m3d6e4c5740" y="184.591361"/>
       </g>
      </g>
-     <g id="text_4">
-      <!-- 43800 -->
+     <g id="text_12">
+      <!-- 17.0 -->
+      <defs>
+       <path d="M 8.203125 72.90625 
+L 55.078125 72.90625 
+L 55.078125 68.703125 
+L 28.609375 0 
+L 18.3125 0 
+L 43.21875 64.59375 
+L 8.203125 64.59375 
+z
+" id="DejaVuSans-55"/>
+      </defs>
+      <g transform="translate(22.557813 188.39058)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-49"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-55"/>
+       <use x="127.246094" xlink:href="#DejaVuSans-46"/>
+       <use x="159.033203" xlink:href="#DejaVuSans-48"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_3">
+     <g id="line2d_12">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="51.823438" xlink:href="#m3d6e4c5740" y="155.409478"/>
+      </g>
+     </g>
+     <g id="text_13">
+      <!-- 17.5 -->
+      <g transform="translate(22.557813 159.208697)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-49"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-55"/>
+       <use x="127.246094" xlink:href="#DejaVuSans-46"/>
+       <use x="159.033203" xlink:href="#DejaVuSans-53"/>
+      </g>
+     </g>
+    </g>
+    <g id="ytick_4">
+     <g id="line2d_13">
+      <g>
+       <use style="stroke:#000000;stroke-width:0.8;" x="51.823438" xlink:href="#m3d6e4c5740" y="126.227595"/>
+      </g>
+     </g>
+     <g id="text_14">
+      <!-- 18.0 -->
       <defs>
        <path d="M 31.78125 34.625 
 Q 24.75 34.625 20.71875 30.859375 
@@ -15137,403 +14360,681 @@ Q 18.3125 60.0625 18.3125 54.390625
 z
 " id="DejaVuSans-56"/>
       </defs>
-      <g transform="translate(173.910925 239.238437)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-52"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-51"/>
-       <use x="127.246094" xlink:href="#DejaVuSans-56"/>
-       <use x="190.869141" xlink:href="#DejaVuSans-48"/>
-       <use x="254.492188" xlink:href="#DejaVuSans-48"/>
-      </g>
-     </g>
-    </g>
-    <g id="xtick_5">
-     <g id="line2d_5">
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="230.80891" xlink:href="#m3ad9aa6693" y="224.64"/>
-      </g>
-     </g>
-     <g id="text_5">
-      <!-- 44000 -->
-      <g transform="translate(214.90266 239.238437)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-52"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-52"/>
-       <use x="127.246094" xlink:href="#DejaVuSans-48"/>
-       <use x="190.869141" xlink:href="#DejaVuSans-48"/>
-       <use x="254.492188" xlink:href="#DejaVuSans-48"/>
-      </g>
-     </g>
-    </g>
-    <g id="xtick_6">
-     <g id="line2d_6">
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="271.800646" xlink:href="#m3ad9aa6693" y="224.64"/>
-      </g>
-     </g>
-     <g id="text_6">
-      <!-- 44200 -->
-      <g transform="translate(255.894396 239.238437)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-52"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-52"/>
-       <use x="127.246094" xlink:href="#DejaVuSans-50"/>
-       <use x="190.869141" xlink:href="#DejaVuSans-48"/>
-       <use x="254.492188" xlink:href="#DejaVuSans-48"/>
-      </g>
-     </g>
-    </g>
-    <g id="xtick_7">
-     <g id="line2d_7">
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="312.792381" xlink:href="#m3ad9aa6693" y="224.64"/>
-      </g>
-     </g>
-     <g id="text_7">
-      <!-- 44400 -->
-      <g transform="translate(296.886131 239.238437)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-52"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-52"/>
-       <use x="127.246094" xlink:href="#DejaVuSans-52"/>
-       <use x="190.869141" xlink:href="#DejaVuSans-48"/>
-       <use x="254.492188" xlink:href="#DejaVuSans-48"/>
-      </g>
-     </g>
-    </g>
-    <g id="xtick_8">
-     <g id="line2d_8">
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="353.784117" xlink:href="#m3ad9aa6693" y="224.64"/>
-      </g>
-     </g>
-     <g id="text_8">
-      <!-- 44600 -->
-      <g transform="translate(337.877867 239.238437)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-52"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-52"/>
-       <use x="127.246094" xlink:href="#DejaVuSans-54"/>
-       <use x="190.869141" xlink:href="#DejaVuSans-48"/>
-       <use x="254.492188" xlink:href="#DejaVuSans-48"/>
-      </g>
-     </g>
-    </g>
-   </g>
-   <g id="matplotlib.axis_2">
-    <g id="ytick_1">
-     <g id="line2d_9">
-      <defs>
-       <path d="M 0 0 
-L -3.5 0 
-" id="m7eea26508c" style="stroke:#000000;stroke-width:0.8;"/>
-      </defs>
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="30.103125" xlink:href="#m7eea26508c" y="224.29553"/>
-      </g>
-     </g>
-     <g id="text_9">
-      <!-- 0.0 -->
-      <defs>
-       <path d="M 10.6875 12.40625 
-L 21 12.40625 
-L 21 0 
-L 10.6875 0 
-z
-" id="DejaVuSans-46"/>
-      </defs>
-      <g transform="translate(7.2 228.094749)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-48"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
-       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
-      </g>
-     </g>
-    </g>
-    <g id="ytick_2">
-     <g id="line2d_10">
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="30.103125" xlink:href="#m7eea26508c" y="197.797845"/>
-      </g>
-     </g>
-     <g id="text_10">
-      <!-- 0.5 -->
-      <defs>
-       <path d="M 10.796875 72.90625 
-L 49.515625 72.90625 
-L 49.515625 64.59375 
-L 19.828125 64.59375 
-L 19.828125 46.734375 
-Q 21.96875 47.46875 24.109375 47.828125 
-Q 26.265625 48.1875 28.421875 48.1875 
-Q 40.625 48.1875 47.75 41.5 
-Q 54.890625 34.8125 54.890625 23.390625 
-Q 54.890625 11.625 47.5625 5.09375 
-Q 40.234375 -1.421875 26.90625 -1.421875 
-Q 22.3125 -1.421875 17.546875 -0.640625 
-Q 12.796875 0.140625 7.71875 1.703125 
-L 7.71875 11.625 
-Q 12.109375 9.234375 16.796875 8.0625 
-Q 21.484375 6.890625 26.703125 6.890625 
-Q 35.15625 6.890625 40.078125 11.328125 
-Q 45.015625 15.765625 45.015625 23.390625 
-Q 45.015625 31 40.078125 35.4375 
-Q 35.15625 39.890625 26.703125 39.890625 
-Q 22.75 39.890625 18.8125 39.015625 
-Q 14.890625 38.140625 10.796875 36.28125 
-z
-" id="DejaVuSans-53"/>
-      </defs>
-      <g transform="translate(7.2 201.597064)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-48"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
-       <use x="95.410156" xlink:href="#DejaVuSans-53"/>
-      </g>
-     </g>
-    </g>
-    <g id="ytick_3">
-     <g id="line2d_11">
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="30.103125" xlink:href="#m7eea26508c" y="171.300161"/>
-      </g>
-     </g>
-     <g id="text_11">
-      <!-- 1.0 -->
-      <defs>
-       <path d="M 12.40625 8.296875 
-L 28.515625 8.296875 
-L 28.515625 63.921875 
-L 10.984375 60.40625 
-L 10.984375 69.390625 
-L 28.421875 72.90625 
-L 38.28125 72.90625 
-L 38.28125 8.296875 
-L 54.390625 8.296875 
-L 54.390625 0 
-L 12.40625 0 
-z
-" id="DejaVuSans-49"/>
-      </defs>
-      <g transform="translate(7.2 175.09938)scale(0.1 -0.1)">
+      <g transform="translate(22.557813 130.026813)scale(0.1 -0.1)">
        <use xlink:href="#DejaVuSans-49"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
-       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
-      </g>
-     </g>
-    </g>
-    <g id="ytick_4">
-     <g id="line2d_12">
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="30.103125" xlink:href="#m7eea26508c" y="144.802476"/>
-      </g>
-     </g>
-     <g id="text_12">
-      <!-- 1.5 -->
-      <g transform="translate(7.2 148.601695)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-49"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
-       <use x="95.410156" xlink:href="#DejaVuSans-53"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-56"/>
+       <use x="127.246094" xlink:href="#DejaVuSans-46"/>
+       <use x="159.033203" xlink:href="#DejaVuSans-48"/>
       </g>
      </g>
     </g>
     <g id="ytick_5">
-     <g id="line2d_13">
+     <g id="line2d_14">
       <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="30.103125" xlink:href="#m7eea26508c" y="118.304792"/>
+       <use style="stroke:#000000;stroke-width:0.8;" x="51.823438" xlink:href="#m3d6e4c5740" y="97.045712"/>
       </g>
      </g>
-     <g id="text_13">
-      <!-- 2.0 -->
-      <g transform="translate(7.2 122.10401)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-50"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
-       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
+     <g id="text_15">
+      <!-- 18.5 -->
+      <g transform="translate(22.557813 100.84493)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-49"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-56"/>
+       <use x="127.246094" xlink:href="#DejaVuSans-46"/>
+       <use x="159.033203" xlink:href="#DejaVuSans-53"/>
       </g>
      </g>
     </g>
     <g id="ytick_6">
-     <g id="line2d_14">
+     <g id="line2d_15">
       <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="30.103125" xlink:href="#m7eea26508c" y="91.807107"/>
+       <use style="stroke:#000000;stroke-width:0.8;" x="51.823438" xlink:href="#m3d6e4c5740" y="67.863829"/>
       </g>
      </g>
-     <g id="text_14">
-      <!-- 2.5 -->
-      <g transform="translate(7.2 95.606326)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-50"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
-       <use x="95.410156" xlink:href="#DejaVuSans-53"/>
+     <g id="text_16">
+      <!-- 19.0 -->
+      <defs>
+       <path d="M 10.984375 1.515625 
+L 10.984375 10.5 
+Q 14.703125 8.734375 18.5 7.8125 
+Q 22.3125 6.890625 25.984375 6.890625 
+Q 35.75 6.890625 40.890625 13.453125 
+Q 46.046875 20.015625 46.78125 33.40625 
+Q 43.953125 29.203125 39.59375 26.953125 
+Q 35.25 24.703125 29.984375 24.703125 
+Q 19.046875 24.703125 12.671875 31.3125 
+Q 6.296875 37.9375 6.296875 49.421875 
+Q 6.296875 60.640625 12.9375 67.421875 
+Q 19.578125 74.21875 30.609375 74.21875 
+Q 43.265625 74.21875 49.921875 64.515625 
+Q 56.59375 54.828125 56.59375 36.375 
+Q 56.59375 19.140625 48.40625 8.859375 
+Q 40.234375 -1.421875 26.421875 -1.421875 
+Q 22.703125 -1.421875 18.890625 -0.6875 
+Q 15.09375 0.046875 10.984375 1.515625 
+z
+M 30.609375 32.421875 
+Q 37.25 32.421875 41.125 36.953125 
+Q 45.015625 41.5 45.015625 49.421875 
+Q 45.015625 57.28125 41.125 61.84375 
+Q 37.25 66.40625 30.609375 66.40625 
+Q 23.96875 66.40625 20.09375 61.84375 
+Q 16.21875 57.28125 16.21875 49.421875 
+Q 16.21875 41.5 20.09375 36.953125 
+Q 23.96875 32.421875 30.609375 32.421875 
+z
+" id="DejaVuSans-57"/>
+      </defs>
+      <g transform="translate(22.557813 71.663047)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-49"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-57"/>
+       <use x="127.246094" xlink:href="#DejaVuSans-46"/>
+       <use x="159.033203" xlink:href="#DejaVuSans-48"/>
       </g>
      </g>
     </g>
     <g id="ytick_7">
-     <g id="line2d_15">
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="30.103125" xlink:href="#m7eea26508c" y="65.309422"/>
-      </g>
-     </g>
-     <g id="text_15">
-      <!-- 3.0 -->
-      <g transform="translate(7.2 69.108641)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-51"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
-       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
-      </g>
-     </g>
-    </g>
-    <g id="ytick_8">
      <g id="line2d_16">
       <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="30.103125" xlink:href="#m7eea26508c" y="38.811738"/>
-      </g>
-     </g>
-     <g id="text_16">
-      <!-- 3.5 -->
-      <g transform="translate(7.2 42.610957)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-51"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
-       <use x="95.410156" xlink:href="#DejaVuSans-53"/>
-      </g>
-     </g>
-    </g>
-    <g id="ytick_9">
-     <g id="line2d_17">
-      <g>
-       <use style="stroke:#000000;stroke-width:0.8;" x="30.103125" xlink:href="#m7eea26508c" y="12.314053"/>
+       <use style="stroke:#000000;stroke-width:0.8;" x="51.823438" xlink:href="#m3d6e4c5740" y="38.681946"/>
       </g>
      </g>
      <g id="text_17">
-      <!-- 4.0 -->
-      <g transform="translate(7.2 16.113272)scale(0.1 -0.1)">
-       <use xlink:href="#DejaVuSans-52"/>
-       <use x="63.623047" xlink:href="#DejaVuSans-46"/>
-       <use x="95.410156" xlink:href="#DejaVuSans-48"/>
+      <!-- 19.5 -->
+      <g transform="translate(22.557813 42.481164)scale(0.1 -0.1)">
+       <use xlink:href="#DejaVuSans-49"/>
+       <use x="63.623047" xlink:href="#DejaVuSans-57"/>
+       <use x="127.246094" xlink:href="#DejaVuSans-46"/>
+       <use x="159.033203" xlink:href="#DejaVuSans-53"/>
       </g>
      </g>
     </g>
+    <g id="text_18">
+     <!-- Średni błąd względny -->
+     <defs>
+      <path d="M 34.96875 92.78125 
+L 44 92.78125 
+L 32.859375 79.890625 
+L 25.390625 79.890625 
+z
+M 53.515625 70.515625 
+L 53.515625 60.890625 
+Q 47.90625 63.578125 42.921875 64.890625 
+Q 37.9375 66.21875 33.296875 66.21875 
+Q 25.25 66.21875 20.875 63.09375 
+Q 16.5 59.96875 16.5 54.203125 
+Q 16.5 49.359375 19.40625 46.890625 
+Q 22.3125 44.4375 30.421875 42.921875 
+L 36.375 41.703125 
+Q 47.40625 39.59375 52.65625 34.296875 
+Q 57.90625 29 57.90625 20.125 
+Q 57.90625 9.515625 50.796875 4.046875 
+Q 43.703125 -1.421875 29.984375 -1.421875 
+Q 24.8125 -1.421875 18.96875 -0.25 
+Q 13.140625 0.921875 6.890625 3.21875 
+L 6.890625 13.375 
+Q 12.890625 10.015625 18.65625 8.296875 
+Q 24.421875 6.59375 29.984375 6.59375 
+Q 38.421875 6.59375 43.015625 9.90625 
+Q 47.609375 13.234375 47.609375 19.390625 
+Q 47.609375 24.75 44.3125 27.78125 
+Q 41.015625 30.8125 33.5 32.328125 
+L 27.484375 33.5 
+Q 16.453125 35.6875 11.515625 40.375 
+Q 6.59375 45.0625 6.59375 53.421875 
+Q 6.59375 63.09375 13.40625 68.65625 
+Q 20.21875 74.21875 32.171875 74.21875 
+Q 37.3125 74.21875 42.625 73.28125 
+Q 47.953125 72.359375 53.515625 70.515625 
+z
+" id="DejaVuSans-346"/>
+      <path d="M 56.203125 29.59375 
+L 56.203125 25.203125 
+L 14.890625 25.203125 
+Q 15.484375 15.921875 20.484375 11.0625 
+Q 25.484375 6.203125 34.421875 6.203125 
+Q 39.59375 6.203125 44.453125 7.46875 
+Q 49.3125 8.734375 54.109375 11.28125 
+L 54.109375 2.78125 
+Q 49.265625 0.734375 44.1875 -0.34375 
+Q 39.109375 -1.421875 33.890625 -1.421875 
+Q 20.796875 -1.421875 13.15625 6.1875 
+Q 5.515625 13.8125 5.515625 26.8125 
+Q 5.515625 40.234375 12.765625 48.109375 
+Q 20.015625 56 32.328125 56 
+Q 43.359375 56 49.78125 48.890625 
+Q 56.203125 41.796875 56.203125 29.59375 
+z
+M 47.21875 32.234375 
+Q 47.125 39.59375 43.09375 43.984375 
+Q 39.0625 48.390625 32.421875 48.390625 
+Q 24.90625 48.390625 20.390625 44.140625 
+Q 15.875 39.890625 15.1875 32.171875 
+z
+" id="DejaVuSans-101"/>
+      <path d="M 45.40625 46.390625 
+L 45.40625 75.984375 
+L 54.390625 75.984375 
+L 54.390625 0 
+L 45.40625 0 
+L 45.40625 8.203125 
+Q 42.578125 3.328125 38.25 0.953125 
+Q 33.9375 -1.421875 27.875 -1.421875 
+Q 17.96875 -1.421875 11.734375 6.484375 
+Q 5.515625 14.40625 5.515625 27.296875 
+Q 5.515625 40.1875 11.734375 48.09375 
+Q 17.96875 56 27.875 56 
+Q 33.9375 56 38.25 53.625 
+Q 42.578125 51.265625 45.40625 46.390625 
+z
+M 14.796875 27.296875 
+Q 14.796875 17.390625 18.875 11.75 
+Q 22.953125 6.109375 30.078125 6.109375 
+Q 37.203125 6.109375 41.296875 11.75 
+Q 45.40625 17.390625 45.40625 27.296875 
+Q 45.40625 37.203125 41.296875 42.84375 
+Q 37.203125 48.484375 30.078125 48.484375 
+Q 22.953125 48.484375 18.875 42.84375 
+Q 14.796875 37.203125 14.796875 27.296875 
+z
+" id="DejaVuSans-100"/>
+      <path d="M 54.890625 33.015625 
+L 54.890625 0 
+L 45.90625 0 
+L 45.90625 32.71875 
+Q 45.90625 40.484375 42.875 44.328125 
+Q 39.84375 48.1875 33.796875 48.1875 
+Q 26.515625 48.1875 22.3125 43.546875 
+Q 18.109375 38.921875 18.109375 30.90625 
+L 18.109375 0 
+L 9.078125 0 
+L 9.078125 54.6875 
+L 18.109375 54.6875 
+L 18.109375 46.1875 
+Q 21.34375 51.125 25.703125 53.5625 
+Q 30.078125 56 35.796875 56 
+Q 45.21875 56 50.046875 50.171875 
+Q 54.890625 44.34375 54.890625 33.015625 
+z
+" id="DejaVuSans-110"/>
+      <path d="M 48.6875 27.296875 
+Q 48.6875 37.203125 44.609375 42.84375 
+Q 40.53125 48.484375 33.40625 48.484375 
+Q 26.265625 48.484375 22.1875 42.84375 
+Q 18.109375 37.203125 18.109375 27.296875 
+Q 18.109375 17.390625 22.1875 11.75 
+Q 26.265625 6.109375 33.40625 6.109375 
+Q 40.53125 6.109375 44.609375 11.75 
+Q 48.6875 17.390625 48.6875 27.296875 
+z
+M 18.109375 46.390625 
+Q 20.953125 51.265625 25.265625 53.625 
+Q 29.59375 56 35.59375 56 
+Q 45.5625 56 51.78125 48.09375 
+Q 58.015625 40.1875 58.015625 27.296875 
+Q 58.015625 14.40625 51.78125 6.484375 
+Q 45.5625 -1.421875 35.59375 -1.421875 
+Q 29.59375 -1.421875 25.265625 0.953125 
+Q 20.953125 3.328125 18.109375 8.203125 
+L 18.109375 0 
+L 9.078125 0 
+L 9.078125 75.984375 
+L 18.109375 75.984375 
+z
+" id="DejaVuSans-98"/>
+      <path d="M 9.71875 75.984375 
+L 18.703125 75.984375 
+L 18.703125 46.578125 
+L 24.8125 50.984375 
+L 28.515625 45.796875 
+L 18.703125 38.921875 
+L 18.703125 0 
+L 9.71875 0 
+L 9.71875 32.515625 
+L 3.71875 28.21875 
+L 0.09375 33.40625 
+L 9.71875 40.28125 
+z
+" id="DejaVuSans-322"/>
+      <path d="M 34.28125 27.484375 
+Q 23.390625 27.484375 19.1875 25 
+Q 14.984375 22.515625 14.984375 16.5 
+Q 14.984375 11.71875 18.140625 8.90625 
+Q 21.296875 6.109375 26.703125 6.109375 
+Q 34.1875 6.109375 38.703125 11.40625 
+Q 43.21875 16.703125 43.21875 25.484375 
+L 43.21875 27.484375 
+z
+M 52.203125 31.203125 
+L 52.203125 0 
+L 43.21875 0 
+L 43.21875 8.296875 
+Q 40.140625 3.328125 35.546875 0.953125 
+Q 30.953125 -1.421875 24.3125 -1.421875 
+Q 15.921875 -1.421875 10.953125 3.296875 
+Q 6 8.015625 6 15.921875 
+Q 6 25.140625 12.171875 29.828125 
+Q 18.359375 34.515625 30.609375 34.515625 
+L 43.21875 34.515625 
+L 43.21875 35.40625 
+Q 43.21875 41.609375 39.140625 45 
+Q 35.0625 48.390625 27.6875 48.390625 
+Q 23 48.390625 18.546875 47.265625 
+Q 14.109375 46.140625 10.015625 43.890625 
+L 10.015625 52.203125 
+Q 14.9375 54.109375 19.578125 55.046875 
+Q 24.21875 56 28.609375 56 
+Q 40.484375 56 46.34375 49.84375 
+Q 52.203125 43.703125 52.203125 31.203125 
+z
+M 43.3125 0 
+L 49.125 0 
+Q 46.921875 -2.984375 45.875 -5.125 
+Q 44.828125 -7.28125 44.828125 -8.796875 
+Q 44.828125 -11.03125 46.171875 -12.15625 
+Q 47.515625 -13.28125 50.140625 -13.28125 
+Q 51.703125 -13.28125 53.21875 -12.90625 
+Q 54.734375 -12.546875 56.25 -11.8125 
+L 56.25 -18.3125 
+Q 54.390625 -18.796875 52.734375 -19.03125 
+Q 51.078125 -19.28125 49.609375 -19.28125 
+Q 43.65625 -19.28125 40.84375 -17.15625 
+Q 38.03125 -15.046875 38.03125 -10.5 
+Q 38.03125 -8.15625 39.328125 -5.59375 
+Q 40.625 -3.03125 43.3125 0 
+z
+" id="DejaVuSans-261"/>
+      <path d="M 4.203125 54.6875 
+L 13.1875 54.6875 
+L 24.421875 12.015625 
+L 35.59375 54.6875 
+L 46.1875 54.6875 
+L 57.421875 12.015625 
+L 68.609375 54.6875 
+L 77.59375 54.6875 
+L 63.28125 0 
+L 52.6875 0 
+L 40.921875 44.828125 
+L 29.109375 0 
+L 18.5 0 
+z
+" id="DejaVuSans-119"/>
+      <path d="M 45.40625 27.984375 
+Q 45.40625 37.75 41.375 43.109375 
+Q 37.359375 48.484375 30.078125 48.484375 
+Q 22.859375 48.484375 18.828125 43.109375 
+Q 14.796875 37.75 14.796875 27.984375 
+Q 14.796875 18.265625 18.828125 12.890625 
+Q 22.859375 7.515625 30.078125 7.515625 
+Q 37.359375 7.515625 41.375 12.890625 
+Q 45.40625 18.265625 45.40625 27.984375 
+z
+M 54.390625 6.78125 
+Q 54.390625 -7.171875 48.1875 -13.984375 
+Q 42 -20.796875 29.203125 -20.796875 
+Q 24.46875 -20.796875 20.265625 -20.09375 
+Q 16.0625 -19.390625 12.109375 -17.921875 
+L 12.109375 -9.1875 
+Q 16.0625 -11.328125 19.921875 -12.34375 
+Q 23.78125 -13.375 27.78125 -13.375 
+Q 36.625 -13.375 41.015625 -8.765625 
+Q 45.40625 -4.15625 45.40625 5.171875 
+L 45.40625 9.625 
+Q 42.625 4.78125 38.28125 2.390625 
+Q 33.9375 0 27.875 0 
+Q 17.828125 0 11.671875 7.65625 
+Q 5.515625 15.328125 5.515625 27.984375 
+Q 5.515625 40.671875 11.671875 48.328125 
+Q 17.828125 56 27.875 56 
+Q 33.9375 56 38.28125 53.609375 
+Q 42.625 51.21875 45.40625 46.390625 
+L 45.40625 54.6875 
+L 54.390625 54.6875 
+z
+" id="DejaVuSans-103"/>
+      <path d="M 56.203125 29.59375 
+L 56.203125 25.203125 
+L 14.890625 25.203125 
+Q 15.484375 15.921875 20.484375 11.0625 
+Q 25.484375 6.203125 34.421875 6.203125 
+Q 39.59375 6.203125 44.453125 7.46875 
+Q 49.3125 8.734375 54.109375 11.28125 
+L 54.109375 2.78125 
+Q 49.265625 0.734375 44.1875 -0.34375 
+Q 39.109375 -1.421875 33.890625 -1.421875 
+Q 20.796875 -1.421875 13.15625 6.1875 
+Q 5.515625 13.8125 5.515625 26.8125 
+Q 5.515625 40.234375 12.765625 48.109375 
+Q 20.015625 56 32.328125 56 
+Q 43.359375 56 49.78125 48.890625 
+Q 56.203125 41.796875 56.203125 29.59375 
+z
+M 47.21875 32.234375 
+Q 47.125 39.59375 43.09375 43.984375 
+Q 39.0625 48.390625 32.421875 48.390625 
+Q 24.90625 48.390625 20.390625 44.140625 
+Q 15.875 39.890625 15.1875 32.171875 
+z
+M 39.84375 0 
+L 45.65625 0 
+Q 43.453125 -2.984375 42.40625 -5.125 
+Q 41.359375 -7.28125 41.359375 -8.796875 
+Q 41.359375 -11.03125 42.703125 -12.15625 
+Q 44.046875 -13.28125 46.6875 -13.28125 
+Q 48.25 -13.28125 49.75 -12.90625 
+Q 51.265625 -12.546875 52.78125 -11.8125 
+L 52.78125 -18.3125 
+Q 50.921875 -18.796875 49.265625 -19.03125 
+Q 47.609375 -19.28125 46.140625 -19.28125 
+Q 40.1875 -19.28125 37.375 -17.15625 
+Q 34.578125 -15.046875 34.578125 -10.5 
+Q 34.578125 -8.15625 35.859375 -5.59375 
+Q 37.15625 -3.03125 39.84375 0 
+z
+" id="DejaVuSans-281"/>
+      <path d="M 32.171875 -5.078125 
+Q 28.375 -14.84375 24.75 -17.8125 
+Q 21.140625 -20.796875 15.09375 -20.796875 
+L 7.90625 -20.796875 
+L 7.90625 -13.28125 
+L 13.1875 -13.28125 
+Q 16.890625 -13.28125 18.9375 -11.515625 
+Q 21 -9.765625 23.484375 -3.21875 
+L 25.09375 0.875 
+L 2.984375 54.6875 
+L 12.5 54.6875 
+L 29.59375 11.921875 
+L 46.6875 54.6875 
+L 56.203125 54.6875 
+z
+" id="DejaVuSans-121"/>
+     </defs>
+     <g transform="translate(16.478125 185.152344)rotate(-90)scale(0.1 -0.1)">
+      <use xlink:href="#DejaVuSans-346"/>
+      <use x="63.476562" xlink:href="#DejaVuSans-114"/>
+      <use x="102.339844" xlink:href="#DejaVuSans-101"/>
+      <use x="163.863281" xlink:href="#DejaVuSans-100"/>
+      <use x="227.339844" xlink:href="#DejaVuSans-110"/>
+      <use x="290.71875" xlink:href="#DejaVuSans-105"/>
+      <use x="318.501953" xlink:href="#DejaVuSans-32"/>
+      <use x="350.289062" xlink:href="#DejaVuSans-98"/>
+      <use x="413.765625" xlink:href="#DejaVuSans-322"/>
+      <use x="442.183594" xlink:href="#DejaVuSans-261"/>
+      <use x="503.462891" xlink:href="#DejaVuSans-100"/>
+      <use x="566.939453" xlink:href="#DejaVuSans-32"/>
+      <use x="598.726562" xlink:href="#DejaVuSans-119"/>
+      <use x="680.513672" xlink:href="#DejaVuSans-122"/>
+      <use x="733.003906" xlink:href="#DejaVuSans-103"/>
+      <use x="796.480469" xlink:href="#DejaVuSans-108"/>
+      <use x="824.263672" xlink:href="#DejaVuSans-281"/>
+      <use x="885.787109" xlink:href="#DejaVuSans-100"/>
+      <use x="949.263672" xlink:href="#DejaVuSans-110"/>
+      <use x="1012.642578" xlink:href="#DejaVuSans-121"/>
+     </g>
+    </g>
    </g>
-   <g id="line2d_18">
-    <path clip-path="url(#p8258359f8b)" d="M 45.321307 200.977568 
-L 48.395687 203.627336 
-L 51.470067 205.217197 
-L 54.544447 207.337012 
-L 57.618827 208.926873 
-L 60.693208 211.046688 
-L 63.767588 213.166503 
-L 66.841968 214.756364 
-L 69.916348 200.977568 
-L 72.990728 187.728725 
-L 76.065108 183.489096 
-L 79.139489 180.309374 
-L 82.213869 199.387707 
-L 85.288249 195.148077 
-L 88.362629 194.08817 
-L 91.437009 198.327799 
-L 94.511389 197.267892 
-L 97.58577 197.267892 
-L 100.66015 196.737938 
-L 103.73453 203.627336 
-L 106.80891 203.627336 
-L 109.88329 204.15729 
-L 112.95767 204.687243 
-L 116.032051 205.217197 
-L 119.106431 205.747151 
-L 122.180811 205.747151 
-L 125.255191 206.277105 
-L 128.329571 206.277105 
-L 131.403951 206.277105 
-L 134.478332 205.747151 
-L 137.552712 192.498309 
-L 140.627092 187.728725 
-L 143.701472 184.019049 
-L 146.775852 183.489096 
-L 149.850232 178.719513 
-L 152.924613 180.309374 
-L 155.998993 175.009837 
-L 159.073373 173.949929 
-L 162.147753 172.360068 
-L 165.222133 176.599698 
-L 168.296513 162.820902 
-L 171.370894 157.521365 
-L 174.445274 137.383125 
-L 177.519654 154.871596 
-L 180.594034 158.051319 
-L 183.668414 156.991411 
-L 186.742794 143.212615 
-L 189.817175 137.383125 
-L 192.891555 116.184977 
-L 195.965935 107.175764 
-L 199.040315 99.226459 
-L 202.114695 91.807107 
-L 205.189075 111.415394 
-L 208.263456 108.235671 
-L 211.337836 100.286366 
-L 214.412216 97.106644 
-L 217.486596 92.867014 
-L 220.560976 90.217246 
-L 223.635356 85.977616 
-L 226.709737 87.567477 
-L 229.784117 85.977616 
-L 232.858497 89.687292 
-L 235.932877 89.157339 
-L 239.007257 76.43845 
-L 242.081637 73.258728 
-L 245.156018 72.728774 
-L 248.230398 75.378543 
-L 251.304778 67.959191 
-L 254.379158 63.189608 
-L 257.453538 41.99146 
-L 260.527918 34.572108 
-L 263.602299 29.272571 
-L 266.676679 24.502988 
-L 269.751059 20.263359 
-L 272.825439 52.590534 
-L 275.899819 56.830163 
-L 278.974199 29.272571 
-L 282.04858 20.263359 
-L 285.12296 17.083636 
-L 288.19734 49.940765 
-L 291.27172 54.710349 
-L 294.3461 56.30021 
-L 297.42048 57.360117 
-L 300.494861 58.420024 
-L 303.569241 59.479932 
-L 306.643621 62.1297 
-L 309.718001 34.572108 
-L 312.792381 63.189608 
-L 315.866761 66.36933 
-L 318.941142 68.489145 
-L 322.015522 71.138913 
-L 325.089902 73.788681 
-L 328.164282 76.968404 
-L 331.238662 67.959191 
-L 334.313042 74.318635 
-L 337.387423 70.608959 
-L 340.461803 67.429237 
-L 343.536183 76.968404 
-L 346.610563 80.148126 
-L 349.684943 88.627385 
+   <g id="line2d_17">
+    <path clip-path="url(#p3acdcb75c4)" d="M 67.041619 230.395739 
+L 143.132528 200.897893 
+L 219.223438 32.723011 
+L 295.314347 142.414768 
+L 371.405256 99.905577 
 " style="fill:none;stroke:#1f77b4;stroke-linecap:square;stroke-width:1.5;"/>
    </g>
+   <g id="line2d_18">
+    <path clip-path="url(#p3acdcb75c4)" d="M 67.041619 179.166705 
+L 143.132528 126.291784 
+L 219.223438 40.607645 
+L 295.314347 100.29027 
+L 371.405256 34.169655 
+" style="fill:none;stroke:#ff7f0e;stroke-linecap:square;stroke-width:1.5;"/>
+   </g>
    <g id="patch_3">
-    <path d="M 30.103125 224.64 
-L 30.103125 7.2 
+    <path d="M 51.823438 240.279375 
+L 51.823438 22.839375 
 " style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;stroke-width:0.8;"/>
    </g>
    <g id="patch_4">
-    <path d="M 364.903125 224.64 
-L 364.903125 7.2 
+    <path d="M 386.623438 240.279375 
+L 386.623438 22.839375 
 " style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;stroke-width:0.8;"/>
    </g>
    <g id="patch_5">
-    <path d="M 30.103125 224.64 
-L 364.903125 224.64 
+    <path d="M 51.823438 240.279375 
+L 386.623438 240.279375 
 " style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;stroke-width:0.8;"/>
    </g>
    <g id="patch_6">
-    <path d="M 30.103125 7.2 
-L 364.903125 7.2 
+    <path d="M 51.823438 22.839375 
+L 386.623438 22.839375 
 " style="fill:none;stroke:#000000;stroke-linecap:square;stroke-linejoin:miter;stroke-width:0.8;"/>
+   </g>
+   <g id="text_19">
+    <!-- Wpływ rozmiaru liścia -->
+    <defs>
+     <path d="M 3.328125 72.90625 
+L 13.28125 72.90625 
+L 28.609375 11.28125 
+L 43.890625 72.90625 
+L 54.984375 72.90625 
+L 70.3125 11.28125 
+L 85.59375 72.90625 
+L 95.609375 72.90625 
+L 77.296875 0 
+L 64.890625 0 
+L 49.515625 63.28125 
+L 33.984375 0 
+L 21.578125 0 
+z
+" id="DejaVuSans-87"/>
+     <path d="M 18.109375 8.203125 
+L 18.109375 -20.796875 
+L 9.078125 -20.796875 
+L 9.078125 54.6875 
+L 18.109375 54.6875 
+L 18.109375 46.390625 
+Q 20.953125 51.265625 25.265625 53.625 
+Q 29.59375 56 35.59375 56 
+Q 45.5625 56 51.78125 48.09375 
+Q 58.015625 40.1875 58.015625 27.296875 
+Q 58.015625 14.40625 51.78125 6.484375 
+Q 45.5625 -1.421875 35.59375 -1.421875 
+Q 29.59375 -1.421875 25.265625 0.953125 
+Q 20.953125 3.328125 18.109375 8.203125 
+z
+M 48.6875 27.296875 
+Q 48.6875 37.203125 44.609375 42.84375 
+Q 40.53125 48.484375 33.40625 48.484375 
+Q 26.265625 48.484375 22.1875 42.84375 
+Q 18.109375 37.203125 18.109375 27.296875 
+Q 18.109375 17.390625 22.1875 11.75 
+Q 26.265625 6.109375 33.40625 6.109375 
+Q 40.53125 6.109375 44.609375 11.75 
+Q 48.6875 17.390625 48.6875 27.296875 
+z
+" id="DejaVuSans-112"/>
+     <path d="M 8.5 21.578125 
+L 8.5 54.6875 
+L 17.484375 54.6875 
+L 17.484375 21.921875 
+Q 17.484375 14.15625 20.5 10.265625 
+Q 23.53125 6.390625 29.59375 6.390625 
+Q 36.859375 6.390625 41.078125 11.03125 
+Q 45.3125 15.671875 45.3125 23.6875 
+L 45.3125 54.6875 
+L 54.296875 54.6875 
+L 54.296875 0 
+L 45.3125 0 
+L 45.3125 8.40625 
+Q 42.046875 3.421875 37.71875 1 
+Q 33.40625 -1.421875 27.6875 -1.421875 
+Q 18.265625 -1.421875 13.375 4.4375 
+Q 8.5 10.296875 8.5 21.578125 
+z
+M 31.109375 56 
+z
+" id="DejaVuSans-117"/>
+    </defs>
+    <g transform="translate(153.793438 16.839375)scale(0.12 -0.12)">
+     <use xlink:href="#DejaVuSans-87"/>
+     <use x="98.876953" xlink:href="#DejaVuSans-112"/>
+     <use x="162.353516" xlink:href="#DejaVuSans-322"/>
+     <use x="190.771484" xlink:href="#DejaVuSans-121"/>
+     <use x="249.951172" xlink:href="#DejaVuSans-119"/>
+     <use x="331.738281" xlink:href="#DejaVuSans-32"/>
+     <use x="363.525391" xlink:href="#DejaVuSans-114"/>
+     <use x="402.388672" xlink:href="#DejaVuSans-111"/>
+     <use x="463.570312" xlink:href="#DejaVuSans-122"/>
+     <use x="516.060547" xlink:href="#DejaVuSans-109"/>
+     <use x="613.472656" xlink:href="#DejaVuSans-105"/>
+     <use x="641.255859" xlink:href="#DejaVuSans-97"/>
+     <use x="702.535156" xlink:href="#DejaVuSans-114"/>
+     <use x="743.648438" xlink:href="#DejaVuSans-117"/>
+     <use x="807.027344" xlink:href="#DejaVuSans-32"/>
+     <use x="838.814453" xlink:href="#DejaVuSans-108"/>
+     <use x="866.597656" xlink:href="#DejaVuSans-105"/>
+     <use x="894.380859" xlink:href="#DejaVuSans-347"/>
+     <use x="946.480469" xlink:href="#DejaVuSans-99"/>
+     <use x="1001.460938" xlink:href="#DejaVuSans-105"/>
+     <use x="1029.244141" xlink:href="#DejaVuSans-97"/>
+    </g>
+   </g>
+   <g id="legend_1">
+    <g id="patch_7">
+     <path d="M 58.823438 60.195625 
+L 119.63125 60.195625 
+Q 121.63125 60.195625 121.63125 58.195625 
+L 121.63125 29.839375 
+Q 121.63125 27.839375 119.63125 27.839375 
+L 58.823438 27.839375 
+Q 56.823438 27.839375 56.823438 29.839375 
+L 56.823438 58.195625 
+Q 56.823438 60.195625 58.823438 60.195625 
+z
+" style="fill:#ffffff;opacity:0.8;stroke:#cccccc;stroke-linejoin:miter;"/>
+    </g>
+    <g id="line2d_19">
+     <path d="M 60.823438 35.937812 
+L 80.823438 35.937812 
+" style="fill:none;stroke:#1f77b4;stroke-linecap:square;stroke-width:1.5;"/>
+    </g>
+    <g id="line2d_20"/>
+    <g id="text_20">
+     <!-- forest -->
+     <defs>
+      <path d="M 37.109375 75.984375 
+L 37.109375 68.5 
+L 28.515625 68.5 
+Q 23.6875 68.5 21.796875 66.546875 
+Q 19.921875 64.59375 19.921875 59.515625 
+L 19.921875 54.6875 
+L 34.71875 54.6875 
+L 34.71875 47.703125 
+L 19.921875 47.703125 
+L 19.921875 0 
+L 10.890625 0 
+L 10.890625 47.703125 
+L 2.296875 47.703125 
+L 2.296875 54.6875 
+L 10.890625 54.6875 
+L 10.890625 58.5 
+Q 10.890625 67.625 15.140625 71.796875 
+Q 19.390625 75.984375 28.609375 75.984375 
+z
+" id="DejaVuSans-102"/>
+      <path d="M 44.28125 53.078125 
+L 44.28125 44.578125 
+Q 40.484375 46.53125 36.375 47.5 
+Q 32.28125 48.484375 27.875 48.484375 
+Q 21.1875 48.484375 17.84375 46.4375 
+Q 14.5 44.390625 14.5 40.28125 
+Q 14.5 37.15625 16.890625 35.375 
+Q 19.28125 33.59375 26.515625 31.984375 
+L 29.59375 31.296875 
+Q 39.15625 29.25 43.1875 25.515625 
+Q 47.21875 21.78125 47.21875 15.09375 
+Q 47.21875 7.46875 41.1875 3.015625 
+Q 35.15625 -1.421875 24.609375 -1.421875 
+Q 20.21875 -1.421875 15.453125 -0.5625 
+Q 10.6875 0.296875 5.421875 2 
+L 5.421875 11.28125 
+Q 10.40625 8.6875 15.234375 7.390625 
+Q 20.0625 6.109375 24.8125 6.109375 
+Q 31.15625 6.109375 34.5625 8.28125 
+Q 37.984375 10.453125 37.984375 14.40625 
+Q 37.984375 18.0625 35.515625 20.015625 
+Q 33.0625 21.96875 24.703125 23.78125 
+L 21.578125 24.515625 
+Q 13.234375 26.265625 9.515625 29.90625 
+Q 5.8125 33.546875 5.8125 39.890625 
+Q 5.8125 47.609375 11.28125 51.796875 
+Q 16.75 56 26.8125 56 
+Q 31.78125 56 36.171875 55.265625 
+Q 40.578125 54.546875 44.28125 53.078125 
+z
+" id="DejaVuSans-115"/>
+      <path d="M 18.3125 70.21875 
+L 18.3125 54.6875 
+L 36.8125 54.6875 
+L 36.8125 47.703125 
+L 18.3125 47.703125 
+L 18.3125 18.015625 
+Q 18.3125 11.328125 20.140625 9.421875 
+Q 21.96875 7.515625 27.59375 7.515625 
+L 36.8125 7.515625 
+L 36.8125 0 
+L 27.59375 0 
+Q 17.1875 0 13.234375 3.875 
+Q 9.28125 7.765625 9.28125 18.015625 
+L 9.28125 47.703125 
+L 2.6875 47.703125 
+L 2.6875 54.6875 
+L 9.28125 54.6875 
+L 9.28125 70.21875 
+z
+" id="DejaVuSans-116"/>
+     </defs>
+     <g transform="translate(88.823438 39.437812)scale(0.1 -0.1)">
+      <use xlink:href="#DejaVuSans-102"/>
+      <use x="35.205078" xlink:href="#DejaVuSans-111"/>
+      <use x="96.386719" xlink:href="#DejaVuSans-114"/>
+      <use x="135.25" xlink:href="#DejaVuSans-101"/>
+      <use x="196.773438" xlink:href="#DejaVuSans-115"/>
+      <use x="248.873047" xlink:href="#DejaVuSans-116"/>
+     </g>
+    </g>
+    <g id="line2d_21">
+     <path d="M 60.823438 50.615937 
+L 80.823438 50.615937 
+" style="fill:none;stroke:#ff7f0e;stroke-linecap:square;stroke-width:1.5;"/>
+    </g>
+    <g id="line2d_22"/>
+    <g id="text_21">
+     <!-- naive -->
+     <defs>
+      <path d="M 2.984375 54.6875 
+L 12.5 54.6875 
+L 29.59375 8.796875 
+L 46.6875 54.6875 
+L 56.203125 54.6875 
+L 35.6875 0 
+L 23.484375 0 
+z
+" id="DejaVuSans-118"/>
+     </defs>
+     <g transform="translate(88.823438 54.115937)scale(0.1 -0.1)">
+      <use xlink:href="#DejaVuSans-110"/>
+      <use x="63.378906" xlink:href="#DejaVuSans-97"/>
+      <use x="124.658203" xlink:href="#DejaVuSans-105"/>
+      <use x="152.441406" xlink:href="#DejaVuSans-118"/>
+      <use x="211.621094" xlink:href="#DejaVuSans-101"/>
+     </g>
+    </g>
    </g>
   </g>
  </g>
  <defs>
-  <clipPath id="p8258359f8b">
-   <rect height="217.44" width="334.8" x="30.103125" y="7.2"/>
+  <clipPath id="p3acdcb75c4">
+   <rect height="217.44" width="334.8" x="51.823438" y="22.839375"/>
   </clipPath>
  </defs>
 </svg>
@@ -15542,6 +15043,361 @@ L 364.903125 7.2
 
 </div>
 
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[15]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">naive_result</span><span class="p">)</span><span class="o">.</span><span class="n">describe</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[15]:</div>
+
+
+
+<div class="output_html rendered_html output_subarea output_execute_result">
+<div>
+<style scoped>
+    .dataframe tbody tr th:only-of-type {
+        vertical-align: middle;
+    }
+
+    .dataframe tbody tr th {
+        vertical-align: top;
+    }
+
+    .dataframe thead th {
+        text-align: right;
+    }
+</style>
+<table border="1" class="dataframe">
+  <thead>
+    <tr style="text-align: right;">
+      <th></th>
+      <th>0</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <th>count</th>
+      <td>5.000000</td>
+    </tr>
+    <tr>
+      <th>mean</th>
+      <td>18.516114</td>
+    </tr>
+    <tr>
+      <th>std</th>
+      <td>1.040240</td>
+    </tr>
+    <tr>
+      <th>min</th>
+      <td>17.092946</td>
+    </tr>
+    <tr>
+      <th>25%</th>
+      <td>17.998900</td>
+    </tr>
+    <tr>
+      <th>50%</th>
+      <td>18.444408</td>
+    </tr>
+    <tr>
+      <th>75%</th>
+      <td>19.467005</td>
+    </tr>
+    <tr>
+      <th>max</th>
+      <td>19.577313</td>
+    </tr>
+  </tbody>
+</table>
+</div>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[16]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="o">.</span><span class="n">head</span><span class="p">()</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt"></div>
+
+
+<div class="output_subarea output_text output_error">
+<pre>
+<span class="ansi-cyan-intense-fg ansi-bold">  File </span><span class="ansi-green-intense-fg ansi-bold">&#34;&lt;ipython-input-16-c422e9c6d0e7&gt;&#34;</span><span class="ansi-cyan-intense-fg ansi-bold">, line </span><span class="ansi-green-intense-fg ansi-bold">1</span>
+<span class="ansi-yellow-intense-fg ansi-bold">    .head()</span>
+<span class="ansi-white-intense-fg ansi-bold">    ^</span>
+<span class="ansi-red-intense-fg ansi-bold">SyntaxError</span><span class="ansi-red-intense-fg ansi-bold">:</span> invalid syntax
+</pre>
+</div>
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[17]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">forest</span><span class="o">.</span><span class="n">trees</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[17]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>
+        min_split_size: 30
+        number_of_predictors_to_draw: 4
+        
+        Node:
+            if &lt;= 4_6.35:
+                
+        Node:
+            if &lt;= 5_-2.48:
+                Leaf: 0.050909090909090876
+            else:
+                
+        Node:
+            if &lt;= 4_2.84:
+                Leaf: -0.06470588235294115
+            else:
+                
+        Node:
+            if &lt;= 1_5.0:
+                
+        Node:
+            if &lt;= 2_-0.64:
+                Leaf: 0.038749999999999986
+            else:
+                Leaf: -0.02375  
+        
+            else:
+                Leaf: -0.04793103448275862  
+          
+          
+        
+            else:
+                
+        Node:
+            if &lt;= 5_-0.41:
+                Leaf: 0.12666666666666665
+            else:
+                
+        Node:
+            if &lt;= 4_7.92:
+                Leaf: 0.04799999999999999
+            else:
+                Leaf: -0.007307692307692297  
+          
+          
+        
+        </pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[18]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">forest_result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[18]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[16.215191533267472,
+ 16.72060521315019,
+ 19.60209989137454,
+ 17.722650295156438,
+ 18.450999307366292]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[19]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">naive_result</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[19]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>[17.09294560872125,
+ 17.99890019114666,
+ 19.467005225407306,
+ 18.44440800143433,
+ 19.5773132157616]</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[20]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">test</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[20]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>array([ 1.  ,  5.81,  0.02,  1.  ,  5.81, -0.11, -0.05])</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[21]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span><span class="n">forest</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span><span class="n">test</span><span class="p">)</span>
+</pre></div>
+
+    </div>
+</div>
+</div>
+
+<div class="output_wrapper">
+<div class="output">
+
+
+<div class="output_area">
+
+    <div class="prompt output_prompt">Out[21]:</div>
+
+
+
+
+<div class="output_text output_subarea output_execute_result">
+<pre>-0.020513666753007875</pre>
+</div>
+
+</div>
+
+</div>
+</div>
+
+</div>
+<div class="cell border-box-sizing code_cell rendered">
+<div class="input">
+<div class="prompt input_prompt">In&nbsp;[&nbsp;]:</div>
+<div class="inner_cell">
+    <div class="input_area">
+<div class=" highlight hl-ipython3"><pre><span></span> 
+</pre></div>
+
+    </div>
 </div>
 </div>
 
