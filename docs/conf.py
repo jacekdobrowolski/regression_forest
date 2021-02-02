@@ -27,15 +27,13 @@ author = 'Jacek Dobrowolski'
 # Add any Sphinx extension module names here, as strings. They can be
 # extensions coming with Sphinx (named 'sphinx.ext.*') or your custom
 # ones.
-extensions = [ 
+extensions = [
     'sphinx.ext.napoleon',
     'sphinx.ext.autodoc',
     'sphinx.ext.coverage',
     'sphinx.ext.mathjax',
     'sphinx.ext.intersphinx',
     'matplotlib.sphinxext.plot_directive'
-    #'sphinx_markdown_tables',
-    #'recommonmark'
 ]
 
 # Add any paths that contain templates here, relative to this directory.

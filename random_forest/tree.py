@@ -15,44 +15,52 @@ OUTPUT_INDEX = -1
 # Index of a feature that will be predicted
 
 Condition = namedtuple("Condition", "index value")
-""" Contains information about predictor index and treshold. Needed for branching """
+"""Contains information about predictor index and treshold.
+Needed for branching.
+"""
+
 
 class Config(object):
     """Configuration for using tree module.
     Overwrite them after importing module to configure tree building variables.
 
     Attributes:
-        min_split_size (int): Minimum size required for set of date to br further branched
-        number_of_predictors_to_draw (int): Number of predictors which will be randomly drawn, \\
-                                                from which the best split condition will be selected. \\
-                                                It is recommended to use number higher than number of \\
-                                                columns containing uniform data,
-                                                other wise best split may not be found.
+        min_split_size (int): Minimum size required for set of date
+            to be further branched.
+        number_of_predictors_to_draw (int): Number of predictors which will be
+            randomly drawn, from which the best split condition will be
+            selected. It is recommended to use number higher than number of
+            columns containing uniform data, other wise best split may not be
+            found.
     """
     def __init__(self):
-        try: 
+        try:
             file = open("tree_config.json", "r")
             loaded_data = json.load(file)
             # print("Loading Data")
             self.min_split_size = loaded_data["min_split_size"]
-            self.number_of_predictors_to_draw = loaded_data["number_of_predictors_to_draw"]
-            # print("Loaded number of predictors {}".format(self.number_of_predictors_to_draw))
+            self.number_of_predictors_to_draw = loaded_data[
+                "number_of_predictors_to_draw"]
             file.close()
         except FileNotFoundError:
-            self.create_config(min_split_size=1, number_of_predictors_to_draw=1)
+            self.create_config(min_split_size=1,
+                               number_of_predictors_to_draw=1)
             self.min_split_size = 1
             self.number_of_predictors_to_draw = 1
-    
 
     def create_config(self, min_split_size, number_of_predictors_to_draw):
-        to_write = {"min_split_size": min_split_size, "number_of_predictors_to_draw": number_of_predictors_to_draw}
+        to_write = {
+            "min_split_size": min_split_size,
+            "number_of_predictors_to_draw": number_of_predictors_to_draw
+            }
         self.min_split_size = min_split_size
         self.number_of_predictors_to_draw = number_of_predictors_to_draw
         with open("tree_config.json", "w") as file:
             file.write(json.dumps(to_write))
-        
+
 
 config = Config()
+
 
 class Tree(object):
     """Object representing regression tree
@@ -69,7 +77,8 @@ class Tree(object):
 
         Args:
             data (np.ndarray): data for which prediction will be made.
-            Single dimension array. Can be one field shorter than training data.
+            Single dimension array. Can be one field shorter than
+            training data.
 
         Returns:
             float: Prediction
@@ -92,7 +101,6 @@ def create_node(training_data):
 
     Returns:
         :class:`Node`, :class:`Leaf`: Node
-        
     """
     if (training_data.shape[0]) < config.min_split_size:
         return Leaf(training_data)
@@ -103,7 +111,7 @@ def create_node(training_data):
 class Leaf(object):
     """ Represent Leaf of the Tree. Contains possible values for prediction """
     def __init__(self, training_data):
-        self.value = training_data[:,OUTPUT_INDEX].mean()
+        self.value = training_data[:, OUTPUT_INDEX].mean()
 
     def _predict(self, data) -> float:
         return self.value
@@ -113,14 +121,17 @@ class Leaf(object):
 
 
 class Node(object):
-    """ Represents Node of the Tree. Contains :class:`Condition` to select appropriate subnode (:class:`Node` or :class:`Leaf`) """
+    """ Represents Node of the Tree. Contains :class:`Condition` to select
+        appropriate subnode (:class:`Node` or :class:`Leaf`)
+    """
     def __init__(self, training_data):
         self.best_split = None
         self.find_best_split(training_data)
-        left_data, right_data = self.split_data_on_value(training_data, self.best_split)
+        left_data, right_data = self.split_data_on_value(training_data,
+                                                         self.best_split)
         self.left_node = create_node(left_data)
         self.right_node = create_node(right_data)
-        
+
     def _predict(self, data) -> float:
         if data[self.best_split.index] <= self.best_split.value:
             return self.left_node._predict(data)
@@ -138,9 +149,11 @@ class Node(object):
             left_node(np.ndarray): array lesser or equal to condition
             right_node(np.ndarray): array greater than condition
         """
-        return data[np.argwhere(data[:, condition.index] <= condition.value).flatten()], \
-                    data[np.argwhere(data[:, condition.index] > condition.value).flatten()]
-    
+        return ((data[np.argwhere(data[:, condition.index] <=
+                 condition.value).flatten()]),
+                (data[np.argwhere(data[:, condition.index] >
+                 condition.value).flatten()]))
+
     def find_best_split(self, training_data):
         """Finds condition for split that gives lowest Residual Sum of Squares
 
@@ -148,14 +161,19 @@ class Node(object):
             training_data (np.ndarray): input data
         """
         min_rss = self.rss(training_data)
-        
+
         for predictor in self.draw_predictors(training_data):
             # sort by given predictor
-            sorted_training_data = training_data[training_data[:, predictor].argsort()]
+            sorted_training_data = training_data[
+                training_data[:, predictor].argsort()]
             # iterate over unique value entry's
-            for i in np.unique(sorted_training_data[:,predictor], return_index=True)[1][:-1]:
-                split = Condition(index=predictor, value=sorted_training_data[i, predictor])
-                left_data, right_data = self.split_data_on_value(training_data, split)
+            for i in np.unique(sorted_training_data[:, predictor],
+                               return_index=True)[1][:-1]:
+                split = Condition(index=predictor,
+                                  value=sorted_training_data[i, predictor])
+                left_data, right_data = self.split_data_on_value(
+                    training_data,
+                    split)
                 current_rss = self.rss(left_data) + self.rss(right_data)
                 if current_rss < min_rss:
                     min_rss = current_rss
@@ -171,7 +189,7 @@ class Node(object):
         """Residual Sum of Squares
 
         Args:
-            array (np.ndarray): input array 
+            array (np.ndarray): input array
 
         Returns:
             float: Residual Sum of Squares
@@ -186,5 +204,5 @@ class Node(object):
             if <= {self.best_split.index}_{self.best_split.value}:
                 {self.left_node}
             else:
-                {self.right_node}  
+                {self.right_node}
         """
