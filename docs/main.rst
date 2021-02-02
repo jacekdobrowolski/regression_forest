@@ -59,37 +59,37 @@ Las przewiduje zmianę temperatury następnie zostaje on zsumowana z obecną tem
 
 Najpierw zbadam wpływ rozmiaru liścia na błąd na zbiorze testowym.
 
-.. plot:: ../plot1.py
+.. plot:: ../plots/plot1.py
 
 oraz na zbiorze trenującym.
 Im mniejszy liść (więcej liści) tym mniejszy błąd. 
 
-.. plot:: ../plot6.py
+.. plot:: ../plots/plot6.py
 
 Jak widać małe rozmiary liścia prowadzą do przetrenowania modelu (błąd na zbiorze trenującym jest mniejszy niż na testowym).
 
 Wpływ ilości losowanych atrybutów
 
-.. plot:: ../plot2.py
+.. plot:: ../plots/plot2.py
 
 Zbyt mała ilość atrybutów prowadzi do słabych podziałów w drzewach co prowadzi do większego błędu.
 Natomiast z byt duża ilość prowadzi to do przetrenowania.
 
 Ilość drzew
 
-.. plot:: ../plot3.py
+.. plot:: ../plots/plot3.py
 
 Ilości drzew powyżej 50 nie poprawiają działania algorytmu natomiast znacznie zwalniają jego działanie
 
 Ilość danych w drzewie
 
-.. plot:: ../plot4.py
+.. plot:: ../plots/plot4.py
 
 Większa ilość danych użytych do budowy drzew poprawia wynik.
 
 Wpływ ilości próbek z poprzednich chwili czasu.
 
-.. plot:: ../plot5.py
+.. plot:: ../plots/plot5.py
 
 Użycie większej ilości próbek z poprzednich chwil czasu nie wiele pomaga modelowi.
 Może być to spowodowane mniejszą korelacją dalej odległych próbek.
