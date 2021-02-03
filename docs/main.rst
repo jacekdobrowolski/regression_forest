@@ -97,4 +97,4 @@ Może być to spowodowane mniejszą korelacją dalej odległych próbek.
 Wnioski
 --------------------------------------
 
-Las losowy nie sprawdza się najlepiej w tym zastosowaniu ze względu na obecność dość dobrej metody naiwnej.
+Las losowy nie sprawdza się najlepiej w tym zastosowaniu.
