@@ -1,0 +1,384 @@
+
+
+<!DOCTYPE html>
+<html class="writer-html5" lang="en" >
+<head>
+  <meta charset="utf-8" />
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  
+  <title>Drzewo Regresyjne &mdash; Refrigerator temperature prediction  documentation</title>
+  
+
+  
+  <link rel="stylesheet" href="_static/css/theme.css" type="text/css" />
+  <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+
+  
+  
+
+  
+  
+
+  
+
+  
+  <!--[if lt IE 9]>
+    <script src="_static/js/html5shiv.min.js"></script>
+  <![endif]-->
+  
+    
+      <script type="text/javascript" id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+        <script src="_static/jquery.js"></script>
+        <script src="_static/underscore.js"></script>
+        <script src="_static/doctools.js"></script>
+        <script src="_static/language_data.js"></script>
+        <script async="async" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/latest.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    
+    <script type="text/javascript" src="_static/js/theme.js"></script>
+
+    
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="next" title="Las Losowy" href="forest.html" />
+    <link rel="prev" title="Dokumentacja wstępna UM" href="dok_wstepna.html" /> 
+</head>
+
+<body class="wy-body-for-nav">
+
+   
+  <div class="wy-grid-for-nav">
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search" >
+          
+
+          
+            <a href="index.html" class="icon icon-home"> Refrigerator temperature prediction
+          
+
+          
+          </a>
+
+          
+            
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <ul class="current">
+<li class="toctree-l1"><a class="reference internal" href="dok_wstepna.html">Dokumentacja wstępna UM</a></li>
+<li class="toctree-l1 current"><a class="current reference internal" href="#">Drzewo Regresyjne</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#tree-module">Tree module</a></li>
+</ul>
+</li>
+<li class="toctree-l1"><a class="reference internal" href="forest.html">Las Losowy</a></li>
+<li class="toctree-l1"><a class="reference internal" href="main.html">Dokumentacja Końcowa</a></li>
+</ul>
+
+            
+          
+        </div>
+        
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="index.html">Refrigerator temperature prediction</a>
+        
+      </nav>
+
+
+      <div class="wy-nav-content">
+        
+        <div class="rst-content">
+        
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="index.html" class="icon icon-home"></a> &raquo;</li>
+        
+      <li>Drzewo Regresyjne</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+          
+            <a href="_sources/tree.rst.txt" rel="nofollow"> View page source</a>
+          
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <div class="section" id="module-random_forest.tree">
+<span id="drzewo-regresyjne"></span><h1>Drzewo Regresyjne<a class="headerlink" href="#module-random_forest.tree" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="tree-module">
+<h2>Tree module<a class="headerlink" href="#tree-module" title="Permalink to this headline">¶</a></h2>
+<p>Module implementing regression tree</p>
+<dl class="py class">
+<dt id="random_forest.tree.Condition">
+<em class="property">class </em><code class="sig-prename descclassname">random_forest.tree.</code><code class="sig-name descname">Condition</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">index</span></em>, <em class="sig-param"><span class="n">value</span></em><span class="sig-paren">)</span><a class="headerlink" href="#random_forest.tree.Condition" title="Permalink to this definition">¶</a></dt>
+<dd><p>Contains information about predictor index and treshold.
+Needed for branching.</p>
+<dl class="py method">
+<dt id="random_forest.tree.Condition.index">
+<em class="property">property </em><code class="sig-name descname">index</code><a class="headerlink" href="#random_forest.tree.Condition.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 0</p>
+</dd></dl>
+
+<dl class="py method">
+<dt id="random_forest.tree.Condition.value">
+<em class="property">property </em><code class="sig-name descname">value</code><a class="headerlink" href="#random_forest.tree.Condition.value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Alias for field number 1</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="random_forest.tree.Config">
+<em class="property">class </em><code class="sig-prename descclassname">random_forest.tree.</code><code class="sig-name descname">Config</code><a class="headerlink" href="#random_forest.tree.Config" title="Permalink to this definition">¶</a></dt>
+<dd><p>Configuration for using tree module.
+Overwrite them after importing module to configure tree building variables.</p>
+<dl class="py attribute">
+<dt id="random_forest.tree.Config.min_split_size">
+<code class="sig-name descname">min_split_size</code><a class="headerlink" href="#random_forest.tree.Config.min_split_size" title="Permalink to this definition">¶</a></dt>
+<dd><p>Minimum size required for set of date
+to be further branched.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py attribute">
+<dt id="random_forest.tree.Config.number_of_predictors_to_draw">
+<code class="sig-name descname">number_of_predictors_to_draw</code><a class="headerlink" href="#random_forest.tree.Config.number_of_predictors_to_draw" title="Permalink to this definition">¶</a></dt>
+<dd><p>Number of predictors which will be
+randomly drawn, from which the best split condition will be
+selected. It is recommended to use number higher than number of
+columns containing uniform data, other wise best split may not be
+found.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Type</dt>
+<dd class="field-odd"><p>int</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="random_forest.tree.Leaf">
+<em class="property">class </em><code class="sig-prename descclassname">random_forest.tree.</code><code class="sig-name descname">Leaf</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">training_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#random_forest.tree.Leaf" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represent Leaf of the Tree. Contains possible values for prediction</p>
+</dd></dl>
+
+<dl class="py class">
+<dt id="random_forest.tree.Node">
+<em class="property">class </em><code class="sig-prename descclassname">random_forest.tree.</code><code class="sig-name descname">Node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">training_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#random_forest.tree.Node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Represents Node of the Tree. Contains <a class="reference internal" href="#random_forest.tree.Condition" title="random_forest.tree.Condition"><code class="xref py py-class docutils literal notranslate"><span class="pre">Condition</span></code></a> to select
+appropriate subnode (<a class="reference internal" href="#random_forest.tree.Node" title="random_forest.tree.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></a> or <a class="reference internal" href="#random_forest.tree.Leaf" title="random_forest.tree.Leaf"><code class="xref py py-class docutils literal notranslate"><span class="pre">Leaf</span></code></a>)</p>
+<dl class="py method">
+<dt id="random_forest.tree.Node.find_best_split">
+<code class="sig-name descname">find_best_split</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">training_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#random_forest.tree.Node.find_best_split" title="Permalink to this definition">¶</a></dt>
+<dd><p>Finds condition for split that gives lowest Residual Sum of Squares</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>training_data</strong> (<em>np.ndarray</em>) – input data</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="random_forest.tree.Node.rss">
+<code class="sig-name descname">rss</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">array</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#random_forest.tree.Node.rss" title="Permalink to this definition">¶</a></dt>
+<dd><p>Residual Sum of Squares</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>array</strong> (<em>np.ndarray</em>) – input array</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Residual Sum of Squares</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt id="random_forest.tree.Node.split_data_on_value">
+<code class="sig-name descname">split_data_on_value</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em>, <em class="sig-param"><span class="n">condition</span><span class="p">:</span> <span class="n"><a class="reference internal" href="#random_forest.tree.Condition" title="random_forest.tree.Condition">random_forest.tree.Condition</a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#random_forest.tree.Node.split_data_on_value" title="Permalink to this definition">¶</a></dt>
+<dd><p>Splits np.ndarray using condition</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>np.array</em>) – data to be splitted</p></li>
+<li><p><strong>condition</strong> (<a class="reference internal" href="#random_forest.tree.Condition" title="random_forest.tree.Condition"><em>Condition</em></a>) – condition of split</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>array lesser or equal to condition
+right_node(np.ndarray): array greater than condition</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>left_node(np.ndarray)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt id="random_forest.tree.Tree">
+<em class="property">class </em><code class="sig-prename descclassname">random_forest.tree.</code><code class="sig-name descname">Tree</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">training_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#random_forest.tree.Tree" title="Permalink to this definition">¶</a></dt>
+<dd><p>Object representing regression tree</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>training_data</strong> (<em>np.ndarray</em>) – Data from which Tree will be created</p>
+</dd>
+</dl>
+<dl class="py method">
+<dt id="random_forest.tree.Tree.predict">
+<code class="sig-name descname">predict</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">data</span></em><span class="sig-paren">)</span> &#x2192; float<a class="headerlink" href="#random_forest.tree.Tree.predict" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calculates regression tree prediction</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>data</strong> (<em>np.ndarray</em>) – data for which prediction will be made.</p></li>
+<li><p><strong>dimension array. Can be one field shorter than</strong> (<em>Single</em>) – </p></li>
+<li><p><strong>data.</strong> (<em>training</em>) – </p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Prediction</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>float</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt id="random_forest.tree.create_node">
+<code class="sig-prename descclassname">random_forest.tree.</code><code class="sig-name descname">create_node</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">training_data</span></em><span class="sig-paren">)</span><a class="headerlink" href="#random_forest.tree.create_node" title="Permalink to this definition">¶</a></dt>
+<dd><p>Calls appropriate constructor dependant on training_data size.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>training_data</strong> (<em>np.ndarray</em>) – Data from which node will be created</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Node</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference internal" href="#random_forest.tree.Node" title="random_forest.tree.Node"><code class="xref py py-class docutils literal notranslate"><span class="pre">Node</span></code></a>, <a class="reference internal" href="#random_forest.tree.Leaf" title="random_forest.tree.Leaf"><code class="xref py py-class docutils literal notranslate"><span class="pre">Leaf</span></code></a></p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+
+
+           </div>
+           
+          </div>
+          <footer>
+    <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
+        <a href="forest.html" class="btn btn-neutral float-right" title="Las Losowy" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right" aria-hidden="true"></span></a>
+        <a href="dok_wstepna.html" class="btn btn-neutral float-left" title="Dokumentacja wstępna UM" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left" aria-hidden="true"></span> Previous</a>
+    </div>
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &#169; Copyright 2020, Jacek Dobrowolski.
+
+    </p>
+  </div>
+    
+    
+    
+    Built with <a href="https://www.sphinx-doc.org/">Sphinx</a> using a
+    
+    <a href="https://github.com/readthedocs/sphinx_rtd_theme">theme</a>
+    
+    provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.Navigation.enable(true);
+      });
+  </script>
+
+  
+  
+    
+   
+
+</body>
+</html>
