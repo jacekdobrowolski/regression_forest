@@ -3,7 +3,7 @@ from random_forest.forest import Forest
 
 
 def load():
-    df = pd.read_csv('refrigerator_temp_time_series.csv')
+    df = pd.read_csv('../refrigerator_temp_time_series.csv')
     df['temp'] = df['temp'].apply(lambda x: x.replace(',', '.')).astype(
         'float64')
     df['Ts'] = df['Ts'].apply(lambda x: x.replace(',', '.')).astype('float64')
