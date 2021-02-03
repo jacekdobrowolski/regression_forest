@@ -1,1 +1,1 @@
-[Documentation](https://jacekdobrowolski.github.io/regression_forest/)
+[Documentation](https://jacekdobrowolski.github.io/regression_forest/) hosted on Github Pages.
